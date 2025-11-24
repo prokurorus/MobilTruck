@@ -26,6 +26,8 @@ import AssistantWidget from "./components/AssistantWidget";
 
 /* ---------- Тексты для Mobil Truck (по языкам) ---------- */
 
+/* ---------- Тексты для Mobil Truck (по языкам) ---------- */
+
 const homeText: Record<
   Language,
   {
@@ -41,47 +43,51 @@ const homeText: Record<
     title: "Mobil Truck",
     subtitle: "саморазвивающийся транспортный холдинг",
     intro:
-      "Mobil Truck — это платформа, которая превращает обычное транспортное предприятие в сеть взаимосвязанных компаний. Водители, предприниматели и головной холдинг зарабатывают по прозрачным, заранее понятным правилам.",
+      "Добро пожаловать в Mobil Truck. Это не очередная транспортная фирма, а дом для сети компаний, которые работают по единым, честным правилам. Здесь предприниматели и водители заходят «в приёмную» холдинга, а не в диспетчерскую.",
     hint:
-      "Сначала познакомься со структурой холдинга и моделью распределения прибыли. Потом уже выбирай, какую роль ты хочешь занять — водитель, партнёр или организатор ветки.",
-    sectionTitle: "Что такое Mobil Truck и как это работает",
+      "Сначала познакомьтесь со структурой холдинга и моделью распределения прибыли. А потом уже решайте, какую роль вам ближе — водителя, партнёра или основателя своей ветки.",
+    sectionTitle: "Приёмная Mobil Truck",
     sectionSummary:
-      "Mobil Truck — многоуровневый холдинг: наверху — головная компания и фонды, ниже — партнёрские компании под брендом Mobil Truck и их дочерние структуры. Прибыль делится по фиксированной формуле, а каждый участник понимает своё место и долю в системе.",
+      "Эта страница — вход в холдинг. Отсюда можно перейти к описанию структуры, финансовой модели, условий для водителей и партнёров. Всё устроено так, чтобы любой человек за несколько минут понял: кто здесь за что отвечает и как устроен заработок.",
   },
+
   en: {
     title: "Mobil Truck",
-    subtitle: "a self-growing transport holding",
+    subtitle: "a self-developing transport holding",
     intro:
-      "Mobil Truck is a platform that turns a regular transport company into a network of connected businesses. Drivers, entrepreneurs and the main holding earn under transparent, predictable rules.",
+      "Welcome to Mobil Truck. This is not just another trucking company, but a home for a network of firms that work under one clear and honest framework. Entrepreneurs and drivers enter the holding’s lobby here, not a back-office dispatch room.",
     hint:
-      "First, explore the holding structure and the profit-sharing model. Then decide which role fits you best — driver, partner or branch founder.",
-    sectionTitle: "What Mobil Truck is and how it works",
+      "First, take a look at the holding structure and the profit-sharing model. Then decide which role fits you best: driver, partner, or founder of your own branch.",
+    sectionTitle: "Mobil Truck reception",
     sectionSummary:
-      "Mobil Truck is a multi-level holding: at the top — the main company and common funds, below — partner companies under the Mobil Truck brand and their branches. Profit is shared by a fixed formula, and every participant clearly sees their place and share in the system.",
+      "This page is the lobby of the holding. From here you can go to the structure, the financial model, and the conditions for drivers and partners. The idea is simple: in a few minutes anyone should understand who is responsible for what and how money is earned.",
   },
+
   de: {
     title: "Mobil Truck",
     subtitle: "ein sich selbst entwickelnder Transport-Holding",
     intro:
-      "Mobil Truck ist eine Plattform, die ein gewöhnliches Transportunternehmen in ein Netzwerk verbundener Firmen verwandelt. Fahrer, Unternehmer und die Holding verdienen nach transparenten, vorher klaren Regeln.",
+      "Willkommen bei Mobil Truck. Das ist nicht einfach eine weitere Spedition, sondern ein Zuhause für ein Netzwerk von Firmen, die nach klaren und fairen Regeln arbeiten. Hier betreten Unternehmer und Fahrer die Empfangshalle des Holdings – nicht das Disponentenbüro.",
     hint:
-      "Lerne zuerst die Struktur des Holdings und das Modell der Gewinnverteilung kennen. Dann kannst du entscheiden, welche Rolle zu dir passt – Fahrer, Partner oder Gründer eines eigenen Zweigs.",
-    sectionTitle: "Was Mobil Truck ist und wie es funktioniert",
+      "Schauen Sie sich zuerst die Struktur des Holdings und das Modell der Gewinnverteilung an. Danach können Sie entscheiden, welche Rolle zu Ihnen passt – Fahrer, Partner oder Gründer eines eigenen Zweigs.",
+    sectionTitle: "Empfang von Mobil Truck",
     sectionSummary:
-      "Mobil Truck ist ein mehrstufiger Holding: oben stehen die Hauptgesellschaft und gemeinsame Fonds, darunter Partnerunternehmen unter der Marke Mobil Truck und ihre Tochterfirmen. Der Gewinn wird nach einer festen Formel verteilt, und jeder Teilnehmer versteht seinen Platz und Anteil im System.",
+      "Diese Seite ist die Empfangszone des Holdings. Von hier aus gelangen Sie zur Beschreibung der Struktur, des Finanzmodells sowie zu den Bedingungen für Fahrer und Partner. Ziel ist, dass jeder Besucher in wenigen Minuten versteht, wer wofür verantwortlich ist und wie der Verdienst aufgebaut ist.",
   },
+
   es: {
     title: "Mobil Truck",
     subtitle: "un holding de transporte auto-desarrollado",
     intro:
-      "Mobil Truck es una plataforma que convierte una empresa de transporte normal en una red de compañías conectadas. Conductores, emprendedores y la matriz ganan con reglas transparentes y predecibles.",
+      "Bienvenido a Mobil Truck. No es una empresa de transporte más, sino la casa de una red de compañías que trabajan con reglas claras y honestas. Aquí los empresarios y conductores entran en la recepción del holding, no en una sala de despacho.",
     hint:
-      "Primero conoce la estructura del holding y el modelo de reparto de beneficios. Después decide qué papel quieres: conductor, socio o creador de tu propia rama.",
-    sectionTitle: "Qué es Mobil Truck y cómo funciona",
+      "Primero echa un vistazo a la estructura del holding y al modelo de reparto de beneficios. Después decide qué papel te encaja mejor: conductor, socio o creador de tu propia rama.",
+    sectionTitle: "Recepción de Mobil Truck",
     sectionSummary:
-      "Mobil Truck es un holding multinivel: arriba está la empresa matriz y los fondos comunes; debajo, las empresas asociadas bajo la marca Mobil Truck y sus filiales. El beneficio se distribuye según una fórmula fija y cada participante ve claramente su lugar y su parte en el sistema.",
+      "Esta página es la recepción del holding. Desde aquí puedes ir a la estructura, al modelo financiero y a las condiciones para conductores y socios. La idea es sencilla: que cualquier persona entienda en pocos minutos quién hace qué y cómo se gana dinero.",
   },
 };
+
 
 /* ---------- Тексты блока «Присоединиться» и «Форум» ---------- */
 
