@@ -14,6 +14,7 @@ import StructurePage from "./pages/Structure";
 import DriversPage from "./pages/Drivers";
 import PartnersPage from "./pages/Partners";
 import ProfitModelPage from "./pages/ProfitModel";
+import HoldingModelPage from "./pages/HoldingModel";
 import ContactPage from "./pages/Contact";
 import ForumPage from "./pages/ForumPage";
 import TopicPage from "./pages/TopicPage";
@@ -521,6 +522,16 @@ export default function App() {
       </>
     );
 
+  if (pathname === "/holding")
+    return (
+      <>
+        <Header />
+        <HoldingModelPage />
+        <AssistantWidget />
+      </>
+    );
+
+  
   if (pathname === "/partners")
     return (
       <>
