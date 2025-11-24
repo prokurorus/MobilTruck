@@ -1,32 +1,24 @@
 // src/lib/firebase.ts
-
-import { initializeApp } from "firebase/app";
-import { getAnalytics, type Analytics } from "firebase/analytics";
+import { initializeApp, getApps, FirebaseApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCmTNXdBF7ilzeZVB2VaIt1USIMdXA2src",
-  authDomain: "novaciv-web.firebaseapp.com",
+  apiKey: "AIzaSyAZgVrz0uREv1o3KFm1g-GvKWSCaSLzv8c",
+  authDomain: "mobiltruck-forum.firebaseapp.com",
   databaseURL:
-    "https://novaciv-web-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "novaciv-web",
-  storageBucket: "novaciv-web.firebasestorage.app",
-  messagingSenderId: "884571454196",
-  appId: "1:884571454196:web:e88a75431190a9e299bca1",
-  measurementId: "G-FG254WGYF1",
+    "https://mobiltruck-forum-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "mobiltruck-forum",
+  storageBucket: "mobiltruck-forum.firebasestorage.app",
+  messagingSenderId: "766370719906",
+  appId: "1:766370719906:web:51fc64e705ad8b333c4ffb",
 };
 
-// Инициализируем приложение
-export const app = initializeApp(firebaseConfig);
+let app: FirebaseApp;
 
-// Экспорт базы данных для useStats / чата / ников
-export const db = getDatabase(app);
-
-// (опционально) аналитика — только в браузере
-let analytics: Analytics | undefined;
-
-if (typeof window !== "undefined") {
-  analytics = getAnalytics(app);
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApps()[0];
 }
 
-export { analytics };
+export const db = getDatabase(app);
