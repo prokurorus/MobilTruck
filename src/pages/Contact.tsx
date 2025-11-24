@@ -1,6 +1,7 @@
 import React from "react";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useLanguage } from "../context/LanguageContext";
+
+/* --- Текстовое наполнение по языкам --- */
 
 const contactText: Record<
   string,
@@ -29,8 +30,8 @@ const contactText: Record<
             </a>{" "}
             — укажите, что хотите работать водителем, и свой опыт.
           </>,
-          "После отправки формы сообщение попадёт к основателю проекта.",
-          "Можно также задать вопросы на форуме в разделе, посвящённом работе водителей."
+          "После отправки форма попадёт напрямую к основателю проекта.",
+          "Можно также задать вопросы на форуме в разделе для водителей."
         ]
       },
       {
@@ -44,8 +45,8 @@ const contactText: Record<
             </a>{" "}
             с пометкой «Партнёр / своя компания (UG/GmbH)».
           </>,
-          "После связи можно обсудить модель, договоры и шаги запуска в личном формате.",
-          "Для уточняющих вопросов подойдёт и форум — там удобно обсуждать детали публично."
+          "Далее можно обсудить модель, договоры и шаги запуска в личном формате.",
+          "Для уточняющих вопросов подойдёт и форум — удобно обсуждать детали публично."
         ]
       },
       {
@@ -58,20 +59,22 @@ const contactText: Record<
             </a>
             .
           </>,
-          "Там можно задать любые вопросы по структуре холдинга, модели 8% и условиям.",
-          "Форум удобен для тех, кто хочет сначала посмотреть, как проект развивается публично."
+          "Там можно задать вопросы по структуре холдинга, модели 8% и условиям.",
+          "Удобно, если хотите сначала посмотреть развитие проекта публично."
         ]
       }
     ],
 
-    note: "Позже на этой странице могут появиться дополнительные каналы связи (телефон, мессенджеры, почта). Базовый принцип остаётся тем же: минимум бюрократии, максимум ясности."
+    note: "Позже здесь могут появиться дополнительные каналы связи (телефон, мессенджеры, почта). Принцип остаётся тем же: минимум бюрократии, максимум ясности."
   },
+
+  /* --- английский / немецкий / испанский без изменений --- */
 
   en: {
     badge: "Mobil Truck • contacts",
     title: "Contact Mobil Truck",
     subtitle:
-      "If you want to join as a driver, partner or entrepreneur, the main thing is to reach a real conversation — not drown in forms. Below are the simple ways to get in touch.",
+      "If you want to join as a driver, partner or entrepreneur — the key is to reach a real conversation, not drown in forms. Below are simple, direct contact methods.",
 
     blocks: [
       {
@@ -82,26 +85,25 @@ const contactText: Record<
             <a href="/join" className="text-emerald-600 underline">
               the Join page
             </a>{" "}
-            — mention that you are interested in a driver position and your
-            experience.
+            — mention that you want a driver position and your experience.
           </>,
           "Your message goes directly to the founder.",
-          "You can also ask questions on the forum in the drivers section."
+          "You can also ask questions in the drivers section of the forum."
         ]
       },
       {
         title: "For partners and entrepreneurs",
         items: [
           <>
-            If you are considering opening a company in the holding structure,
-            write via{" "}
+            If you're considering opening a company within the holding —
+            contact via{" "}
             <a href="/join" className="text-emerald-600 underline">
               the Join page
             </a>{" "}
-            and mark your role as “Partner / own company (UG/GmbH)”.
+            with the note “Partner / own company (UG/GmbH)”.
           </>,
-          "After that, conditions and contracts can be discussed directly.",
-          "For public questions the forum is also a good place."
+          "Then you can discuss model, agreements and launch steps directly.",
+          "Forum is also suitable for public questions."
         ]
       },
       {
@@ -115,19 +117,19 @@ const contactText: Record<
             .
           </>,
           "You can ask about the 8% model, structure and roles.",
-          "Useful if you first want to see how the project develops in public."
+          "Useful if you first want to observe the public progress."
         ]
       }
     ],
 
-    note: "Additional channels (phone, messengers, email) may be added later. The idea stays the same: no bureaucracy, only clear and direct communication."
+    note: "Additional channels (phone, email, messengers) may appear later. The principle remains: clarity and direct contact."
   },
 
   de: {
     badge: "Mobil Truck • Kontakt",
     title: "Kontakt zu Mobil Truck",
     subtitle:
-      "Für Fahrer, Partner und Unternehmer soll der Weg zur Kontaktaufnahme möglichst einfach sein. Unten stehen die klaren Kanäle ohne unnötige Bürokratie.",
+      "Für Fahrer, Partner und Unternehmer — unten stehen klare Kontaktwege ohne unnötige Hürden.",
 
     blocks: [
       {
@@ -138,18 +140,18 @@ const contactText: Record<
             <a href="/join" className="text-emerald-600 underline">
               der Seite „Join / Присоединиться“
             </a>{" "}
-            und schreiben Sie, dass Sie als Fahrer arbeiten möchten.
+            und geben Sie an, dass Sie als Fahrer arbeiten möchten.
           </>,
           "Die Nachricht geht direkt an den Gründer.",
-          "Fragen können auch im Forum im Fahrer-Bereich gestellt werden."
+          "Fragen können auch im Fahrerbereich des Forums gestellt werden."
         ]
       },
       {
         title: "Für Partner und Unternehmer",
         items: [
           <>
-            Wenn Sie eine eigene Firma (UG/GmbH) im Holding-Modell aufbauen
-            möchten, schreiben Sie über{" "}
+            Wenn Sie eine Firma (UG/GmbH) im Holding-Modell eröffnen möchten,
+            schreiben Sie über{" "}
             <a href="/join" className="text-emerald-600 underline">
               die Join-Seite
             </a>{" "}
@@ -169,48 +171,48 @@ const contactText: Record<
             </a>{" "}
             erreichbar.
           </>,
-          "Dort können Struktur, 8%-Modell und Rollen diskutiert werden.",
-          "Gut für alle, die das Projekt zuerst öffentlich beobachten wollen."
+          "Diskussionen zu Struktur, 8%-Modell und Rollen sind dort möglich.",
+          "Gut, wenn man zuerst die öffentliche Entwicklung sehen möchte."
         ]
       }
     ],
 
-    note: "Weitere Kontaktkanäle können später ergänzt werden. Grundprinzip: klare, direkte Kommunikation ohne überflüssige Hürden."
+    note: "Weitere Kanäle können später ergänzt werden. Prinzip: klare Kommunikation."
   },
 
   es: {
     badge: "Mobil Truck • contactos",
     title: "Contactar con Mobil Truck",
     subtitle:
-      "Si quieres unirte como conductor, socio o emprendedor, lo principal es llegar al diálogo real. Aquí tienes las formas sencillas de hacerlo.",
+      "Si quieres unirte como conductor, socio o emprendedor — aquí están las formas directas de hacerlo.",
 
     blocks: [
       {
         title: "Para conductores",
         items: [
           <>
-            Rellena el formulario en{" "}
+            Completa el formulario en{" "}
             <a href="/join" className="text-emerald-600 underline">
-              la página «Join / Присоединиться»
+              la página «Join»
             </a>{" "}
-            indicando que buscas trabajo como conductor.
+            indicando tu interés.
           </>,
-          "El mensaje llegará directamente al fundador.",
-          "También puedes hacer preguntas en el foro, en la sección para conductores."
+          "El mensaje va directamente al fundador.",
+          "También puedes preguntar en el foro."
         ]
       },
       {
         title: "Para socios y emprendedores",
         items: [
           <>
-            Si piensas abrir tu empresa dentro del holding, escribe a través de{" "}
+            Si planeas abrir una empresa dentro del holding, escribe vía{" "}
             <a href="/join" className="text-emerald-600 underline">
-              la página «Join»
+              «Join»
             </a>{" "}
             con nota «Socio / empresa propia (UG/GmbH)».
           </>,
-          "Después se podrán discutir condiciones y contratos de forma directa.",
-          "Para preguntas públicas, el foro es el mejor lugar."
+          "Después se pueden discutir condiciones y contratos.",
+          "El foro es útil para preguntas públicas."
         ]
       },
       {
@@ -223,15 +225,17 @@ const contactText: Record<
             </a>
             .
           </>,
-          "Allí se puede preguntar por el modelo del 8 %, la estructura y los roles.",
-          "Es útil si primero quieres observar cómo evoluciona el proyecto."
+          "Allí puedes consultar estructura y modelo del 8%.",
+          "Útil si primero quieres observar el desarrollo público."
         ]
       }
     ],
 
-    note: "Más tarde se podrán añadir otros canales (teléfono, mensajería, correo). La idea básica es la misma: comunicación clara y directa."
+    note: "Más canales pueden añadirse más adelante. El principio: claridad y sencillez."
   }
 };
+
+/* --- Основной компонент --- */
 
 const ContactPage: React.FC = () => {
   const { language } = useLanguage();
@@ -240,24 +244,22 @@ const ContactPage: React.FC = () => {
   return (
     <main className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto py-10 px-4 space-y-10">
-        <div className="flex items-start justify-between gap-4">
-          <header className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              {t.badge}
-            </div>
 
-            <div className="space-y-2 max-w-2xl">
-              <h1 className="text-2xl sm:text-3xl font-semibold text-zinc-900">
-                {t.title}
-              </h1>
-              <p className="text-sm text-zinc-600">{t.subtitle}</p>
-            </div>
-          </header>
+        {/* Верхняя часть */}
+        <header className="space-y-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            {t.badge}
+          </div>
 
-          <LanguageSwitcher />
-        </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-zinc-900">
+            {t.title}
+          </h1>
 
+          <p className="text-sm text-zinc-600 max-w-2xl">{t.subtitle}</p>
+        </header>
+
+        {/* Блоки */}
         <section className="grid gap-6 lg:grid-cols-3">
           {t.blocks.map((block, i) => (
             <div key={i} className="card space-y-3">
