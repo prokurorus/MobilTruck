@@ -20,198 +20,211 @@ const driversText: Record<
     badge: "Mobil Truck • для водителей",
     title: "Работа водителем в Mobil Truck",
     subtitle:
-      "Mobil Truck — это не просто компания. Это сеть, в которой водитель знает, откуда берётся его доход, как считаются рейсы и что он может получить в будущем. Всё честно, без магии и скрытых списаний.",
+      "Mobil Truck — это сеть европейских транспортных компаний. Для нас водитель — партнёр, а не расходный материал. Здесь важны стабильность, честность и возможность роста.",
     blocks: [
       {
         title: "Что мы предлагаем",
         items: [
-          "Работа на современных грузовиках европейского парка.",
-          "Маршруты по ЕС, без «серых» схем.",
-          "Стабильная загрузка и прозрачные условия.",
-          "Режимы труда и отдыха строго по правилам ЕС.",
-          "Поддержка 24/7 по технике, документам и навигации.",
+          "Современные европейские тягачи и прицепы.",
+          "Маршруты по ЕС — без серых схем и сомнительных рейсов.",
+          "Своевременная выплата зарплаты и прозрачный учёт пробега и часов.",
+          "Соблюдение режима труда и отдыха по нормам ЕС.",
+          "Техническая поддержка, помощь с документами и навигацией.",
+          "Реальная статистика и честные условия — без манипуляций и скрытых удержаний.",
+          "Перспектива роста: от водителя до партнёра холдинга.",
         ],
       },
       {
-        title: "Требования",
+        title: "Требования к водителю",
         items: [
-          "Категория CE.",
-          "Опыт по Европе желателен, но не обязателен.",
-          "Дисциплина, ответственность и аккуратность.",
-          "Готовность учиться и расти.",
-          "Желание перейти со временем в партнёры (по желанию).",
+          "Водительское удостоверение категории CE.",
+          "Карта тахографа и готовность соблюдать режимы работы и отдыха.",
+          "Ответственное отношение к технике и грузу.",
+          "Аккуратность в документах и уважение к клиенту.",
+          "Опыт работы по ЕС приветствуется, но не является обязательным.",
+          "Готовность работать честно, без «серых» схем и обхода правил.",
         ],
       },
       {
-        title: "Как считаются выплаты",
+        title: "Почему здесь можно расти",
         items: [
-          "Фиксированная ставка + бонусы за рейсы / километры.",
-          "Все расчёты прозрачны: водитель видит экономику рейса.",
-          "Никаких скрытых удержаний.",
-          "Отдельные премии за экономичность, надёжность и дисциплину.",
-          "Возможность участия в доходе компании (при переходе в партнёры).",
+          "Ты видишь реальную экономику рейса и понимаешь, откуда берётся твой доход.",
+          "Сильные водители могут стать старшими, диспетчерами или партнёрами.",
+          "Холдинг помогает в будущем открыть свою фирму в структуре Mobil Truck.",
+          "Сетевой доход по модели 8% даёт возможность создать пассивный доход.",
+          "Риски распределены по сети — нет ситуации, когда один директор решает всё в одиночку.",
         ],
       },
     ],
-    pathTitle: "Путь водителя в холдинге",
+    pathTitle: "Путь водителя в холдинге Mobil Truck",
     steps: [
-      "1. Начать водителем — понять реальные процессы, маршруты и расчёты.",
-      "2. Повысить квалификацию — техника, документы, работа с платформой.",
-      "3. Стать партнёром — открыть свою компанию в структуре Mobil Truck.",
-      "4. Построить свою ветку — подключить других водителей и заработать сетевой процент.",
+      "1. Начать водителем — понять маршруты, клиентов, технику и реальные условия работы.",
+      "2. Укрепиться в профессии — показать дисциплину, надёжность и умение работать с системой.",
+      "3. Взять на себя больше ответственности — помощь в обучении, работе с клиентами, координации.",
+      "4. Стать партнёром — открыть свою компанию в структуре Mobil Truck и постепенно строить собственную ветку.",
     ],
-    note: "Если хочешь обсудить детали — напиши через страницу «Присоединиться» или на форуме. Отвечаем быстро.",
+    note: "Если хочешь обсудить детали — напиши через страницу «Присоединиться» или на форуме. Отвечаем спокойно, по возможности быстро и по делу.",
   },
 
   en: {
     badge: "Mobil Truck • for drivers",
-    title: "Driving for Mobil Truck",
+    title: "Driving with Mobil Truck",
     subtitle:
-      "Mobil Truck is not just a company. It’s a network where the driver understands how pay is calculated, how routes work, and what opportunities exist for the future. Honest and transparent.",
+      "Mobil Truck is a network of European transport companies. For us, a driver is a partner, not a disposable resource. Stability, honesty and a real path for growth matter here.",
     blocks: [
       {
         title: "What we offer",
         items: [
-          "Modern European trucks.",
-          "EU routes only, no shady schemes.",
-          "Stable workload and transparent terms.",
-          "Work & rest hours strictly by EU rules.",
-          "24/7 support for documents, navigation and truck issues.",
+          "Modern European trucks and trailers.",
+          "EU routes only — no shady schemes or “grey” trips.",
+          "On-time payment and transparent mileage & hours tracking.",
+          "Working and rest hours strictly according to EU rules.",
+          "24/7 support with documents, navigation and technical issues.",
+          "Real statistics and clear rules — no hidden deductions.",
+          "A clear path to grow from driver to partner of the holding.",
         ],
       },
       {
         title: "Requirements",
         items: [
-          "CE category.",
-          "Experience in the EU is welcome, but not required.",
-          "Discipline and responsibility.",
-          "Willingness to learn.",
-          "Optional: grow into a partner in the future.",
+          "Valid CE driving license.",
+          "Tachograph card and readiness to follow working/rest time rules.",
+          "Careful attitude to the truck and the cargo.",
+          "Accuracy with documents and respectful communication with clients.",
+          "Experience in EU transport is welcome but not mandatory.",
+          "Willingness to work legally and transparently, without “grey” schemes.",
         ],
       },
       {
-        title: "How pay is calculated",
+        title: "Why this is a place to grow",
         items: [
-          "Fixed salary + bonuses per trip / km.",
-          "Transparent economics — driver sees real numbers.",
-          "No hidden deductions.",
-          "Extra bonuses for efficiency and discipline.",
-          "Possibility to grow into profit-sharing as a partner.",
+          "You see the real economics of each trip and understand your income.",
+          "Strong drivers can become lead drivers, dispatchers or future partners.",
+          "The holding can support you in opening your own company within Mobil Truck.",
+          "The 8% network model allows you to build long-term passive income.",
+          "Risks are distributed across the network — there is no single boss deciding everything alone.",
         ],
       },
     ],
-    pathTitle: "Driver path in the holding",
+    pathTitle: "Driver’s path inside Mobil Truck",
     steps: [
-      "1. Start as a driver — learn routes, processes and economics.",
-      "2. Improve qualification — technique and platform.",
-      "3. Become a partner — open your own company under Mobil Truck.",
-      "4. Build your branch — connect other drivers and earn the network percent.",
+      "1. Start as a driver — learn routes, clients, trucks and real working conditions.",
+      "2. Prove reliability — discipline, safe driving, clean documentation.",
+      "3. Take more responsibility — help others, support coordination and communication.",
+      "4. Become a partner — open your own company within Mobil Truck and build your own branch.",
     ],
-    note: "If you want details — write via the Join page or ask in the forum.",
+    note: "If you want more details, write via the Join page or on the forum. We answer calmly and as clearly as possible.",
   },
 
   de: {
     badge: "Mobil Truck • für Fahrer",
     title: "Arbeiten als Fahrer bei Mobil Truck",
     subtitle:
-      "Mobil Truck ist nicht nur eine Firma. Es ist ein Netzwerk, in dem der Fahrer versteht, wie die Auszahlungen berechnet werden, wie die Routen funktionieren und welche Zukunftschancen bestehen.",
+      "Mobil Truck ist ein Netzwerk europäischer Transportunternehmen. Für uns ist der Fahrer ein Partner, kein Verbrauchsmaterial. Wichtig sind Stabilität, Ehrlichkeit und echte Entwicklungschancen.",
     blocks: [
       {
         title: "Was wir anbieten",
         items: [
-          "Moderne europäische Lkw.",
-          "EU-Strecken ohne Grauzonen.",
-          "Stabile Auslastung und klare Bedingungen.",
-          "Arbeits- und Ruhezeiten streng nach EU-Regeln.",
+          "Moderne europäische Lkw und Auflieger.",
+          "Fahrten innerhalb der EU – ohne Grauzonen und dubiose Touren.",
+          "Pünktliche Bezahlung mit transparenter Erfassung von Kilometern und Stunden.",
+          "Arbeits- und Ruhezeiten strikt nach EU-Vorschriften.",
           "24/7 Unterstützung bei Technik, Dokumenten und Navigation.",
+          "Echte Zahlen und klare Regeln – keine versteckten Abzüge.",
+          "Eine klare Perspektive: vom Fahrer zum Partner im Holding.",
         ],
       },
       {
         title: "Anforderungen",
         items: [
-          "Führerschein CE.",
-          "EU-Erfahrung erwünscht, aber nicht erforderlich.",
-          "Disziplin und Zuverlässigkeit.",
-          "Lernbereitschaft.",
-          "Optional: später Partner werden.",
+          "Gültiger Führerschein der Klasse CE.",
+          "Tachographenkarte und Bereitschaft, Lenk- und Ruhezeiten einzuhalten.",
+          "Sorgsamer Umgang mit Fahrzeug und Ladung.",
+          "Genauigkeit bei Dokumenten und respektvoller Kontakt mit Kunden.",
+          "Erfahrung im EU-Verkehr ist willkommen, aber nicht zwingend.",
+          "Bereitschaft, legal und transparent zu arbeiten – ohne „tricks“.",
         ],
       },
       {
-        title: "Wie die Bezahlung berechnet wird",
+        title: "Warum man hier wachsen kann",
         items: [
-          "Fester Lohn + Bonus pro Fahrt / km.",
-          "Transparente Zahlen, keine versteckten Abzüge.",
-          "Zusätzliche Prämien für Effizienz und Disziplin.",
-          "Möglichkeit, später am Gewinn beteiligt zu werden.",
+          "Du siehst die reale Wirtschaftlichkeit jeder Tour und verstehst deinen Lohn.",
+          "Starke Fahrer können Vorarbeiter, Disponenten oder Partner werden.",
+          "Der Holding kann dich später beim Aufbau einer eigenen Firma unterstützen.",
+          "Das 8-Prozent-Netzwerkmodell ermöglicht langfristiges passives Einkommen.",
+          "Risiken werden auf viele Firmen verteilt – keine einzelne Firma trägt alles allein.",
         ],
       },
     ],
-    pathTitle: "Der Weg des Fahrers",
+    pathTitle: "Weg des Fahrers im Mobil-Truck-Holding",
     steps: [
-      "1. Fahrerstart — Prozesse, Routen und Abrechnung verstehen.",
-      "2. Qualifikation erhöhen — Technik, Dokumente, Plattform.",
-      "3. Partner werden — eigene Firma unter Mobil Truck gründen.",
-      "4. Eigenen Ast aufbauen — andere Fahrer einbinden und Netzwerkprozente verdienen.",
+      "1. Einstieg als Fahrer – Routen, Kunden, Technik und Abläufe kennenlernen.",
+      "2. Zuverlässigkeit zeigen – Disziplin, sichere Fahrweise, saubere Dokumente.",
+      "3. Mehr Verantwortung übernehmen – Kollegen unterstützen, Abläufe mitgestalten.",
+      "4. Partner werden – eigene Firma innerhalb von Mobil Truck gründen und einen eigenen Zweig aufbauen.",
     ],
-    note: "Wenn du Details willst — schreib über die Seite „Join“ oder im Forum.",
+    note: "Wenn du Details besprechen möchtest, schreib uns über die Seite „Beitreten“ oder im Forum. Wir antworten so klar und ehrlich wie möglich.",
   },
 
   es: {
     badge: "Mobil Truck • para conductores",
-    title: "Trabajo para conductores en Mobil Truck",
+    title: "Trabajar como conductor en Mobil Truck",
     subtitle:
-      "Mobil Truck no es solo una empresa. Es una red donde el conductor entiende cómo se calcula el pago, cómo funcionan las rutas y qué oportunidades existen para el futuro.",
+      "Mobil Truck es una red de empresas de transporte europeas. Para nosotros el conductor es un socio, no un recurso desechable. Importan la estabilidad, la honestidad y las posibilidades reales de crecer.",
     blocks: [
       {
-        title: "Lo que ofrecemos",
+        title: "Qué ofrecemos",
         items: [
-          "Camiones modernos europeos.",
-          "Rutas dentro de la UE, sin esquemas dudosos.",
-          "Carga estable y reglas claras.",
-          "Horas de trabajo y descanso según normativa europea.",
-          "Soporte 24/7 para documentación, navegación y técnica.",
+          "Camiones y semirremolques europeos modernos.",
+          "Rutas dentro de la UE, sin esquemas dudosos ni viajes grises.",
+          "Pago puntual y control transparente de kilómetros y horas.",
+          "Jornadas y descansos según la normativa europea.",
+          "Soporte 24/7 con documentación, navegación y cuestiones técnicas.",
+          "Datos reales y normas claras, sin deducciones ocultas.",
+          "Un camino definido para pasar de conductor a socio del holding.",
         ],
       },
       {
         title: "Requisitos",
         items: [
-          "Categoría CE.",
-          "Experiencia en la UE bienvenida, no obligatoria.",
-          "Disciplina y responsabilidad.",
-          "Ganas de aprender.",
-          "Opción de convertirse en socio más adelante.",
+          "Permiso de conducir categoría CE.",
+          "Tarjeta de tacógrafo y disposición a respetar los tiempos de trabajo y descanso.",
+          "Cuidado del vehículo y de la carga.",
+          "Orden con la documentación y trato respetuoso con el cliente.",
+          "Experiencia en rutas dentro de la UE bienvenida, pero no obligatoria.",
+          "Voluntad de trabajar de manera legal y transparente, sin atajos ni trampas.",
         ],
       },
       {
-        title: "Cómo se calcula el salario",
+        title: "Por qué aquí se puede crecer",
         items: [
-          "Salario fijo + bonos por viaje/kilómetro.",
-          "Transparencia total en los cálculos.",
-          "Sin deducciones ocultas.",
-          "Premios adicionales por eficiencia.",
-          "Posibilidad de participación como socio.",
+          "Ves la economía real de cada viaje y entiendes de dónde sale tu salario.",
+          "Los buenos conductores pueden convertirse en jefes de equipo, gestores o futuros socios.",
+          "El holding puede ayudarte a montar tu propia empresa dentro de Mobil Truck.",
+          "El modelo de red del 8% permite crear ingresos pasivos a largo plazo.",
+          "Los riesgos se reparten entre muchas empresas: no todo depende de un solo jefe.",
         ],
       },
     ],
-    pathTitle: "Camino del conductor",
+    pathTitle: "Camino del conductor dentro de Mobil Truck",
     steps: [
-      "1. Empezar como conductor — aprender rutas y procesos.",
-      "2. Mejorar la cualificación.",
-      "3. Convertirse en socio — abrir una empresa propia en Mobil Truck.",
-      "4. Construir su propia rama — integrar nuevos conductores.",
+      "1. Empezar como conductor — conocer rutas, clientes, vehículos y condiciones reales.",
+      "2. Demostrar fiabilidad — disciplina, conducción segura, documentos en orden.",
+      "3. Asumir más responsabilidad — ayudar a otros, apoyar la coordinación y la comunicación.",
+      "4. Convertirse en socio — abrir tu propia empresa dentro de Mobil Truck y construir tu propia rama.",
     ],
-    note: "Si quieres detalles — escribe en la página «Join» o en el foro.",
+    note: "Si quieres más información, escríbenos a través de la página «Unirse» o en el foro. Respondemos de forma tranquila y clara.",
   },
 };
 
 const DriversPage: React.FC = () => {
   const { language } = useLanguage();
-  const t = driversText[language] ?? driversText.ru;
+  const t = driversText[language] || driversText["ru"];
 
   return (
     <main className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto py-10 px-4 space-y-10">
-        {/* Верхний блок: бейдж + заголовок + подзаголовок */}
+        {/* Header */}
         <header className="space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -219,14 +232,16 @@ const DriversPage: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-2xl sm:text-3xl font-semibold text-zinc-900">
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900">
               {t.title}
             </h1>
-            <p className="text-sm text-zinc-600 max-w-2xl">{t.subtitle}</p>
+            <p className="text-sm sm:text-base text-zinc-600 max-w-3xl leading-relaxed">
+              {t.subtitle}
+            </p>
           </div>
         </header>
 
-        {/* Основные блоки */}
+        {/* Blocks */}
         <section className="grid gap-6 lg:grid-cols-3">
           {t.blocks.map((block, index) => (
             <article
@@ -245,7 +260,7 @@ const DriversPage: React.FC = () => {
           ))}
         </section>
 
-        {/* Путь водителя */}
+        {/* Path */}
         <section className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-3">
           <h2 className="text-lg font-semibold text-zinc-900">{t.pathTitle}</h2>
           <ol className="text-sm text-zinc-700 space-y-1 list-decimal list-inside">
