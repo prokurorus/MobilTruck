@@ -18,6 +18,22 @@ const profitText: Record<
       label: string;
       value: string;
     }[];
+    // новый блок про глубину
+    dynamicTitle: string;
+    dynamicIntro: string;
+    dynamicHeaders: {
+      level: string;
+      companies: string;
+      percent: string;
+    };
+    dynamicRows: {
+      level: string;
+      companies: string;
+      percent: string;
+    }[];
+    dynamicNote: string;
+    dynamicConclusion: string;
+
     conclusionTitle: string;
     conclusion: string;
   }
@@ -76,6 +92,32 @@ const profitText: Record<
       },
       { label: "92% остаются в компании", value: "9 200 €" }
     ],
+
+    // --- динамика по 10 уровням ---
+    dynamicTitle: "Почему глубина приносит деньги (пример на 10 уровнях)",
+    dynamicIntro:
+      "Представим, что каждая компания зарабатывает 10 000 € в месяц, а сеть развивалась несколько лет. На верхних уровнях компаний мало, в глубине — гораздо больше. Процент падает, но количество фирм растёт быстрее.",
+    dynamicHeaders: {
+      level: "Уровень",
+      companies: "Компаний в уровне",
+      percent: "Процент основателя"
+    },
+    dynamicRows: [
+      { level: "1", companies: "3", percent: "4 %" },
+      { level: "2", companies: "5", percent: "2 %" },
+      { level: "3", companies: "12", percent: "1 %" },
+      { level: "4", companies: "30", percent: "0,5 %" },
+      { level: "5", companies: "70", percent: "0,25 %" },
+      { level: "6", companies: "150", percent: "0,125 %" },
+      { level: "7", companies: "300", percent: "0,0625 %" },
+      { level: "8", companies: "600", percent: "0,03125 %" },
+      { level: "9", companies: "1 000", percent: "0,015625 %" },
+      { level: "10", companies: "1 500", percent: "0,0078125 %" }
+    ],
+    dynamicNote:
+      "Важно не запоминать цифры, а увидеть логику: чем глубже уровень, тем меньше процент, но тем больше компаний. Маленький процент, умноженный на большое количество фирм, даёт серьёзный доход.",
+    dynamicConclusion:
+      "В таком примере совокупный пассивный доход основателя со всех 10 уровней сети получается около 15 000 € в месяц только от сети — без учёта прибыли его собственных компаний.",
 
     conclusionTitle: "Итог",
     conclusion:
@@ -137,6 +179,31 @@ const profitText: Record<
       { label: "92% remains in the company", value: "9 200 €" }
     ],
 
+    dynamicTitle: "Why depth still pays (10-level example)",
+    dynamicIntro:
+      "Imagine each company earns 10 000 € per month and the network has been growing for a few years. At the top there are only a few companies; deeper there are many more. The percent goes down, but the number of firms grows faster.",
+    dynamicHeaders: {
+      level: "Level",
+      companies: "Companies in level",
+      percent: "Founder’s percent"
+    },
+    dynamicRows: [
+      { level: "1", companies: "3", percent: "4 %" },
+      { level: "2", companies: "5", percent: "2 %" },
+      { level: "3", companies: "12", percent: "1 %" },
+      { level: "4", companies: "30", percent: "0.5 %" },
+      { level: "5", companies: "70", percent: "0.25 %" },
+      { level: "6", companies: "150", percent: "0.125 %" },
+      { level: "7", companies: "300", percent: "0.0625 %" },
+      { level: "8", companies: "600", percent: "0.03125 %" },
+      { level: "9", companies: "1 000", percent: "0.015625 %" },
+      { level: "10", companies: "1 500", percent: "0.0078125 %" }
+    ],
+    dynamicNote:
+      "The point is not to memorise numbers but to see the logic: a small percent on many companies can pay more than a big percent on a few companies.",
+    dynamicConclusion:
+      "In this example the founder receives roughly 15 000 € per month in passive income from the 10 levels of the network alone — not counting the profit of their own operating companies.",
+
     conclusionTitle: "Summary",
     conclusion:
       "The model is simple and mathematically clean. Earned — received. Everyone understands who pays whom and for what: drivers get their wages, the company keeps 92% of profit, the network receives a fixed 8%."
@@ -197,6 +264,31 @@ const profitText: Record<
       { label: "92 % bleiben im Unternehmen", value: "9 200 €" }
     ],
 
+    dynamicTitle: "Warum Tiefe Geld bringt (Beispiel mit 10 Ebenen)",
+    dynamicIntro:
+      "Nehmen wir an, jede Firma verdient 10 000 € pro Monat und das Netzwerk wächst seit einigen Jahren. Oben gibt es nur wenige Firmen, in der Tiefe deutlich mehr. Der Prozentsatz sinkt, aber die Anzahl der Firmen wächst schneller.",
+    dynamicHeaders: {
+      level: "Ebene",
+      companies: "Firmen in der Ebene",
+      percent: "Prozent des Gründers"
+    },
+    dynamicRows: [
+      { level: "1", companies: "3", percent: "4 %" },
+      { level: "2", companies: "5", percent: "2 %" },
+      { level: "3", companies: "12", percent: "1 %" },
+      { level: "4", companies: "30", percent: "0,5 %" },
+      { level: "5", companies: "70", percent: "0,25 %" },
+      { level: "6", companies: "150", percent: "0,125 %" },
+      { level: "7", companies: "300", percent: "0,0625 %" },
+      { level: "8", companies: "600", percent: "0,03125 %" },
+      { level: "9", companies: "1 000", percent: "0,015625 %" },
+      { level: "10", companies: "1 500", percent: "0,0078125 %" }
+    ],
+    dynamicNote:
+      "Wichtig ist nicht, sich alle Zahlen zu merken, sondern das Prinzip zu verstehen: kleinere Prozentsätze auf viele Firmen können mehr bringen als große Prozentsätze auf wenige Firmen.",
+    dynamicConclusion:
+      "In diesem Beispiel erhält der Gründer aus allen 10 Ebenen zusammen rund 15 000 € pro Monat an passivem Einkommen – zusätzlich zum Gewinn seiner eigenen operativen Firmen.",
+
     conclusionTitle: "Fazit",
     conclusion:
       "Das Modell ist einfach und sauber. Was verdient wird, wird ausgezahlt. Jeder versteht, wer wofür bezahlt: Fahrer, Firma und Netzwerk."
@@ -244,7 +336,7 @@ const profitText: Record<
       "Una empresa gana 10 000 € netos al mes. Así se reparte el 8 % de la red:",
 
     example: [
-      { label: "Beneficio neto", value: "10 000 €" },
+      { label: "Beneficio neto de la empresa", value: "10 000 €" },
       { label: "8 % para la red", value: "800 €" },
       { label: "4 % • fundador de la empresa", value: "400 €" },
       { label: "2 % • nivel superior", value: "200 €" },
@@ -257,9 +349,34 @@ const profitText: Record<
       { label: "92 % queda en la empresa", value: "9 200 €" }
     ],
 
+    dynamicTitle: "Por qué la profundidad sigue pagando (ejemplo de 10 niveles)",
+    dynamicIntro:
+      "Imaginemos que cada empresa gana 10 000 € al mes y que la red ha crecido durante varios años. Arriba hay pocas empresas; en niveles profundos hay muchas más. El porcentaje baja, pero el número de empresas crece más rápido.",
+    dynamicHeaders: {
+      level: "Nivel",
+      companies: "Empresas en el nivel",
+      percent: "Porcentaje del fundador"
+    },
+    dynamicRows: [
+      { level: "1", companies: "3", percent: "4 %" },
+      { level: "2", companies: "5", percent: "2 %" },
+      { level: "3", companies: "12", percent: "1 %" },
+      { level: "4", companies: "30", percent: "0,5 %" },
+      { level: "5", companies: "70", percent: "0,25 %" },
+      { level: "6", companies: "150", percent: "0,125 %" },
+      { level: "7", companies: "300", percent: "0,0625 %" },
+      { level: "8", companies: "600", percent: "0,03125 %" },
+      { level: "9", companies: "1 000", percent: "0,015625 %" },
+      { level: "10", companies: "1 500", percent: "0,0078125 %" }
+    ],
+    dynamicNote:
+      "Lo importante no es memorizar las cifras, sino entender la lógica: un porcentaje pequeño sobre muchas empresas puede generar más que un porcentaje grande sobre pocas.",
+    dynamicConclusion:
+      "En este ejemplo, el fundador recibe alrededor de 15 000 € al mes de ingresos pasivos solo de los 10 niveles de la red, sin contar el beneficio de sus propias empresas operativas.",
+
     conclusionTitle: "Conclusión",
     conclusion:
-      "Es un modelo simple, limpio y predecible. Lo que ganas, lo recibes. Cada parte entiende su papel y su porcentaje."
+      "Es un modelo simple, limpio y predecible. Lo que se gana, se reparte. Cada parte entiende quién paga, a quién y por qué."
   }
 };
 
@@ -321,6 +438,53 @@ const ProfitModelPage: React.FC = () => {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* Динамика по глубине (10 уровней) */}
+        <section className="card space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-lg font-semibold text-zinc-900">
+              {t.dynamicTitle}
+            </h2>
+            <p className="text-sm text-zinc-600">{t.dynamicIntro}</p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b border-zinc-200">
+                  <th className="text-left px-2 py-1 text-zinc-500 font-medium">
+                    {t.dynamicHeaders.level}
+                  </th>
+                  <th className="text-left px-2 py-1 text-zinc-500 font-medium">
+                    {t.dynamicHeaders.companies}
+                  </th>
+                  <th className="text-left px-2 py-1 text-zinc-500 font-medium">
+                    {t.dynamicHeaders.percent}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {t.dynamicRows.map((row, idx) => (
+                  <tr
+                    key={idx}
+                    className={idx % 2 === 0 ? "bg-zinc-50/60" : "bg-white"}
+                  >
+                    <td className="px-2 py-1 text-zinc-800">{row.level}</td>
+                    <td className="px-2 py-1 text-zinc-800">
+                      {row.companies}
+                    </td>
+                    <td className="px-2 py-1 text-zinc-800 font-mono">
+                      {row.percent}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p className="text-xs text-zinc-500">{t.dynamicNote}</p>
+          <p className="text-sm text-zinc-700">{t.dynamicConclusion}</p>
         </section>
 
         {/* Итоговый вывод */}
