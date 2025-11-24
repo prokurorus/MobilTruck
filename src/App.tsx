@@ -11,6 +11,7 @@ import Join from "./pages/Join";
 import StructurePage from "./pages/Structure";
 import DriversPage from "./pages/Drivers";
 import PartnersPage from "./pages/Partners";
+import ProfitModelPage from "./pages/ProfitModel";
 import ForumPage from "./pages/ForumPage";
 import TopicPage from "./pages/TopicPage";
 import { useStats } from "./hooks/useStats";
