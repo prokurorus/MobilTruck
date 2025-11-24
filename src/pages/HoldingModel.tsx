@@ -38,304 +38,232 @@ const HoldingModelPage: React.FC = () => {
           <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
             <li>водитель видит понятную систему оплаты и стабильные рейсы;</li>
             <li>
-              предприниматель получает готовую модель: бренд, IT, клиентов,
-              документы и сетевой доход;
+              предприниматель получает готовую модель: бренд, IT, базу клиентов,
+              типовые документы и сетевой доход;
             </li>
             <li>
               головная компания не “душит” низы, а зарабатывает на росте сети и
               качестве сервиса, а не на скрытых процентах.
             </li>
           </ul>
+          <p className="text-xs text-zinc-500">
+            Важно: сеть растёт и горизонтально (больше компаний на одном уровне),
+            и вертикально (глубина ветки). Отсюда и сетевой доход 8% — награда за
+            развитие всей структуры, а не за давление “сверху”.
+          </p>
         </section>
 
-        {/* 2. Административная структура */}
-        <section className="grid gap-6 lg:grid-cols-2">
-          <article className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-3">
-            <h2 className="text-lg font-semibold text-zinc-900">
-              2. Административная структура холдинга
-            </h2>
-            <ul className="text-sm text-zinc-700 space-y-2">
-              <li>
-                <span className="font-medium">1. Головной холдинг.</span>{" "}
-                Владельцы бренда Mobil Truck. Отвечают за стратегию, крупные
-                договоры с заказчиками, стандарты, IT-платформу, маркетинг и
-                общий каркас правил.
-              </li>
-              <li>
-                <span className="font-medium">
-                  2. Партнёрские компании (UG / GmbH).
-                </span>{" "}
-                Отдельные юрлица, которыми управляют местные предприниматели.
-                Они работают под брендом Mobil Truck, по единой модели,
-                соблюдая правила холдинга.
-              </li>
-              <li>
-                <span className="font-medium">3. Ветки внутри холдинга.</span>{" "}
-                Цепочка компаний, которую запустил один предприниматель
-                (основатель ветки). Он строит свою сеть внутри Mobil Truck и
-                получает сетевой доход.
-              </li>
-              <li>
-                <span className="font-medium">4. Операционный уровень.</span>{" "}
-                Водители, диспетчеры, механики, администрация — люди, которые
-                каждый день работают с грузами и техникой и формируют реальную
-                прибыль.
-              </li>
-            </ul>
-          </article>
+        {/* 2. Три уровня структуры */}
+        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-3">
+          <h2 className="text-lg font-semibold text-zinc-900">
+            2. Кто есть кто в Mobil Truck
+          </h2>
+          <p className="text-sm text-zinc-700">
+            Внутри холдинга есть три ключевых роли — у каждой своя зона
+            ответственности и свой источник дохода.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <article className="rounded-xl border border-zinc-200 bg-white/90 p-4 space-y-2">
+              <h3 className="text-sm font-semibold text-zinc-900">
+                1) Водитель
+              </h3>
+              <p className="text-sm text-zinc-700">
+                Получает честную оплату за рейсы, прозрачный учёт времени и
+                километров, поддержку диспетчеров и понятные правила.
+              </p>
+            </article>
 
-          <article className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-3">
-            <h2 className="text-lg font-semibold text-zinc-900">
-              3. Роль головной компании Mobil Truck
-            </h2>
+            <article className="rounded-xl border border-zinc-200 bg-white/90 p-4 space-y-2">
+              <h3 className="text-sm font-semibold text-zinc-900">
+                2) Партнёр — владелец компании
+              </h3>
+              <p className="text-sm text-zinc-700">
+                Владеет своей фирмой, сам нанимает людей, отвечает за технику и
+                операционную работу. Получает 92% прибыли своей компании (после
+                вычета 8% сетевого процента) и может строить свою ветку в сети.
+              </p>
+            </article>
+
+            <article className="rounded-xl border border-zinc-200 bg-white/90 p-4 space-y-2">
+              <h3 className="text-sm font-semibold text-zinc-900">
+                3) Головная компания / основатели ветвей
+              </h3>
+              <p className="text-sm text-zinc-700">
+                Создают систему, стандарты, IT, логистику, формируют фонды,
+                помогают запускать новые компании и получают сетевой доход по
+                модели 8%, а также дивиденды от долей в компаниях.
+              </p>
+            </article>
+          </div>
+          <p className="text-xs text-zinc-500">
+            Так уменьшается риск для одного центра и распределяется между
+            участниками холдинга: бизнес опирается не на одну “фирму-гигант”, а
+            на живую сеть компаний.
+          </p>
+        </section>
+
+        {/* 3. Что даёт партнёру головная компания */}
+        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-3">
+          <h2 className="text-lg font-semibold text-zinc-900">
+            3. Что получает партнёр, входя в холдинг
+          </h2>
+          <p className="text-sm text-zinc-700">
+            Партнёр не просто регистрирует фирму. Он подключается к живой системе,
+            где многие вещи уже сделаны за него.
+          </p>
+          <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
+            <li>
+              Бренд и репутация, с которой легче работать с заказчиками и банками.
+            </li>
+            <li>
+              IT-система: учёт рейсов, GPS-маршруты, аналитика, отчётность.
+            </li>
+            <li>
+              Типовые договора, процессы, юридическая поддержка.
+            </li>
+            <li>
+              Логистическая инфраструктура Mobil Truck — диспетчеризация, планирование маршрутов, помощь с загрузками.
+            </li>
+            <li>
+              Возможность строить свою сеть компаний и получать пассивный доход по
+              модели 8%.
+            </li>
+          </ul>
+          <p className="text-xs text-zinc-500">
+            Задача головной компании — создать понятные правила и защищённую
+            среду, в которой партнёры могут спокойно развиваться, а не бороться
+            с хаосом и бюрократией в одиночку.
+          </p>
+        </section>
+
+        {/* 4. Как формируется прибыль и фонды */}
+        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-4">
+          <h2 className="text-lg font-semibold text-zinc-900">
+            4. Откуда берётся прибыль и как она делится
+          </h2>
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-zinc-900">
+              4.1. База — прибыль каждой отдельной компании
+            </h3>
             <p className="text-sm text-zinc-700">
-              Головная компания не забирает себе “как получится”. Её задача —
-              обеспечить рамку, внутри которой партнёры спокойно зарабатывают и
-              растут.
+              Каждая компания сначала зарабатывает свою чистую прибыль. Это
+              деньги после всех расходов: топливо, зарплаты, налоги, лизинг и
+              обслуживание.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-zinc-900">
+              4.2. 8% — на сеть, 92% — остаются в компании
+            </h3>
+            <p className="text-sm text-zinc-700">
+              Из 100% чистой прибыли компании:
             </p>
             <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-              <li>создание и защита бренда Mobil Truck;</li>
-              <li>единые стандарты: оформление, безопасность, сервис;</li>
-              <li>IT-инфраструктура, учёт рейсов и финансов;</li>
-              <li>подбор крупных клиентов и переговоры по ставкам;</li>
-              <li>обучение партнёров и поддержка запуска компаний;</li>
+              <li>8% направляются в сеть — это сетевой процент;</li>
               <li>
-                контроль соблюдения правил, чтобы один участник не рушил
-                репутацию всей сети.
+                оставшиеся 92% остаются в компании — это её собственная прибыль,
+                из которой затем делятся доли между владельцами (например, 51/49
+                между холдингом и местным партнёром).
+              </li>
+            </ul>
+            <p className="text-sm text-zinc-700">
+              То есть компания в любом случае остаётся основным бенефициаром
+              своей работы. Сетевой процент — это надстройка, а не замена её
+              прибыли.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-zinc-900">
+              4.3. Модель 8% по ветке
+            </h3>
+            <p className="text-sm text-zinc-700">
+              8% идут вверх по ветке и делятся по фиксированной формуле:
+            </p>
+            <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
+              <li>4% — основателю конкретной компании;</li>
+              <li>2% — уровню выше;</li>
+              <li>1% — следующему уровню; </li>
+              <li>0,5% — ещё одному уровню вверх;</li>
+              <li>
+                оставшиеся 0,5% могут быть использованы для более высоких уровней
+                или резервов (настройка для будущей финмодели).
+              </li>
+            </ul>
+            <p className="text-sm text-zinc-700">
+              Чем глубже и шире ветка, тем больше компаний дают свой небольшой
+              процент наверх. Так формируется пассивный доход основателей веток —
+              он растёт вместе с сетью, а не за счёт удушения одной компании.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-zinc-900">
+              4.4. Фонды холдинга: куда идут деньги головной компании
+            </h3>
+            <p className="text-sm text-zinc-700">
+              Доля холдинга (например, 51% от прибыли, оставшейся в компании)
+              не “исчезает” в чьём-то кармане. Она собирается в фонды:
+            </p>
+            <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
+              <li>
+                <span className="font-medium">Фонд развития:</span> запуск новых
+                компаний, приобретение и ремонт транспорта, лизинг, обучение
+                водителей и партнёров.
+              </li>
+              <li>
+                <span className="font-medium">Фонд IT и аналитики:</span>{" "}
+                развитие систем учёта рейсов, GPS-маршрутизация, отчётность,
+                оптимизация загрузки и простоев.
+              </li>
+              <li>
+                <span className="font-medium">Резервный и защитный фонд:</span>{" "}
+                подушка на форс-мажоры, сложные периоды и поддержку компаний,
+                которые временно попали в трудную ситуацию.
               </li>
             </ul>
             <p className="text-xs text-zinc-500">
-              Доход головной компании формируется за счёт долей в партнёрских
-              компаниях и части сетевого процента, а не за счёт скрытых
-              удержаний с водителей.
+              По немецкому законодательству холдинг может выстраивать единую
+              структуру управления и отчётности. Консолидированный подход снижает
+              бумажную нагрузку на отдельных партнёров и укрепляет доверие со
+              стороны банков и крупных заказчиков.
             </p>
-          </article>
-        </section>
-
-        {/* 3. Финансовая архитектура */}
-        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-4">
-          <h2 className="text-lg font-semibold text-zinc-900">
-            4. Финансовая архитектура холдинга
-          </h2>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-800">
-                4.1. База: компания и её прибыль
-              </h3>
-              <p className="text-sm text-zinc-700">
-                Каждая партнёрская компания — полноценный бизнес. У неё есть
-                доходы (рейсы), расходы (топливо, зарплаты, лизинг, ремонт,
-                налоги) и чистая прибыль.
-              </p>
-              <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-                <li>зарплаты и бонусы водителям;</li>
-                <li>лизинг или выкуп тягачей и прицепов;</li>
-                <li>страховки, сервис, парковка;</li>
-                <li>административные расходы.</li>
-              </ul>
-              <p className="text-xs text-zinc-500">
-                После всех расходов формируется чистая прибыль. Именно с неё
-                считается сетевой процент 8%.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-800">
-                4.2. 92% внутри компании, 8% — в сеть
-              </h3>
-              <p className="text-sm text-zinc-700">
-                Модель простая:{" "}
-                <span className="font-medium">92% чистой прибыли</span> остаются
-                в компании (владельцам и на развитие),{" "}
-                <span className="font-medium">8%</span> идут вверх по ветке —
-                основателю и структуре холдинга.
-              </p>
-              <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-                <li>компания не теряет свою экономику — у неё остаётся база;</li>
-                <li>сетевой доход не душит низ, а строится на росте сети;</li>
-                <li>
-                  правила одинаковы для всех: нет “особых” условий для “своих”.
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-800">
-                4.3. Распределение сетевых 8%
-              </h3>
-              <p className="text-sm text-zinc-700">
-                8% распределяются вверх по ветке по фиксированной схеме:
-              </p>
-              <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-                <li>4% — основателю компании (тот, кто её создал);</li>
-                <li>2% — компании уровнем выше в ветке;</li>
-                <li>1% — следующему уровню;</li>
-                <li>0,5% — ещё выше.</li>
-              </ul>
-              <p className="text-xs text-zinc-500">
-                Дальше проценты могут продолжаться по убывающей, но суммарно
-                никогда не выходят за предел 8%. Подробные примеры — на
-                странице «Модель 8%».
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-800">
-                4.4. Фонды холдинга
-              </h3>
-              <p className="text-sm text-zinc-700">
-                Часть средств, которые поднимаются наверх (в том числе от долей
-                в компаниях), может направляться в прозрачные фонды:
-              </p>
-              <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-                <li>фонд развития сети (запуск новых компаний, техника);</li>
-                <li>резервный фонд (поддержка в сложных ситуациях);</li>
-                <li>фонд IT-развития (системы учёта, трекинг, аналитика);</li>
-                <li>маркетинговый фонд (поиск водителей, клиентов, бренд).</li>
-              </ul>
-              <p className="text-xs text-zinc-500">
-                Правила работы фондов фиксируются в документах холдинга и не
-                могут меняться “по настроению”.
-              </p>
-            </div>
           </div>
         </section>
 
-        {/* 5. Путь участника */}
-        <section className="space-y-4">
+        {/* 5. Путь: от водителя до основателя ветки */}
+        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-3">
           <h2 className="text-lg font-semibold text-zinc-900">
-            5. Путь: от водителя до основателя ветки
+            5. Путь: от водителя до основателя своей ветки
           </h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            <article className="rounded-2xl border border-zinc-200 bg-white/90 p-5 shadow-sm space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-900">
-                Водитель
-              </h3>
-              <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-                <li>понятная ставка и/или процент от рейсов;</li>
-                <li>доступ к хорошим клиентам и рейсам;</li>
-                <li>прозрачные правила: кто за что платит и что остаётся фирме;</li>
-                <li>
-                  возможность роста — старший водитель, диспетчер, партнёр.
-                </li>
-              </ul>
-            </article>
-
-            <article className="rounded-2xl border border-zinc-200 bg-white/90 p-5 shadow-sm space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-900">
-                Партнёр — владелец компании
-              </h3>
-              <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-                <li>
-                  открывает свою UG / GmbH под брендом Mobil Truck по готовой
-                  модели;
-                </li>
-                <li>получает 92% прибыли своей компании;</li>
-                <li>
-                  участвует в сетевой модели 8% как основатель для своих
-                  “дочек”;
-                </li>
-                <li>не остаётся один: поддержка холдинга и других партнёров.</li>
-              </ul>
-            </article>
-
-            <article className="rounded-2xl border border-zinc-200 bg-white/90 p-5 shadow-sm space-y-2">
-              <h3 className="text-sm font-semibold text-zinc-900">
-                Основатель ветки
-              </h3>
-              <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
-                <li>создаёт не одну, а сеть компаний внутри холдинга;</li>
-                <li>
-                  получает проценты с глубины — 4% / 2% / 1% / 0,5% и далее по
-                  модели;
-                </li>
-                <li>формирует пассивный доход за счёт работы своей сети;</li>
-                <li>
-                  отвечает за качество партнёров в своей ветке и репутацию
-                  бренда.
-                </li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        {/* 6. Краткое резюме “кто что получает” */}
-        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm space-y-4">
-          <h2 className="text-lg font-semibold text-zinc-900">
-            6. Кто что получает — в двух словах
-          </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
-              <thead>
-                <tr className="border-b border-zinc-200">
-                  <th className="text-left px-2 py-1 text-zinc-500 font-medium">
-                    Участник
-                  </th>
-                  <th className="text-left px-2 py-1 text-zinc-500 font-medium">
-                    Доход
-                  </th>
-                  <th className="text-left px-2 py-1 text-zinc-500 font-medium">
-                    Ответственность
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-zinc-50/60">
-                  <td className="px-2 py-1 text-zinc-800">Водитель</td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Ставка и/или процент от рейсов, бонусы.
-                  </td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Безопасная и качественная работа на линии.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Партнёрская компания
-                  </td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    92% чистой прибыли своей фирмы.
-                  </td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Команда, техника, организация работы, выполнение стандартов
-                    Mobil Truck.
-                  </td>
-                </tr>
-                <tr className="bg-zinc-50/60">
-                  <td className="px-2 py-1 text-zinc-800">
-                    Основатель ветки
-                  </td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Сетевой доход по модели 8% с компаний своей ветки.
-                  </td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Подбор партнёров, развитие сети, контроль качества.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Головной холдинг
-                  </td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Доли в компаниях + часть сетевого процента, фонды.
-                  </td>
-                  <td className="px-2 py-1 text-zinc-800">
-                    Стратегия, бренд, правила, IT, крупные заказчики, защита
-                    интересов всей сети.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
           <p className="text-sm text-zinc-700">
-            Подробные цифры, примеры по уровням и динамику дохода можно увидеть
-            на странице <span className="font-medium">«Модель 8%»</span>, а
-            юридические детали и формы договоров — на странице{" "}
-            <span className="font-medium">«Документы»</span>.
+            В модели Mobil Truck человек может развиваться по ступеням — без
+            “закрытого клуба” и кулуарных договорённостей.
+          </p>
+          <ol className="text-sm text-zinc-700 space-y-1 list-decimal list-inside">
+            <li>
+              Водитель приходит работать в компанию холдинга и видит, как реально
+              устроены рейсы, учёт и деньги.
+            </li>
+            <li>
+              Если у него есть желание и дисциплина — он может стать менеджером,
+              формировать рейсы, работать с клиентами.
+            </li>
+            <li>
+              Дальше — открыть свою компанию в структуре Mobil Truck, получив
+              поддержку холдинга и доступ к ИТ, бренду и логистике.
+            </li>
+            <li>
+              Со временем — строить свою ветку: помогать запускать компании ниже
+              по структуре и получать сетевой доход по модели 8%.
+            </li>
+          </ol>
+          <p className="text-sm text-zinc-700">
+            Так формируется современный, живой холдинг: не “пирамидой”, где один
+            забирает всё, а сетью, где каждый понимает, откуда берётся его
+            доход, и видит прозрачные правила игры.
           </p>
         </section>
       </div>
