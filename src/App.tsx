@@ -546,6 +546,14 @@ export default function App() {
   if (pathname === "/Charter-de") return <CharterDe />;
   if (pathname === "/Charter-es") return <CharterEs />;
 
+  if (pathname === "/drivers")
+    return (
+      <>
+        <DriversPage />
+        <AssistantWidget />
+      </>
+    );
+  
   if (pathname === "/structure")
     return (
       <>
