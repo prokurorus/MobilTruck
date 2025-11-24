@@ -22,6 +22,17 @@ const NAV_ITEMS: NavItem[] = [
       es: "Inicio",
     },
   },
+    {
+    id: "holding",
+    href: "/holding",
+    labels: {
+      ru: "Модель холдинга",
+      en: "Holding model",
+      de: "Holding-Modell",
+      es: "Modelo del holding"
+    }
+  },
+
   {
     id: "structure",
     href: "/structure",
