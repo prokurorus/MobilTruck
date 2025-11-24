@@ -1,48 +1,85 @@
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
-import LanguageSwitcher from './LanguageSwitcher';
+const labels = {
+  ru: {
+    home: "Главная",
+    structure: "Структура",
+    drivers: "Водителям",
+    partners: "Партнёрам",
+    profit: "Модель 8%",
+    documents: "Документы",
+    contact: "Контакты",
+    forum: "Форум",
+    join: "Присоединиться",
+  },
+  en: {
+    home: "Home",
+    structure: "Structure",
+    drivers: "Drivers",
+    partners: "Partners",
+    profit: "Profit model",
+    documents: "Documents",
+    contact: "Contact",
+    forum: "Forum",
+    join: "Join",
+  },
+  de: {
+    home: "Startseite",
+    structure: "Struktur",
+    drivers: "Fahrer",
+    partners: "Partner",
+    profit: "8%-Modell",
+    documents: "Dokumente",
+    contact: "Kontakt",
+    forum: "Forum",
+    join: "Beitreten",
+  },
+  es: {
+    home: "Inicio",
+    structure: "Estructura",
+    drivers: "Conductores",
+    partners: "Socios",
+    profit: "Modelo 8%",
+    documents: "Documentos",
+    contact: "Contacto",
+    forum: "Foro",
+    join: "Unirse",
+  },
+};
 
-const Header: React.FC = () => {
-  const { t } = useLanguage();
-  const location = useLocation();
-
-  const navItems = [
-    { name: t.navigation.manifesto, path: '/manifesto' },
-    { name: t.navigation.charter, path: '/charter' },
-    { name: t.navigation.join, path: '/join' },
-  ];
+export default function Header() {
+  const { language } = useLanguage();
+  const t = labels[language];
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="text-2xl font-bold text-gray-900">
-            NovaCiv
-          </div>
-          
-          <nav className="hidden md:flex space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                  location.pathname === item.path
-                    ? 'text-blue-600 border-b-2 border-blue-600 pb-4'
-                    : 'text-gray-700'
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+    <header className="sticky top-0 z-30 backdrop-blur bg-white/80 border-b border-zinc-200">
+      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
 
-          <LanguageSwitcher />
-        </div>
+        {/* Навигационное меню */}
+        <nav className="flex flex-wrap gap-3 text-sm text-zinc-700">
+          <a href="/" className="hover:text-black">{t.home}</a>
+          <a href="/structure" className="hover:text-black">{t.structure}</a>
+          <a href="/drivers" className="hover:text-black">{t.drivers}</a>
+          <a href="/partners" className="hover:text-black">{t.partners}</a>
+          <a href="/profit" className="hover:text-black">{t.profit}</a>
+          <a href="/documents" className="hover:text-black">{t.documents}</a>
+          <a href="/contact" className="hover:text-black">{t.contact}</a>
+          <a href="/forum" className="hover:text-black">{t.forum}</a>
+
+          {/* Кнопка присоединиться */}
+          <a
+            href="/join"
+            className="ml-2 px-3 py-1 rounded-full border border-zinc-300 hover:bg-zinc-100"
+          >
+            {t.join}
+          </a>
+        </nav>
+
+        {/* Переключатель языка */}
+        <LanguageSwitcher />
       </div>
     </header>
   );
-};
-
-export default Header;
+}
