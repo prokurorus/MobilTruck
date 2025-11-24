@@ -565,6 +565,14 @@ export default function App() {
         <AssistantWidget />
       </>
     );
+  
+  if (pathname === "/contact")
+    return (
+      <>
+        <ContactPage />
+        <AssistantWidget />
+      </>
+    );
 
   if (pathname === "/profit")
     return (
