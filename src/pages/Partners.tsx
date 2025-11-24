@@ -243,8 +243,7 @@ const PartnersPage: React.FC = () => {
               <p className="text-sm text-zinc-600 max-w-2xl">{t.subtitle}</p>
             </div>
           </header>
-
-          <LanguageSwitcher />
+          
         </div>
 
         <section className="grid gap-6 lg:grid-cols-3">
