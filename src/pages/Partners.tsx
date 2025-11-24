@@ -1,28 +1,28 @@
 import React from "react";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useLanguage } from "../context/LanguageContext";
+import type { Language } from "../types/language";
 
-const partnersText: Record<
-  string,
-  {
-    badge: string;
-    title: string;
-    subtitle: string;
-    blocks: {
-      title: string;
-      items: string[];
-    }[];
-    pathTitle: string;
-    steps: string[];
-    note: string;
-  }
-> = {
+type Block = {
+  title: string;
+  items: string[];
+};
+
+type PartnersContent = {
+  badge: string;
+  badgeHint: string;
+  title: string;
+  intro: string;
+  blocks: Block[];
+};
+
+const partnersText: Record<Language, PartnersContent> = {
   ru: {
     badge: "Mobil Truck • для партнёров и предпринимателей",
+    badgeHint:
+      "Холдинговая платформа для тех, кто хочет открыть свою компанию под единым брендом и строить ветку.",
     title: "Партнёрам и владельцам компаний",
-    subtitle:
+    intro:
       "Mobil Truck — это холдинговая платформа. Ты можешь открыть свою компанию (UG/GmbH), работать под единым брендом и строить собственную ветку, получая пассивный доход по понятной формуле.",
-
     blocks: [
       {
         title: "Что даёт холдинг",
@@ -31,8 +31,8 @@ const partnersText: Record<
           "Доступ к общей клиентской базе и контрактам.",
           "Типовые договоры, упаковку услуг, базовый документооборот.",
           "IT-инфраструктуру: сайт, домены, общие сервисы.",
-          "Поддержку по запуску фирмы (UG/GmbH) и настройке процессов."
-        ]
+          "Поддержку по запуску фирмы (UG/GmbH) и настройке процессов.",
+        ],
       },
       {
         title: "Что остаётся за партнёром",
@@ -41,8 +41,8 @@ const partnersText: Record<
           "Повседневная операционная деятельность.",
           "Соблюдение стандартов Mobil Truck по сервису и безопасности.",
           "Честная отчётность и прозрачные расчёты с холдингом.",
-          "Развитие собственной ветки (по желанию)."
-        ]
+          "Развитие собственной ветки (по желанию).",
+        ],
       },
       {
         title: "Как ты зарабатываешь",
@@ -51,201 +51,163 @@ const partnersText: Record<
           "Сетевой процент с компаний, которые ты создаёшь (4% с их прибыли).",
           "Доля от сетевых процентов, если над тобой строятся новые уровни.",
           "Премии и бонусы по внутренним программам холдинга.",
-          "Рост стоимости бизнеса при расширении ветки."
-        ]
-      }
+          "Рост стоимости бизнеса при расширении ветки.",
+        ],
+      },
     ],
-
-    pathTitle: "Путь партнёра в Mobil Truck",
-    steps: [
-      "1. Обсудить условия — понять модель, обязанности и перспективу.",
-      "2. Зарегистрировать свою компанию (UG/GmbH) в Германии или другой юрисдикции по согласованию.",
-      "3. Подписать договор с холдингом и подключиться к общей структуре.",
-      "4. Нанять водителей / подключить технику, выйти на первые рейсы.",
-      "5. Запустить свою ветку — помочь другим открыть компании и получать с них сетевой процент."
-    ],
-
-    note: "Эта страница — краткий обзор. Все детали фиксируются в договорах. Если хочешь обсудить вход, напиши через «Присоединиться» или напрямую основателю."
   },
 
   en: {
-    badge: "Mobil Truck • for partners and entrepreneurs",
+    badge: "Mobil Truck • for partners and company owners",
+    badgeHint:
+      "Holding platform for those who want to open their own company under a common brand and build a branch.",
     title: "For partners and company owners",
-    subtitle:
-      "Mobil Truck is a holding platform. You can open your own company (UG/GmbH), work under a common brand and build your own branch, earning passive income through a clear formula.",
-
+    intro:
+      "Mobil Truck is a holding platform. You can open your own company (UG/GmbH), work under a shared brand and build your own branch while receiving passive income by a clear formula.",
     blocks: [
       {
         title: "What the holding provides",
         items: [
-          "Brand and reputation you don’t need to build from scratch.",
-          "Access to a common client base and contracts.",
-          "Standard contracts, service packaging and basic admin support.",
-          "IT infrastructure: website, domains, shared tools.",
-          "Support in setting up your company (UG/GmbH) and processes."
-        ]
+          "Brand and reputation — no need to build everything from scratch.",
+          "Access to the shared client base and contracts.",
+          "Template contracts, service packaging and basic paperwork.",
+          "IT infrastructure: website, domains, shared services.",
+          "Support with company setup (UG/GmbH) and process tuning.",
+        ],
       },
       {
-        title: "What remains your responsibility",
+        title: "What stays under your control",
         items: [
-          "Managing your company: staff, trucks, discipline.",
-          "Daily operations.",
-          "Following Mobil Truck standards for service and safety.",
+          "Management of your company: staff, trucks, discipline.",
+          "Everyday operational activities.",
+          "Compliance with Mobil Truck standards for service and safety.",
           "Honest reporting and transparent settlements with the holding.",
-          "Developing your own branch (if you choose to)."
-        ]
+          "Development of your own branch (if you wish).",
+        ],
       },
       {
         title: "How you earn",
         items: [
-          "Profit of your own company after all costs.",
-          "Network percent from companies you create (4% of their profit).",
-          "Share of network percent if branches grow above you.",
-          "Bonuses under internal holding programs.",
-          "Growth in business value as your branch expands."
-        ]
-      }
+          "Profit of your own company after all expenses.",
+          "Network percentage from the companies you create (4% of their profit).",
+          "Share of network percentages when new levels are built above you.",
+          "Bonuses and rewards from internal programs of the holding.",
+          "Growth of business value as your branch expands.",
+        ],
+      },
     ],
-
-    pathTitle: "Partner path in Mobil Truck",
-    steps: [
-      "1. Discuss conditions — understand model, responsibilities and perspective.",
-      "2. Register your company (UG/GmbH) in Germany or another agreed jurisdiction.",
-      "3. Sign a contract with the holding and connect to the structure.",
-      "4. Hire drivers / connect trucks and start operations.",
-      "5. Build your branch — help others start companies and receive network percent from them."
-    ],
-
-    note: "This page is a short overview. Details are fixed in contracts. If you’re interested, write via the Join page or contact the founder directly."
   },
 
   de: {
-    badge: "Mobil Truck • für Partner und Unternehmer",
+    badge: "Mobil Truck • für Partner und Inhaber",
+    badgeHint:
+      "Holding-Plattform für alle, die eine eigene Firma unter einer gemeinsamen Marke gründen und einen Zweig aufbauen wollen.",
     title: "Für Partner und Firmeninhaber",
-    subtitle:
-      "Mobil Truck ist eine Holding-Plattform. Du kannst deine eigene Firma (UG/GmbH) gründen, unter der gemeinsamen Marke arbeiten und deinen eigenen Ast aufbauen.",
-
+    intro:
+      "Mobil Truck ist eine Holding-Plattform. Du kannst deine eigene Firma (UG/GmbH) gründen, unter der Marke Mobil Truck arbeiten und deinen eigenen Zweig aufbauen – mit passivem Einkommen nach einer klaren Formel.",
     blocks: [
       {
-        title: "Was der Holdingverbund bietet",
+        title: "Was der Holding gibt",
         items: [
-          "Marke und Ruf, die du nicht von null aufbauen musst.",
-          "Zugang zu gemeinsamer Kundenbasis und Verträgen.",
-          "Standardverträge, Leistungsbeschreibung, Grunddokumentation.",
-          "IT-Infrastruktur: Website, Domains, gemeinsame Tools.",
-          "Unterstützung bei der Gründung deiner UG/GmbH und der Prozessgestaltung."
-        ]
+          "Marke und Reputation – ohne alles von Null aufzubauen.",
+          "Zugang zu gemeinsamem Kundenstamm und Verträgen.",
+          "Standardverträge, Service-Verpackung und Basis-Dokumentenfluss.",
+          "IT-Infrastruktur: Website, Domains, gemeinsame Services.",
+          "Unterstützung bei Gründung (UG/GmbH) und beim Einrichten der Prozesse.",
+        ],
       },
       {
-        title: "Was in deiner Verantwortung bleibt",
+        title: "Was beim Partner bleibt",
         items: [
-          "Führung deiner Firma: Personal, Fahrzeuge, Disziplin.",
-          "Tägliches operative Geschäft.",
+          "Führung des eigenen Unternehmens: Personal, Fahrzeuge, Disziplin.",
+          "Tägliche operative Tätigkeit.",
           "Einhaltung der Mobil-Truck-Standards für Service und Sicherheit.",
-          "Ehrliche Berichte und transparente Abrechnung mit der Holding.",
-          "Aufbau eines eigenen Astes (wenn du willst)."
-        ]
+          "Ehrliche Berichte und transparente Abrechnung mit dem Holding.",
+          "Aufbau des eigenen Zweigs (wenn gewünscht).",
+        ],
       },
       {
-        title: "Womit du verdienst",
+        title: "Wie du verdienst",
         items: [
-          "Gewinn deiner eigenen Firma nach allen Kosten.",
-          "Netzwerkprozent von Firmen, die du gründest (4 % ihres Gewinns).",
-          "Anteil an Netzwerkprozenten, wenn über dir weitere Ebenen entstehen.",
-          "Boni aus internen Programmen der Holding.",
-          "Wertzuwachs deines Unternehmens beim Ausbau des Astes."
-        ]
-      }
+          "Gewinn deines eigenen Unternehmens nach allen Kosten.",
+          "Netzwerk-Prozent von Firmen, die du gründest (4 % ihres Gewinns).",
+          "Anteil an Netzwerk-Prozenten, wenn über dir neue Ebenen entstehen.",
+          "Prämien und Boni aus internen Programmen des Holdings.",
+          "Wachstum des Unternehmenswertes beim Ausbau deines Zweigs.",
+        ],
+      },
     ],
-
-    pathTitle: "Der Weg des Partners bei Mobil Truck",
-    steps: [
-      "1. Bedingungen besprechen – Modell, Pflichten und Perspektive verstehen.",
-      "2. Eigene Firma (UG/GmbH) gründen.",
-      "3. Vertrag mit der Holding unterschreiben und Strukturanschluss herstellen.",
-      "4. Fahrer einstellen / Fahrzeuge anbinden und in den Betrieb starten.",
-      "5. Eigenen Ast aufbauen – anderen beim Start ihrer Firmen helfen und Netzwerkprozente erhalten."
-    ],
-
-    note: "Die Details stehen in den Verträgen. Wenn du Interesse hast, melde dich über die Seite „Join“ oder direkt beim Gründer."
   },
 
   es: {
-    badge: "Mobil Truck • para socios y emprendedores",
-    title: "Para socios y propietarios de empresas",
-    subtitle:
-      "Mobil Truck es una plataforma holding. Puedes abrir tu propia empresa (UG/GmbH), trabajar bajo la marca común y construir tu propia rama.",
-
+    badge: "Mobil Truck • para socios y propietarios",
+    badgeHint:
+      "Plataforma holding para quienes quieren abrir su propia empresa bajo una marca común y construir su propia rama.",
+    title: "Para socios y dueños de empresas",
+    intro:
+      "Mobil Truck es una plataforma holding. Puedes abrir tu propia empresa (UG/GmbH), trabajar bajo la marca Mobil Truck y construir tu rama, recibiendo ingresos pasivos según una fórmula clara.",
     blocks: [
       {
-        title: "Lo que ofrece el holding",
+        title: "Qué aporta el holding",
         items: [
-          "Marca y reputación listas para usar.",
+          "Marca y reputación sin empezar desde cero.",
           "Acceso a la base de clientes y contratos comunes.",
-          "Contratos estándar e infraestructura básica.",
-          "Infraestructura IT: web, dominios, herramientas comunes.",
-          "Apoyo para crear tu empresa y organizar los procesos."
-        ]
+          "Contratos tipo, empaquetado de servicios y flujo básico de documentos.",
+          "Infraestructura IT: web, dominios y servicios compartidos.",
+          "Apoyo para crear la empresa (UG/GmbH) y ajustar los procesos.",
+        ],
       },
       {
-        title: "Lo que sigue siendo tu responsabilidad",
+        title: "Qué permanece en manos del socio",
         items: [
-          "Gestión de tu empresa: personal, camiones, disciplina.",
-          "Operación diaria.",
-          "Cumplir los estándares de Mobil Truck.",
-          "Informes claros y acuerdos transparentes con el holding.",
-          "Desarrollar tu propia rama (si lo deseas)."
-        ]
+          "Gestión de su empresa: personal, flota, disciplina.",
+          "Actividad operativa diaria.",
+          "Cumplimiento de los estándares de Mobil Truck en servicio y seguridad.",
+          "Informes honestos y liquidaciones transparentes con el holding.",
+          "Desarrollo de su propia rama (si lo desea).",
+        ],
       },
       {
-        title: "Cómo ganas",
+        title: "Cómo ganas dinero",
         items: [
-          "Beneficio de tu propia empresa.",
+          "Beneficio de tu propia empresa después de todos los gastos.",
           "Porcentaje de red de las empresas que creas (4 % de su beneficio).",
-          "Parte de los porcentajes de red si se crean niveles por encima de ti.",
-          "Bonos internos del holding.",
-          "Mayor valor de tu negocio a medida que crece tu rama."
-        ]
-      }
+          "Parte de los porcentajes de red cuando se construyen nuevos niveles sobre ti.",
+          "Primas y bonos según los programas internos del holding.",
+          "Crecimiento del valor del negocio al ampliar tu rama.",
+        ],
+      },
     ],
-
-    pathTitle: "Camino del socio en Mobil Truck",
-    steps: [
-      "1. Hablar de condiciones — entender el modelo y las responsabilidades.",
-      "2. Registrar tu empresa (UG/GmbH).",
-      "3. Firmar contrato con el holding y conectarse a la estructura.",
-      "4. Incorporar conductores / camiones y empezar a trabajar.",
-      "5. Construir tu propia rama — ayudar a otros a crear empresas y recibir el porcentaje de red."
-    ],
-
-    note: "Los detalles se fijan en los contratos. Si te interesa, escribe en la página «Join» o contacta directamente con el fundador."
-  }
+  },
 };
 
-const PartnersPage: React.FC = () => {
+export default function PartnersPage() {
   const { language } = useLanguage();
-  const t = partnersText[language] ?? partnersText.ru;
+  const t = partnersText[language];
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto py-10 px-4 space-y-10">
-        <div className="flex items-start justify-between gap-4">
-          <header className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              {t.badge}
-            </div>
+      <div className="max-w-6xl mx-auto py-10 px-4 space-y-8">
+        {/* бейдж и подсказка */}
+        <section className="space-y-3">
+          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            {t.badge}
+          </div>
+          <p className="text-xs text-zinc-500 max-w-3xl">{t.badgeHint}</p>
+        </section>
 
-            <div className="space-y-2">
-              <h1 className="text-2xl sm:text-3xl font-semibold text-zinc-900">
-                {t.title}
-              </h1>
-              <p className="text-sm text-zinc-600 max-w-2xl">{t.subtitle}</p>
-            </div>
-          </header>
-          
-        </div>
+        {/* заголовок и интро */}
+        <header className="space-y-3">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-zinc-900">
+            {t.title}
+          </h1>
+          <p className="text-sm sm:text-base text-zinc-600 max-w-3xl leading-relaxed">
+            {t.intro}
+          </p>
+        </header>
 
+        {/* три карточки */}
         <section className="grid gap-6 lg:grid-cols-3">
           {t.blocks.map((block, index) => (
             <div key={index} className="card space-y-3">
@@ -261,18 +223,12 @@ const PartnersPage: React.FC = () => {
           ))}
         </section>
 
-        <section className="card space-y-3">
-          <h2 className="text-lg font-semibold text-zinc-900">{t.pathTitle}</h2>
-          <ol className="text-sm text-zinc-700 space-y-1 list-decimal list-inside">
-            {t.steps.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ol>
-          <p className="text-xs text-zinc-500">{t.note}</p>
-        </section>
+        <p className="text-xs text-zinc-500 max-w-3xl pt-2">
+          Позже здесь можно будет добавить конкретные примеры веток, реальные
+          цифры по доходности и ссылки на документы — чтобы партнёр видел не
+          маркетинг, а честную модель.
+        </p>
       </div>
     </main>
   );
-};
-
-export default PartnersPage;
+}
