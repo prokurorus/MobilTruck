@@ -8,6 +8,7 @@ import CharterEn from "./pages/Charter-en";
 import CharterDe from "./pages/Charter-de";
 import CharterEs from "./pages/Charter-es";
 import Join from "./pages/Join";
+import DocumentsPage from "./pages/Documents";
 import StructurePage from "./pages/Structure";
 import DriversPage from "./pages/Drivers";
 import PartnersPage from "./pages/Partners";
@@ -568,6 +569,14 @@ export default function App() {
     return (
       <>
         <ProfitModelPage />
+        <AssistantWidget />
+      </>
+    );
+  
+  if (pathname === "/documents")
+    return (
+      <>
+        <DocumentsPage />
         <AssistantWidget />
       </>
     );
