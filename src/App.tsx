@@ -238,8 +238,6 @@ function StatsBar({ visitors, likes, joined, onLike }: StatsBarProps) {
   );
 }
 
-/* ---------- ПЕРВАЯ СТРАНИЦА: вступительный экран ---------- */
-
 function IntroScreen({ onEnter }: { onEnter: () => void }) {
   const { language } = useLanguage();
   const h = homeText[language];
@@ -262,13 +260,13 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
     en: {
       driversTitle: "For drivers",
       driversText:
-        "For those who want stable trips, honest payments and respectful treatment instead of being “just a resource”.",
+        "For those who want stable trips, honest payments and respectful treatment instead of being just a resource.",
       partnersTitle: "For partners and entrepreneurs",
       partnersText:
-        "For those who want to open their own company under the Mobil Truck brand and build a network.",
+        "For those who want to open their own company under the Mobil Truck brand and build a network of subsidiaries.",
       aboutTitle: "About the holding",
       aboutText:
-        "If you first need to see the whole picture: structure, 8% model and future holding documents.",
+        "If you first want to see the whole picture: structure, 8% model and future holding documents.",
       driversLink: "More for drivers",
       partnersLink: "More for partners",
       aboutLink: "Holding model",
@@ -290,7 +288,7 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
     es: {
       driversTitle: "Para conductores",
       driversText:
-        "Para quienes quieren rutas estables, pagos honestos y un trato respetuoso, no ser solo “recurso”.",
+        "Para quienes quieren rutas estables, pagos honestos y un trato respetuoso, no ser solo «recurso».",
       partnersTitle: "Para socios y emprendedores",
       partnersText:
         "Para quienes quieren abrir su propia empresa bajo la marca Mobil Truck y construir una red.",
@@ -307,33 +305,33 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-zinc-50 to-white">
-      <div className="max-w-6xl mx-auto py-12 px-4 space-y-12">
-        {/* Верхняя панель — ощущение приёмной */}
-        <div className="flex justify-between items-start gap-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-16 space-y-10 sm:space-y-12">
+        {/* Верхняя полоса: бейдж + переключатель языков */}
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border border-zinc-200 bg-white/80 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             {h.title} • {h.subtitle}
           </div>
-          <div className="flex flex-col items-end gap-2">
+          <div className="self-end">
             <LanguageSwitcher />
           </div>
-        </div>
+        </header>
 
-        {/* HERO — картинка слева, «приёмная» справа */}
-        <section className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-center">
-          <div className="order-2 lg:order-1">
+        {/* HERO: картинка + текст приёмной */}
+        <section className="grid gap-8 lg:gap-12 lg:grid-cols-2 items-center">
+          {/* Картинка */}
+          <div className="order-2 lg:order-1 max-w-xl mx-auto">
             <AndroidCard />
           </div>
 
-          <div className="order-1 lg:order-2 space-y-6">
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-zinc-900">
-                {h.title}
-              </h1>
-              <p className="text-base sm:text-lg text-zinc-600 leading-relaxed">
-                {h.intro}
-              </p>
-            </div>
+          {/* Текст */}
+          <div className="order-1 lg:order-2 space-y-5 text-center lg:text-left">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-zinc-900">
+              {h.title}
+            </h1>
+            <p className="text-sm sm:text-base lg:text-lg text-zinc-700 leading-relaxed max-w-xl mx-auto lg:mx-0">
+              {h.intro}
+            </p>
 
             <div className="space-y-3">
               <button
@@ -341,23 +339,33 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
                   onEnter();
                   window.location.href = "/structure";
                 }}
-                className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-zinc-900/30 hover:bg-zinc-800 active:bg-zinc-950 transition"
+                className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white shadow-md shadow-zinc-900/30 hover:bg-zinc-800 active:bg-zinc-950 transition"
               >
-                Перейти к структуре холдинга
+                {language === "ru"
+                  ? "Перейти к структуре холдинга"
+                  : language === "de"
+                  ? "Zur Holding-Struktur"
+                  : language === "es"
+                  ? "Ir a la estructura del holding"
+                  : "Go to holding structure"}
               </button>
-              <p className="text-xs text-zinc-500 max-w-sm">{h.hint}</p>
+              <p className="text-xs sm:text-sm text-zinc-500 max-w-md mx-auto lg:mx-0">
+                {h.hint}
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Блок «для кого холдинг» — как в солидной приёмной */}
-        <section className="grid gap-6 lg:grid-cols-3">
+        {/* Для кого холдинг: три карточки */}
+        <section className="grid gap-4 sm:gap-5 md:grid-cols-3">
           {/* Водителям */}
-          <article className="card space-y-3">
-            <h2 className="text-lg font-semibold text-zinc-900">
+          <article className="rounded-2xl border border-zinc-200 bg-white/90 px-5 py-5 shadow-sm flex flex-col gap-3">
+            <h2 className="text-base sm:text-lg font-semibold text-zinc-900">
               {c.driversTitle}
             </h2>
-            <p className="text-sm text-zinc-600">{c.driversText}</p>
+            <p className="text-xs sm:text-sm text-zinc-600 flex-1">
+              {c.driversText}
+            </p>
             <a
               href="/drivers"
               className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
@@ -367,11 +375,13 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
           </article>
 
           {/* Партнёрам */}
-          <article className="card space-y-3">
-            <h2 className="text-lg font-semibold text-zinc-900">
+          <article className="rounded-2xl border border-zinc-200 bg-white/90 px-5 py-5 shadow-sm flex flex-col gap-3">
+            <h2 className="text-base sm:text-lg font-semibold text-zinc-900">
               {c.partnersTitle}
             </h2>
-            <p className="text-sm text-zinc-600">{c.partnersText}</p>
+            <p className="text-xs sm:text-sm text-zinc-600 flex-1">
+              {c.partnersText}
+            </p>
             <a
               href="/partners"
               className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
@@ -381,13 +391,15 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
           </article>
 
           {/* О холдинге */}
-          <article className="card space-y-3">
-            <h2 className="text-lg font-semibold text-zinc-900">
+          <article className="rounded-2xl border border-zinc-200 bg-white/90 px-5 py-5 shadow-sm flex flex-col gap-3">
+            <h2 className="text-base sm:text-lg font-semibold text-zinc-900">
               {c.aboutTitle}
             </h2>
-            <p className="text-sm text-zinc-600">{c.aboutText}</p>
+            <p className="text-xs sm:text-sm text-zinc-600 flex-1">
+              {c.aboutText}
+            </p>
             <a
-              href="/holding"
+              href="/holding-model"
               className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
             >
               {c.aboutLink}
@@ -398,6 +410,7 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
     </main>
   );
 }
+
 
 
 /* ---------- ВТОРАЯ СТРАНИЦА: основная ---------- */
