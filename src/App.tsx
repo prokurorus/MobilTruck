@@ -23,15 +23,6 @@ import LanguageSwitcher from "./components/LanguageSwitcher";
 import type { Language } from "./types/language";
 import AssistantWidget from "./components/AssistantWidget";
 
-
-
-const forumNavLabel: Record<Language, string> = {
-  ru: "Форум",
-  en: "Forum",
-  de: "Forum",
-  es: "Foro",
-};
-
 /* ---------- Тексты для Mobil Truck (по языкам) ---------- */
 
 const homeText: Record<
@@ -256,21 +247,6 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
           </div>
           <div className="flex flex-col items-end gap-2">
             <LanguageSwitcher />
-            <nav className="flex flex-wrap gap-2 text-[11px] text-zinc-600 mt-1">
-              <a
-                href="/join"
-                className="rounded-full border border-zinc-200 px-3 py-1 hover:bg-zinc-50 transition"
-              >
-                {/* текст навигации возьмём из i18n, он уже есть */}
-                Присоединиться
-              </a>
-              <a
-                href="/forum"
-                className="rounded-full border border-zinc-200 px-3 py-1 hover:bg-zinc-50 transition"
-              >
-                {forumNavLabel[language]}
-              </a>
-            </nav>
           </div>
         </div>
 
@@ -301,7 +277,6 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
               </button>
               <p className="text-xs text-zinc-500 max-w-sm">{h.hint}</p>
             </div>
-
           </div>
         </section>
       </div>
@@ -338,20 +313,6 @@ function MainScreen() {
 
           <div className="flex flex-col items-end gap-2">
             <LanguageSwitcher />
-            <nav className="flex flex-wrap gap-2 text-[11px] text-zinc-600 mt-1">
-              <a
-                href="/join"
-                className="rounded-full border border-zinc-200 px-3 py-1 hover:bg-zinc-50 transition"
-              >
-                Присоединиться
-              </a>
-              <a
-                href="/forum"
-                className="rounded-full border border-zinc-200 px-3 py-1 hover:bg-zinc-50 transition"
-              >
-                {forumNavLabel[language]}
-              </a>
-            </nav>
           </div>
         </div>
 
@@ -416,7 +377,7 @@ function MainScreen() {
                 </a>
                 <a
                   href="/Manifesto-es"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
+                  className="group flex flex-col items-center justifycenter rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
                 >
                   <span className="text-[11px] uppercase tracking-wide text-gray-400">
                     Documento
@@ -568,7 +529,7 @@ export default function App() {
         <AssistantWidget />
       </>
     );
-  
+
   if (pathname === "/contact")
     return (
       <>
@@ -586,7 +547,7 @@ export default function App() {
         <AssistantWidget />
       </>
     );
-  
+
   if (pathname === "/documents")
     return (
       <>
@@ -596,7 +557,6 @@ export default function App() {
       </>
     );
 
-  
   if (pathname === "/structure")
     return (
       <>
@@ -605,7 +565,6 @@ export default function App() {
         <AssistantWidget />
       </>
     );
-
 
   if (pathname === "/forum")
     return (
