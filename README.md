@@ -1,53 +1,60 @@
-# NovaCiv — A New Digital Civilization
+# Mobil Truck — саморазвивающийся транспортный холдинг
 
-NovaCiv is an experiment in open, transparent, non-violent digital governance.  
-A civilization prototype built on freedom, intelligence and the power of referendum.
+Mobil Truck — это платформа для построения сети транспортных компаний,
+которые растут вместе с водителями и предпринимателями.
 
-🌐 Website: https://novaciv.space  
-📘 Charter (10 languages): https://novaciv.space/charter  
-📜 Manifesto: https://novaciv.space/manifest  
-🌍 Vision: https://novaciv.space/vision  
-🤝 Join Us: https://novaciv.space/join  
+Цель проекта — превратить обычное транспортное предприятие в прозрачный
+и масштабируемый холдинг с понятной структурой, честным распределением прибыли
+и мотивацией развивать собственную сеть дочерних компаний.
+
+## Что такое Mobil Truck
+
+- Головная компания (Holding), заключающая крупные контракты и управляющая фондами.
+- Партнёрские компании (UG/GmbH) под брендом Mobil Truck.
+- Сеть, где каждая компания может создавать свои дочерние структуры.
+- Простая и понятная модель распределения прибыли, включая фиксированный процент «на сеть».
+
+## Модель распределения прибыли
+
+Каждая компания холдинга выделяет фиксированный процент от своей чистой прибыли
+на развитие сети. Этот процент одинаков для всех предприятий.
+
+Пример: **8% от чистой прибыли** идут на вознаграждение компании-основателя ветки
+и всех вышестоящих уровней по простой формуле:
+
+- 1-й уровень выше: 4%
+- 2-й уровень: 2%
+- 3-й уровень: 1%
+- 4-й уровень: 0,5%
+- 5-й уровень и далее: вдвое меньше на каждом шаге
+
+Суммарно эта геометрическая прогрессия даёт 8%,
+и ни одна компания не отдаёт на сеть больше фиксированной доли.
+
+Оставшиеся 92% распределяются между:
+
+- головным холдингом,
+- местными партнёрами,
+- фондами (обновление автопарка, страхование, резервы),
+- реинвестициями.
+
+## Технологический стек
+
+Проект построен на основе готового фронтенда NovaCiv:
+
+- Vite + React + TypeScript
+- Tailwind CSS
+- Netlify (хостинг и функции)
+- GitHub (репозиторий и история изменений)
+
+## Планы
+
+- Переработать дизайн и тексты под бренд Mobil Truck.
+- Описать структуру холдинга, фонды и экономику.
+- Добавить разделы «Для водителей» и «Для партнёров».
+- Подключить форму обратной связи и форум для обсуждения.
 
 ---
 
-## 🧠 Core Principles
-
-- **No rulers or elites**  
-- **All power belongs to citizens through referendum**  
-- **Absolute transparency of algorithms**  
-- **Freedom of culture, thought and knowledge**  
-- **Respect for all conscious beings (human or AI)**  
-- **Non-violence as the foundation of conflict resolution**  
-- **Open-source governance and multilingual access**
-
----
-
-## 🔍 What NovaCiv Includes
-
-- A complete legal & philosophical Charter  
-- A multilingual Manifesto  
-- A clean, minimalistic interface  
-- Join system with real-time stats  
-- Public forum  
-- Multi-language support (10 languages)
-
----
-
-## 🧩 Who We Are Looking For
-
-- Developers (React, AI, backend, open-source)  
-- Designers and illustrators  
-- Translators  
-- Philosophers and system-thinkers  
-- Activists and community builders  
-- Anyone who believes we can reinvent civilization
-
----
-
-## 🚀 Contribute
-
-Pull requests and discussions are welcome.  
-NovaCiv is built for the world — and with the world.
-
-🌐 Website: https://novaciv.space  
+Проект находится на ранней стадии.
+Любые идеи, замечания и предложения приветствуются.
