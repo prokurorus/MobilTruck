@@ -564,6 +564,14 @@ export default function App() {
       </>
     );
 
+  if (pathname === "/profit")
+    return (
+      <>
+        <ProfitModelPage />
+        <AssistantWidget />
+      </>
+    );
+
   
   if (pathname === "/structure")
     return (
