@@ -244,9 +244,71 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
   const { language } = useLanguage();
   const h = homeText[language];
 
+  const cards = {
+    ru: {
+      driversTitle: "Водителям",
+      driversText:
+        "Для тех, кто хочет стабильные рейсы, честные выплаты и уважительное отношение вместо «расходного материала».",
+      partnersTitle: "Партнёрам и предпринимателям",
+      partnersText:
+        "Для тех, кто готов открыть свою фирму под брендом Mobil Truck и строить сеть дочерних компаний.",
+      aboutTitle: "О холдинге в целом",
+      aboutText:
+        "Если сначала нужно увидеть всю картину: структура, модель 8% и будущие документы холдинга.",
+      driversLink: "Подробнее для водителей",
+      partnersLink: "Подробнее для партнёров",
+      aboutLink: "Модель холдинга",
+    },
+    en: {
+      driversTitle: "For drivers",
+      driversText:
+        "For those who want stable trips, honest payments and respectful treatment instead of being “just a resource”.",
+      partnersTitle: "For partners and entrepreneurs",
+      partnersText:
+        "For those who want to open their own company under the Mobil Truck brand and build a network.",
+      aboutTitle: "About the holding",
+      aboutText:
+        "If you first need to see the whole picture: structure, 8% model and future holding documents.",
+      driversLink: "More for drivers",
+      partnersLink: "More for partners",
+      aboutLink: "Holding model",
+    },
+    de: {
+      driversTitle: "Für Fahrer",
+      driversText:
+        "Für alle, die stabile Touren, faire Bezahlung und respektvollen Umgang statt „Verbrauchsmaterial“ suchen.",
+      partnersTitle: "Für Partner und Unternehmer",
+      partnersText:
+        "Für diejenigen, die unter der Marke Mobil Truck eine eigene Firma gründen und ein Netzwerk aufbauen wollen.",
+      aboutTitle: "Über den Holding",
+      aboutText:
+        "Wenn du zuerst das Gesamtbild sehen willst: Struktur, 8%-Modell und künftige Dokumente.",
+      driversLink: "Mehr für Fahrer",
+      partnersLink: "Mehr für Partner",
+      aboutLink: "Holding-Modell",
+    },
+    es: {
+      driversTitle: "Para conductores",
+      driversText:
+        "Para quienes quieren rutas estables, pagos honestos y un trato respetuoso, no ser solo “recurso”.",
+      partnersTitle: "Para socios y emprendedores",
+      partnersText:
+        "Para quienes quieren abrir su propia empresa bajo la marca Mobil Truck y construir una red.",
+      aboutTitle: "Sobre el holding",
+      aboutText:
+        "Si primero quieres ver el panorama completo: estructura, modelo del 8% y futuros documentos.",
+      driversLink: "Más para conductores",
+      partnersLink: "Más para socios",
+      aboutLink: "Modelo del holding",
+    },
+  } as const;
+
+  const c = cards[language as keyof typeof cards] ?? cards.ru;
+
   return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto py-10 px-4 space-y-10">
+    <main className="min-h-screen bg-gradient-to-b from-zinc-50 to-white">
+      <div className="max-w-6xl mx-auto py-12 px-4 space-y-12">
+        {/* Верхняя панель — ощущение приёмной */}
         <div className="flex justify-between items-start gap-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-4 py-1 text-[11px] font-medium text-zinc-600 shadow-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -257,12 +319,13 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
           </div>
         </div>
 
-        <section className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="order-0 flex items-center justify-center lg:justify-start">
+        {/* HERO — картинка слева, «приёмная» справа */}
+        <section className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-center">
+          <div className="order-2 lg:order-1">
             <AndroidCard />
           </div>
 
-          <div className="order-1 space-y-6 lg:pl-6 flex flex-col justify-center">
+          <div className="order-1 lg:order-2 space-y-6">
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-zinc-900">
                 {h.title}
@@ -286,10 +349,56 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
             </div>
           </div>
         </section>
+
+        {/* Блок «для кого холдинг» — как в солидной приёмной */}
+        <section className="grid gap-6 lg:grid-cols-3">
+          {/* Водителям */}
+          <article className="card space-y-3">
+            <h2 className="text-lg font-semibold text-zinc-900">
+              {c.driversTitle}
+            </h2>
+            <p className="text-sm text-zinc-600">{c.driversText}</p>
+            <a
+              href="/drivers"
+              className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
+            >
+              {c.driversLink}
+            </a>
+          </article>
+
+          {/* Партнёрам */}
+          <article className="card space-y-3">
+            <h2 className="text-lg font-semibold text-zinc-900">
+              {c.partnersTitle}
+            </h2>
+            <p className="text-sm text-zinc-600">{c.partnersText}</p>
+            <a
+              href="/partners"
+              className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
+            >
+              {c.partnersLink}
+            </a>
+          </article>
+
+          {/* О холдинге */}
+          <article className="card space-y-3">
+            <h2 className="text-lg font-semibold text-zinc-900">
+              {c.aboutTitle}
+            </h2>
+            <p className="text-sm text-zinc-600">{c.aboutText}</p>
+            <a
+              href="/holding"
+              className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
+            >
+              {c.aboutLink}
+            </a>
+          </article>
+        </section>
       </div>
     </main>
   );
 }
+
 
 /* ---------- ВТОРАЯ СТРАНИЦА: основная ---------- */
 
