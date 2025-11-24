@@ -26,7 +26,9 @@ type PostsMeta = {
   lastReplyAt: number | null;
 };
 
-const sectionLabels: Record<string, Record<Language, string>> = {
+type SectionKey = "general" | "ideas" | "tech";
+
+const sectionLabels: Record<SectionKey, Record<Language, string>> = {
   general: {
     ru: "Общее",
     en: "General",
@@ -49,16 +51,16 @@ const sectionLabels: Record<string, Record<Language, string>> = {
 
 const labels = {
   title: {
-    ru: "Форум NovaCiv",
-    en: "NovaCiv Forum",
-    de: "NovaCiv-Forum",
-    es: "Foro de NovaCiv",
+    ru: "Форум Mobil Truck",
+    en: "Mobil Truck Forum",
+    de: "Mobil Truck Forum",
+    es: "Foro Mobil Truck",
   },
   intro: {
-    ru: "Здесь можно обсуждать идеи, задавать вопросы и делиться мыслями о Новой цивилизации. Помни о взаимном уважении и ненасилии.",
-    en: "Here you can discuss ideas, ask questions and share thoughts about the New Civilization. Remember mutual respect and non-violence.",
-    de: "Hier kannst du Ideen diskutieren, Fragen stellen und Gedanken über die Neue Zivilisation teilen. Denk an gegenseitigen Respekt und Gewaltfreiheit.",
-    es: "Aquí puedes debatir ideas, hacer preguntas y compartir pensamientos sobre la Nueva Civilización. Recuerda el respeto mutuo y la no violencia.",
+    ru: "Здесь можно обсуждать работу, маршруты, технику и развитие холдинга Mobil Truck. Помни о взаимном уважении и ненасилии.",
+    en: "Here you can discuss work, routes, trucks and the development of the Mobil Truck holding. Remember mutual respect and non-violence.",
+    de: "Hier kannst du über Arbeit, Routen, Fahrzeuge und die Entwicklung des Mobil-Truck-Holdings sprechen. Denk an gegenseitigen Respekt und Gewaltfreiheit.",
+    es: "Aquí puedes debatir sobre trabajo, rutas, camiones y el desarrollo del holding Mobil Truck. Recuerda el respeto mutuo y la no violencia.",
   },
   newTopicTitle: {
     ru: "Новая тема",
@@ -114,10 +116,34 @@ const labels = {
     de: "Thema konnte nicht gespeichert werden. Versuch es noch einmal.",
     es: "No se pudo guardar el tema. Inténtalo de nuevo.",
   },
+  anonName: {
+    ru: "аноним",
+    en: "anon",
+    de: "anonym",
+    es: "anónimo",
+  },
+  needNicknameTitle: {
+    ru: "Только участники с ником",
+    en: "Only members with a nickname",
+    de: "Nur Mitglieder mit Nickname",
+    es: "Solo miembros con alias",
+  },
+  needNicknameText: {
+    ru: "Чтобы создать тему на форуме, выбери ник на странице «Присоединиться». Это помогает сохранить порядок и уважение.",
+    en: "To create a topic you need a nickname from the Join page. This helps keep order and mutual respect.",
+    de: "Um ein Thema zu erstellen, brauchst du einen Nickname von der Seite „Beitreten“. Das hilft Ordnung und Respekt zu halten.",
+    es: "Para crear un tema necesitas un alias desde la página «Unirse». Esto ayuda a mantener el orden y el respeto.",
+  },
+  goToJoin: {
+    ru: "Перейти на страницу «Присоединиться»",
+    en: "Go to the Join page",
+    de: "Zur Seite „Beitreten“",
+    es: "Ir a la página «Unirse»",
+  },
 };
 
 function getSectionLabel(section: string, language: Language): string {
-  const dict = sectionLabels[section];
+  const dict = sectionLabels[section as SectionKey];
   if (!dict) return section;
   return dict[language] ?? section;
 }
@@ -132,9 +158,11 @@ const ForumPage: React.FC = () => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [section, setSection] = useState<keyof typeof sectionLabels>("general");
+  const [section, setSection] = useState<SectionKey>("general");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const isMember = Boolean(member.memberId && member.nickname);
 
   // Загрузка тем
   useEffect(() => {
@@ -194,6 +222,7 @@ const ForumPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isMember) return;
     if (!title.trim() || !content.trim() || submitting) return;
 
     setSubmitting(true);
@@ -261,7 +290,7 @@ const ForumPage: React.FC = () => {
 
           <div className="text-right">
             <div className="text-xs uppercase tracking-wide text-zinc-400">
-              NovaCiv
+              Mobil Truck
             </div>
             <div className="text-sm font-semibold text-zinc-800">
               {t("title")}
@@ -310,7 +339,7 @@ const ForumPage: React.FC = () => {
                       <span>
                         {topic.authorNickname
                           ? `@${topic.authorNickname}`
-                          : "anon"}
+                          : labels.anonName[language]}
                       </span>
                       <span className="inline-flex items-center gap-3">
                         <span className="inline-flex items-center gap-1">
@@ -337,6 +366,21 @@ const ForumPage: React.FC = () => {
             </h2>
             <p className="text-xs text-zinc-500">{labels.intro[language]}</p>
 
+            {!isMember && (
+              <div className="mt-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3 space-y-2 text-xs text-zinc-600">
+                <div className="font-semibold">
+                  {labels.needNicknameTitle[language]}
+                </div>
+                <p>{labels.needNicknameText[language]}</p>
+                <a
+                  href="/join"
+                  className="inline-flex items-center rounded-full border border-zinc-300 px-3 py-1 mt-1 text-[11px] font-medium hover:bg-zinc-100"
+                >
+                  {labels.goToJoin[language]}
+                </a>
+              </div>
+            )}
+
             <form className="space-y-3" onSubmit={handleSubmit}>
               <div className="space-y-1">
                 <label className="block text-xs font-medium text-zinc-700">
@@ -347,6 +391,7 @@ const ForumPage: React.FC = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   maxLength={160}
+                  disabled={!isMember}
                 />
               </div>
 
@@ -358,8 +403,9 @@ const ForumPage: React.FC = () => {
                   className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-zinc-300"
                   value={section}
                   onChange={(e) =>
-                    setSection(e.target.value as keyof typeof sectionLabels)
+                    setSection(e.target.value as SectionKey)
                   }
+                  disabled={!isMember}
                 >
                   {Object.keys(sectionLabels).map((secKey) => (
                     <option key={secKey} value={secKey}>
@@ -378,6 +424,7 @@ const ForumPage: React.FC = () => {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   maxLength={2000}
+                  disabled={!isMember}
                 />
               </div>
 
@@ -390,9 +437,11 @@ const ForumPage: React.FC = () => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  disabled={submitting || !title.trim() || !content.trim()}
+                  disabled={
+                    !isMember || submitting || !title.trim() || !content.trim()
+                  }
                   className={`inline-flex items-center rounded-full px-4 py-1.5 text-xs font-semibold transition ${
-                    submitting || !title.trim() || !content.trim()
+                    !isMember || submitting || !title.trim() || !content.trim()
                       ? "bg-zinc-200 text-zinc-500 cursor-not-allowed"
                       : "bg-zinc-900 text-white hover:bg-zinc-800"
                   }`}
