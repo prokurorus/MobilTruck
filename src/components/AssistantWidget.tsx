@@ -1,94 +1,97 @@
 import React, { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
-import type { Language } from "../types/language";
 
 type ChatMessage = {
   role: "user" | "assistant";
   content: string;
 };
 
-// Новое имя ключа — отдельная история для Mobil Truck
+// Отдельное хранилище истории для Mobil Truck
 const STORAGE_KEY = "mobiltruck_assistant_history_v1";
 
-const labelOpen: Record<Language, string> = {
+// Язык будем хранить как строку, чтобы не ловить ошибок типов
+type LangCode = string;
+
+// ————— ТЕКСТОВЫЕ МЕТКИ —————
+
+const labelOpen: Record<LangCode, string> = {
   ru: "Спросить помощника",
   en: "Ask the assistant",
   de: "Assistent fragen",
   es: "Preguntar al asistente",
 };
 
-const labelTitle: Record<Language, string> = {
+const labelTitle: Record<LangCode, string> = {
   ru: "Помощник Mobil Truck",
   en: "Mobil Truck Assistant",
   de: "Mobil-Truck-Assistent",
   es: "Asistente de Mobil Truck",
 };
 
-const labelSubtitle: Record<Language, string> = {
+const labelSubtitle: Record<LangCode, string> = {
   ru: "Структура • сеть • партнёрство",
   en: "Structure • Network • Partnership",
   de: "Struktur • Netzwerk • Partnerschaft",
   es: "Estructura • Red • Asociación",
 };
 
-const labelPlaceholder: Record/Language, string> = {
+const labelPlaceholder: Record<LangCode, string> = {
   ru: "Задай вопрос о Mobil Truck, структуре или партнёрстве…",
   en: "Ask about Mobil Truck, structure or partnership…",
   de: "Frag nach Mobil Truck, Struktur oder Partnerschaft…",
   es: "Pregunta sobre Mobil Truck, estructura o asociación…",
 };
 
-const labelSend: Record<Language, string> = {
+const labelSend: Record<LangCode, string> = {
   ru: "Спросить",
   en: "Ask",
   de: "Fragen",
   es: "Preguntar",
 };
 
-const labelThinking: Record<Language, string> = {
+const labelThinking: Record<LangCode, string> = {
   ru: "Помощник думает…",
   en: "Assistant is thinking…",
   de: "Assistent denkt nach…",
   es: "El asistente está pensando…",
 };
 
-const labelError: Record<Language, string> = {
+const labelError: Record<LangCode, string> = {
   ru: "Произошла ошибка. Попробуй ещё раз.",
   en: "Something went wrong. Try again.",
   de: "Etwas ist schiefgelaufen. Versuch es noch einmal.",
   es: "Algo ha salido mal. Inténtalo de nuevo.",
 };
 
-const labelVoiceIn: Record<Language, string> = {
+const labelVoiceIn: Record<LangCode, string> = {
   ru: "Голосовой ввод",
   en: "Voice input",
   de: "Spracheingabe",
   es: "Entrada por voz",
 };
 
-const labelVoiceOut: Record<Language, string> = {
+const labelVoiceOut: Record<LangCode, string> = {
   ru: "Озвучка ответа",
   en: "Read answers aloud",
   de: "Antworten vorlesen",
   es: "Leer respuestas en voz alta",
 };
 
-const labelListening: Record<Language, string> = {
+const labelListening: Record<LangCode, string> = {
   ru: "Слушаю… скажи свой вопрос.",
   en: "Listening… say your question.",
   de: "Ich höre zu… stell deine Frage.",
   es: "Escuchando… di tu pregunta.",
 };
 
-// Короткие подсказки под чатом
-const labelHintsTitle: Record<Language, string> = {
+const labelHintsTitle: Record<LangCode, string> = {
   ru: "О чём можно спросить:",
   en: "You can ask about:",
   de: "Du kannst fragen nach:",
   es: "Puedes preguntar sobre:",
 };
 
-const labelHintsList: Record<Language, string[]> = {
+const labelHintsList: Record<LangCode, string[]> = {
   ru: [
     "как устроен холдинг Mobil Truck",
     "какие уровни компаний есть в структуре",
@@ -115,18 +118,18 @@ const labelHintsList: Record<Language, string[]> = {
   ],
 };
 
-// --- Локальный генератор ответов без обращения к серверу ---
+// ————— ЛОКАЛЬНАЯ ЛОГИКА ОТВЕТОВ —————
 
 function normalize(text: string): string {
   return text.toLowerCase();
 }
 
-function generateAnswer(text: string, language: Language): string {
+function generateAnswer(text: string, lang: LangCode): string {
   const t = normalize(text);
 
-  const isRu = language === "ru";
-  const isDe = language === "de";
-  const isEs = language === "es";
+  const isRu = lang === "ru";
+  const isDe = lang === "de";
+  const isEs = lang === "es";
 
   // Структура холдинга
   if (t.includes("структур") || t.includes("holding") || t.includes("структура")) {
@@ -134,7 +137,7 @@ function generateAnswer(text: string, language: Language): string {
       return (
         "Mobil Truck строится как многоуровневый холдинг:\n\n" +
         "• Вверху — головная компания, которая ведёт ключевых клиентов, управляет фондами и брендом.\n" +
-        "• Ниже — партнёрские компании под брендом Mobil Truck (UG/GmbH), в которых предприниматели владеют долями и отвечают за операционную работу.\n" +
+        "• Ниже — партнёрские компании под брендом Mobil Truck (UG/GmbH).\n" +
         "• Каждая такая компания может создавать свои дочерние компании, формируя ветку.\n" +
         "• Все компании работают по единым правилам распределения прибыли и фиксированному проценту на сеть."
       );
@@ -167,8 +170,8 @@ function generateAnswer(text: string, language: Language): string {
   if (t.includes("водител") || t.includes("driver")) {
     if (isRu)
       return (
-        "Водитель в Mobil Truck — это не тупо наёмный сотрудник.\n\n" +
-        "Лестница роста выглядит так:\n" +
+        "Водитель в Mobil Truck — это не просто наёмный сотрудник.\n\n" +
+        "Лестница роста:\n" +
         "1) Водитель с прозрачной системой оплаты.\n" +
         "2) Старший водитель / наставник.\n" +
         "3) Младший партнёр с долей в машине или мини-компании.\n" +
@@ -181,7 +184,7 @@ function generateAnswer(text: string, language: Language): string {
         "Die Wachstumstreppe:\n" +
         "1) Fahrer mit transparenter Entlohnung.\n" +
         "2) Senior-Fahrer / Mentor.\n" +
-        "3) Junior-Partner mit Anteil am Fahrzeug oder einer kleinen Einheit.\n" +
+        "3) Junior-Partner mit Anteil am Fahrzeug oder an einer kleinen Einheit.\n" +
         "4) Vollwertiger Partner mit Anteil am eigenen Unternehmen unter der Marke Mobil Truck.\n\n" +
         "Das Ziel ist ein klarer Weg: vom Lenkrad zur Partnerschaft."
       );
@@ -191,7 +194,7 @@ function generateAnswer(text: string, language: Language): string {
         "La escalera de crecimiento:\n" +
         "1) Conductor con pago transparente.\n" +
         "2) Conductor sénior / mentor.\n" +
-        "3) Socio júnior con participación en el camión o en una mini-empresa.\n" +
+        "3) Socio júnior con participación en el camión o en una miniempresa.\n" +
         "4) Socio pleno con participación en su propia empresa bajo la marca Mobil Truck.\n\n" +
         "La idea es dar al conductor un camino claro: del volante a la asociación."
       );
@@ -206,8 +209,15 @@ function generateAnswer(text: string, language: Language): string {
     );
   }
 
-  // Процент 4%+2%+1%...
-  if (t.includes("4%") || t.includes("4 %") || t.includes("4 + 2") || t.includes("процент") || t.includes("%")) {
+  // Процент 4% + 2% + 1% …
+  if (
+    t.includes("4%") ||
+    t.includes("4 %") ||
+    t.includes("4+2") ||
+    t.includes("4 + 2") ||
+    t.includes("процент") ||
+    t.includes("percent")
+  ) {
     if (isRu)
       return (
         "В модели Mobil Truck каждая компания холдинга выделяет фиксированный процент своей чистой прибыли «на сеть».\n\n" +
@@ -216,7 +226,7 @@ function generateAnswer(text: string, language: Language): string {
         "• 2-й уровень — 2%,\n" +
         "• 3-й уровень — 1%,\n" +
         "• 4-й уровень — 0,5% и так далее, каждый раз вдвое меньше.\n\n" +
-        "Сумма этой геометрической прогрессии ограничена (4 + 2 + 1 + 0,5 + … = 8%),\n" +
+        "Суммарно эта геометрическая прогрессия даёт 8%,\n" +
         "поэтому ни одна компания не отдаёт на сеть больше фиксированной доли.\n" +
         "Остальная прибыль делится между самим предприятием, фондами и холдингом."
       );
@@ -251,7 +261,7 @@ function generateAnswer(text: string, language: Language): string {
       "• level 2 – 2%,\n" +
       "• level 3 – 1%,\n" +
       "• level 4 – 0.5%, and so on, each time half.\n\n" +
-      "The sum of this geometric series is capped (4 + 2 + 1 + 0.5 + … = 8%),\n" +
+      "The sum of this geometric series is capped at 8%,\n" +
       "so no company gives more than this fixed share to the network.\n" +
       "The remaining profit is split between the company itself, funds and the holding."
     );
@@ -272,7 +282,7 @@ function generateAnswer(text: string, language: Language): string {
     if (isDe)
       return (
         "Ein Mobil-Truck-Partner ist ein Unternehmer, der sein eigenes Unternehmen unter der gemeinsamen Marke führt.\n\n" +
-        "Typischerweise hält die Holding einen Kontrollanteil, der Partner einen wesentlichen Anteil.\n" +
+        "Typischerweise hält die Holding einen Kontrollanteil und der Partner einen wesentlichen Anteil.\n" +
         "Der Partner erhält:\n" +
         "• Gewinn seines Unternehmens,\n" +
         "• einen Anteil aus Unternehmen im eigenen Zweig (über den Netzwerk-Prozentsatz),\n" +
@@ -291,7 +301,7 @@ function generateAnswer(text: string, language: Language): string {
       );
     return (
       "A Mobil Truck partner is an entrepreneur who runs their own company under the shared brand.\n\n" +
-      "Typically the holding keeps a controlling stake and the partner holds a substantial share.\n" +
+      "Typically the holding keeps a controlling stake and the partner a substantial share.\n" +
       "The partner receives:\n" +
       "• profit of their company,\n" +
       "• a share from companies in their branch (via the network percentage),\n" +
@@ -308,7 +318,7 @@ function generateAnswer(text: string, language: Language): string {
       "• как устроен холдинг и уровни компаний,\n" +
       "• чем отличается партнёр от наёмного водителя,\n" +
       "• как работает фиксированный процент на сетевое развитие,\n" +
-      "• какие разделы сайта стоит посмотреть сначала.\n\n" +
+      "• какие разделы сайта посмотреть сначала.\n\n" +
       "Попробуй спросить, например: «Как устроен холдинг?» или «Как водителю стать партнёром?»."
     );
   if (isDe)
@@ -342,8 +352,12 @@ function generateAnswer(text: string, language: Language): string {
   );
 }
 
+// ————— КОМПОНЕНТ —————
+
 const AssistantWidget: React.FC = () => {
   const { language } = useLanguage();
+  const lang: LangCode = language || "en";
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -353,22 +367,20 @@ const AssistantWidget: React.FC = () => {
   const [isListening, setIsListening] = useState(false);
   const [voiceOutputEnabled, setVoiceOutputEnabled] = useState(false);
 
-  // --- Загрузка истории из localStorage ---
+  // загрузка истории
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as ChatMessage[];
-        if (Array.isArray(parsed)) {
-          setMessages(parsed);
-        }
+        if (Array.isArray(parsed)) setMessages(parsed);
       }
     } catch {
       // игнорируем
     }
   }, []);
 
-  // --- Сохранение истории ---
+  // сохранение истории
   useEffect(() => {
     try {
       const trimmed =
@@ -379,10 +391,11 @@ const AssistantWidget: React.FC = () => {
     }
   }, [messages]);
 
-  // --- Озвучка ответа, если включена ---
+  // озвучка ответа
   useEffect(() => {
     if (!voiceOutputEnabled) return;
     if (typeof window === "undefined") return;
+
     const last = messages[messages.length - 1];
     if (!last || last.role !== "assistant") return;
 
@@ -391,16 +404,19 @@ const AssistantWidget: React.FC = () => {
 
     const utter = new SpeechSynthesisUtterance(last.content);
     utter.lang =
-      language === "ru"
+      lang === "ru"
         ? "ru-RU"
-        : language === "de"
+        : lang === "de"
         ? "de-DE"
-        : language === "es"
+        : lang === "es"
         ? "es-ES"
         : "en-US";
     synth.cancel();
     synth.speak(utter);
-  }, [messages, voiceOutputEnabled, language]);
+  }, [messages, voiceOutputEnabled, lang]);
+
+  const pickLabel = <T,>(map: Record<LangCode, T>, fallback: T): T =>
+    map[lang] ?? fallback;
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
@@ -413,7 +429,7 @@ const AssistantWidget: React.FC = () => {
     if (!text || isLoading) return;
 
     const userMessage: ChatMessage = { role: "user", content: text };
-    const replyText = generateAnswer(text, language);
+    const replyText = generateAnswer(text, lang);
     const assistantMessage: ChatMessage = {
       role: "assistant",
       content: replyText,
@@ -423,14 +439,13 @@ const AssistantWidget: React.FC = () => {
     setError(null);
     setInput("");
 
-    // Небольшая задержка, чтобы выглядело живее
     setTimeout(() => {
       setMessages((prev) => [...prev, userMessage, assistantMessage]);
       setIsLoading(false);
     }, 300);
   };
 
-  // --- Голосовой ввод (Web Speech API) ---
+  // голосовой ввод
   const handleStartListening = () => {
     if (isListening) return;
     if (typeof window === "undefined") return;
@@ -440,24 +455,18 @@ const AssistantWidget: React.FC = () => {
       (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setError(
-        language === "ru"
-          ? "Браузер не поддерживает распознавание речи."
-          : language === "de"
-          ? "Dieser Browser unterstützt keine Spracherkennung."
-          : language === "es"
-          ? "Este navegador no admite reconocimiento de voz."
-          : "This browser does not support speech recognition."
+        pickLabel(labelError, "Speech recognition is not supported in this browser.")
       );
       return;
     }
 
     const recognition = new SpeechRecognition();
     recognition.lang =
-      language === "ru"
+      lang === "ru"
         ? "ru-RU"
-        : language === "de"
+        : lang === "de"
         ? "de-DE"
-        : language === "es"
+        : lang === "es"
         ? "es-ES"
         : "en-US";
     recognition.interimResults = false;
@@ -473,17 +482,8 @@ const AssistantWidget: React.FC = () => {
       setInput((prev) => (prev ? `${prev} ${transcript}` : transcript));
     };
 
-    recognition.onerror = (event: any) => {
-      console.error("Speech recognition error", event.error);
-      setError(
-        language === "ru"
-          ? "Ошибка распознавания речи."
-          : language === "de"
-          ? "Fehler bei der Spracherkennung."
-          : language === "es"
-          ? "Error en el reconocimiento de voz."
-          : "Speech recognition error."
-      );
+    recognition.onerror = () => {
+      setError(pickLabel(labelError, "Speech recognition error."));
     };
 
     recognition.onend = () => {
@@ -494,8 +494,7 @@ const AssistantWidget: React.FC = () => {
   };
 
   const sendDisabled = isLoading || !input.trim();
-
-  const hints = labelHintsList[language];
+  const hints = pickLabel(labelHintsList, labelHintsList.en);
 
   return (
     <>
@@ -508,7 +507,7 @@ const AssistantWidget: React.FC = () => {
         <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-[11px] text-zinc-900 font-bold">
           AI
         </span>
-        <span>{labelOpen[language]}</span>
+        <span>{pickLabel(labelOpen, labelOpen.en)}</span>
       </button>
 
       {/* Панель помощника */}
@@ -519,11 +518,11 @@ const AssistantWidget: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="text-xs font-semibold text-zinc-800">
-                  {labelTitle[language]}
+                  {pickLabel(labelTitle, labelTitle.en)}
                 </span>
               </div>
               <p className="text-[11px] text-zinc-500">
-                {labelSubtitle[language]}
+                {pickLabel(labelSubtitle, labelSubtitle.en)}
               </p>
             </div>
             <button
@@ -539,7 +538,7 @@ const AssistantWidget: React.FC = () => {
           <div className="flex-1 max-h-72 overflow-y-auto px-3 py-2 space-y-2 text-[13px]">
             {messages.length === 0 && (
               <p className="text-zinc-500 text-xs">
-                {labelPlaceholder[language]}
+                {pickLabel(labelPlaceholder, labelPlaceholder.en)}
               </p>
             )}
             {messages.map((msg, idx) => (
@@ -562,12 +561,12 @@ const AssistantWidget: React.FC = () => {
             ))}
             {isLoading && (
               <p className="text-[11px] text-zinc-500">
-                {labelThinking[language]}
+                {pickLabel(labelThinking, labelThinking.en)}
               </p>
             )}
             {isListening && (
               <p className="text-[11px] text-emerald-600">
-                {labelListening[language]}
+                {pickLabel(labelListening, labelListening.en)}
               </p>
             )}
             {error && (
@@ -579,7 +578,9 @@ const AssistantWidget: React.FC = () => {
 
           {/* Подсказки */}
           <div className="px-3 pb-1 text-[10px] text-zinc-500 space-y-0.5">
-            <p className="font-medium">{labelHintsTitle[language]}</p>
+            <p className="font-medium">
+              {pickLabel(labelHintsTitle, labelHintsTitle.en)}
+            </p>
             <ul className="list-disc list-inside space-y-0.5">
               {hints.map((h, i) => (
                 <li key={i}>{h}</li>
@@ -601,7 +602,7 @@ const AssistantWidget: React.FC = () => {
                     ? "bg-emerald-100 border-emerald-400 text-emerald-700"
                     : "border-zinc-300 text-zinc-500 hover:bg-zinc-50"
                 }`}
-                title={labelVoiceIn[language]}
+                title={pickLabel(labelVoiceIn, labelVoiceIn.en)}
               >
                 🎙
               </button>
@@ -609,7 +610,7 @@ const AssistantWidget: React.FC = () => {
               <input
                 type="text"
                 className="flex-1 text-xs border border-zinc-200 rounded-full px-3 py-1.5 outline-none focus:ring-2 focus:ring-zinc-300"
-                placeholder={labelPlaceholder[language]}
+                placeholder={pickLabel(labelPlaceholder, labelPlaceholder.en)}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isLoading}
@@ -624,7 +625,7 @@ const AssistantWidget: React.FC = () => {
                     : "bg-zinc-900 text-white hover:bg-zinc-800"
                 }`}
               >
-                {labelSend[language]}
+                {pickLabel(labelSend, labelSend.en)}
               </button>
             </div>
 
@@ -636,7 +637,7 @@ const AssistantWidget: React.FC = () => {
                   checked={voiceOutputEnabled}
                   onChange={(e) => setVoiceOutputEnabled(e.target.checked)}
                 />
-                <span>{labelVoiceOut[language]}</span>
+                <span>{pickLabel(labelVoiceOut, labelVoiceOut.en)}</span>
               </label>
             </div>
           </form>
