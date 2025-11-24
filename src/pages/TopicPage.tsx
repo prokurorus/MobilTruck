@@ -212,7 +212,7 @@ const TopicPage: React.FC = () => {
           </button>
           <div className="text-right">
             <div className="text-xs uppercase tracking-wide text-zinc-400">
-              NovaCiv
+              Mobil Truck
             </div>
             <div className="text-sm font-semibold text-zinc-800">
               {topic ? topic.title : "…"}
