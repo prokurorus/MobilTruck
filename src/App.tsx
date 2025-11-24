@@ -8,6 +8,7 @@ import CharterEn from "./pages/Charter-en";
 import CharterDe from "./pages/Charter-de";
 import CharterEs from "./pages/Charter-es";
 import Join from "./pages/Join";
+import Header from "./components/Header";
 import DocumentsPage from "./pages/Documents";
 import StructurePage from "./pages/Structure";
 import DriversPage from "./pages/Drivers";
@@ -553,6 +554,7 @@ export default function App() {
   if (pathname === "/drivers")
     return (
       <>
+        <Header />
         <DriversPage />
         <AssistantWidget />
       </>
@@ -561,6 +563,7 @@ export default function App() {
   if (pathname === "/partners")
     return (
       <>
+        <Header />
         <PartnersPage />
         <AssistantWidget />
       </>
@@ -569,6 +572,7 @@ export default function App() {
   if (pathname === "/contact")
     return (
       <>
+        <Header />
         <ContactPage />
         <AssistantWidget />
       </>
@@ -577,6 +581,7 @@ export default function App() {
   if (pathname === "/profit")
     return (
       <>
+        <Header />
         <ProfitModelPage />
         <AssistantWidget />
       </>
@@ -585,6 +590,7 @@ export default function App() {
   if (pathname === "/documents")
     return (
       <>
+        <Header />
         <DocumentsPage />
         <AssistantWidget />
       </>
@@ -594,6 +600,7 @@ export default function App() {
   if (pathname === "/structure")
     return (
       <>
+        <Header />
         <StructurePage />
         <AssistantWidget />
       </>
@@ -603,6 +610,7 @@ export default function App() {
   if (pathname === "/forum")
     return (
       <>
+        <Header />
         <ForumPage />
         <AssistantWidget />
       </>
@@ -619,6 +627,7 @@ export default function App() {
   if (pathname === "/join")
     return (
       <>
+        <Header />
         <Join />
         <AssistantWidget />
       </>
