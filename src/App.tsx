@@ -8,6 +8,7 @@ import CharterEn from "./pages/Charter-en";
 import CharterDe from "./pages/Charter-de";
 import CharterEs from "./pages/Charter-es";
 import Join from "./pages/Join";
+import StructurePage from "./pages/Structure";
 import ForumPage from "./pages/ForumPage";
 import TopicPage from "./pages/TopicPage";
 import { useStats } from "./hooks/useStats";
@@ -15,7 +16,7 @@ import { useLanguage } from "./context/LanguageContext";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import type { Language } from "./types/language";
 import AssistantWidget from "./components/AssistantWidget";
-import StructurePage from "./pages/Structure";
+
 
 
 const forumNavLabel: Record<Language, string> = {
