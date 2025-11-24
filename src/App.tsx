@@ -554,6 +554,15 @@ export default function App() {
         <AssistantWidget />
       </>
     );
+
+  if (pathname === "/partners")
+    return (
+      <>
+        <PartnersPage />
+        <AssistantWidget />
+      </>
+    );
+
   
   if (pathname === "/structure")
     return (
