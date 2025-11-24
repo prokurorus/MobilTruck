@@ -15,6 +15,8 @@ import { useLanguage } from "./context/LanguageContext";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import type { Language } from "./types/language";
 import AssistantWidget from "./components/AssistantWidget";
+import StructurePage from "./pages/Structure";
+
 
 const forumNavLabel: Record<Language, string> = {
   ru: "Форум",
