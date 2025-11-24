@@ -1,84 +1,158 @@
 import React from "react";
-import { useLanguage } from "../context/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "../context/LanguageContext";
+import type { Language } from "../types/language";
 
-const labels = {
-  ru: {
-    home: "Главная",
-    structure: "Структура",
-    drivers: "Водителям",
-    partners: "Партнёрам",
-    profit: "Модель 8%",
-    documents: "Документы",
-    contact: "Контакты",
-    forum: "Форум",
-    join: "Присоединиться",
+type LabelMap = Record<Language, string>;
+
+interface NavItem {
+  id: string;
+  href: string;
+  labels: LabelMap;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    id: "home",
+    href: "/",
+    labels: {
+      ru: "Главная",
+      en: "Home",
+      de: "Start",
+      es: "Inicio",
+    },
   },
-  en: {
-    home: "Home",
-    structure: "Structure",
-    drivers: "Drivers",
-    partners: "Partners",
-    profit: "Profit model",
-    documents: "Documents",
-    contact: "Contact",
-    forum: "Forum",
-    join: "Join",
+  {
+    id: "structure",
+    href: "/structure",
+    labels: {
+      ru: "Структура",
+      en: "Structure",
+      de: "Struktur",
+      es: "Estructura",
+    },
   },
-  de: {
-    home: "Startseite",
-    structure: "Struktur",
-    drivers: "Fahrer",
-    partners: "Partner",
-    profit: "8%-Modell",
-    documents: "Dokumente",
-    contact: "Kontakt",
-    forum: "Forum",
-    join: "Beitreten",
+  {
+    id: "drivers",
+    href: "/drivers",
+    labels: {
+      ru: "Водителям",
+      en: "Drivers",
+      de: "Fahrer",
+      es: "Conductores",
+    },
   },
-  es: {
-    home: "Inicio",
-    structure: "Estructura",
-    drivers: "Conductores",
-    partners: "Socios",
-    profit: "Modelo 8%",
-    documents: "Documentos",
-    contact: "Contacto",
-    forum: "Foro",
-    join: "Unirse",
+  {
+    id: "partners",
+    href: "/partners",
+    labels: {
+      ru: "Партнёрам",
+      en: "Partners",
+      de: "Partner",
+      es: "Socios",
+    },
   },
-};
+  {
+    id: "profit",
+    href: "/profit",
+    labels: {
+      ru: "Модель 8%",
+      en: "8% model",
+      de: "8%-Modell",
+      es: "Modelo 8%",
+    },
+  },
+  {
+    id: "documents",
+    href: "/documents",
+    labels: {
+      ru: "Документы",
+      en: "Documents",
+      de: "Dokumente",
+      es: "Documentos",
+    },
+  },
+  {
+    id: "contact",
+    href: "/contact",
+    labels: {
+      ru: "Контакты",
+      en: "Contacts",
+      de: "Kontakt",
+      es: "Contacto",
+    },
+  },
+  {
+    id: "forum",
+    href: "/forum",
+    labels: {
+      ru: "Форум",
+      en: "Forum",
+      de: "Forum",
+      es: "Foro",
+    },
+  },
+  {
+    id: "join",
+    href: "/join",
+    labels: {
+      ru: "Присоединиться",
+      en: "Join",
+      de: "Beitreten",
+      es: "Unirse",
+    },
+  },
+];
 
 export default function Header() {
   const { language } = useLanguage();
-  const t = labels[language];
+  const pathname = window.location.pathname;
 
   return (
-    <header className="sticky top-0 z-30 backdrop-blur bg-white/80 border-b border-zinc-200">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/90 backdrop-blur">
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 py-3">
+        {/* Логотип / бренд */}
+        <a href="/" className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-emerald-400" />
+          <span className="text-sm font-semibold tracking-wide text-zinc-800">
+            Mobil Truck
+          </span>
+        </a>
 
-        {/* Навигационное меню */}
-        <nav className="flex flex-wrap gap-3 text-sm text-zinc-700">
-          <a href="/" className="hover:text-black">{t.home}</a>
-          <a href="/structure" className="hover:text-black">{t.structure}</a>
-          <a href="/drivers" className="hover:text-black">{t.drivers}</a>
-          <a href="/partners" className="hover:text-black">{t.partners}</a>
-          <a href="/profit" className="hover:text-black">{t.profit}</a>
-          <a href="/documents" className="hover:text-black">{t.documents}</a>
-          <a href="/contact" className="hover:text-black">{t.contact}</a>
-          <a href="/forum" className="hover:text-black">{t.forum}</a>
+        {/* Навигация */}
+        <nav className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
+          {NAV_ITEMS.map((item, index) => {
+            const isActive =
+              pathname === item.href ||
+              (item.href !== "/" && pathname.startsWith(item.href));
 
-          {/* Кнопка присоединиться */}
-          <a
-            href="/join"
-            className="ml-2 px-3 py-1 rounded-full border border-zinc-300 hover:bg-zinc-100"
-          >
-            {t.join}
-          </a>
+            const baseClasses =
+              "inline-flex items-center rounded-full border px-3 py-1 transition text-xs sm:text-sm";
+            const activeClasses =
+              "border-zinc-900 bg-zinc-900 text-white shadow-sm";
+            const defaultClasses =
+              "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50";
+            const emphasisClasses =
+              index === NAV_ITEMS.length - 1 ? "font-semibold" : "";
+
+            return (
+              <a
+                key={item.id}
+                href={item.href}
+                className={`${baseClasses} ${
+                  isActive ? activeClasses : defaultClasses
+                } ${emphasisClasses}`}
+              >
+                {item.labels[language]}
+              </a>
+            );
+          })}
         </nav>
 
-        {/* Переключатель языка */}
-        <LanguageSwitcher />
+        {/* Переключатель языков */}
+        <div className="shrink-0">
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
   );
