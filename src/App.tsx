@@ -13,6 +13,7 @@ import StructurePage from "./pages/Structure";
 import DriversPage from "./pages/Drivers";
 import PartnersPage from "./pages/Partners";
 import ProfitModelPage from "./pages/ProfitModel";
+import ContactPage from "./pages/Contact";
 import ForumPage from "./pages/ForumPage";
 import TopicPage from "./pages/TopicPage";
 import { useStats } from "./hooks/useStats";
