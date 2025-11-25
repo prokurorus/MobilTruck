@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../context/LanguageContext";
 import type { Language } from "../types/language";
@@ -22,17 +22,16 @@ const NAV_ITEMS: NavItem[] = [
       es: "Inicio",
     },
   },
-    {
+  {
     id: "holding",
     href: "/holding",
     labels: {
       ru: "Модель холдинга",
       en: "Holding model",
       de: "Holding-Modell",
-      es: "Modelo del holding"
-    }
+      es: "Modelo del holding",
+    },
   },
-
   {
     id: "structure",
     href: "/structure",
@@ -117,64 +116,114 @@ const NAV_ITEMS: NavItem[] = [
 
 export default function Header() {
   const { language } = useLanguage();
-  const pathname = window.location.pathname;
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "/";
+
+  const renderLink = (
+    item: NavItem,
+    variant: "desktop" | "mobile" = "desktop"
+  ) => {
+    const isActive =
+      pathname === item.href ||
+      (item.href !== "/" && pathname.startsWith(item.href));
+
+    const baseDesktop =
+      "nav-link inline-flex items-center justify-center rounded-full border px-4 py-2 text-xs lg:text-sm font-medium transition-colors flex-shrink-0 whitespace-nowrap no-underline";
+    const baseMobile =
+      "nav-link inline-flex items-center justify-between rounded-xl border px-3 py-2 text-sm font-medium no-underline";
+
+    const activeClasses = "border-zinc-900 bg-zinc-900 text-white shadow-sm";
+    const defaultClasses =
+      "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50";
+
+    const emphasis =
+      item.id === "join" ? "font-semibold" : "";
+
+    const base = variant === "desktop" ? baseDesktop : baseMobile;
+
+    return (
+      <a
+        key={item.id}
+        href={item.href}
+        className={`${base} ${
+          isActive ? activeClasses : defaultClasses
+        } ${emphasis}`}
+      >
+        {item.labels[language] ?? item.labels["ru"]}
+      </a>
+    );
+  };
 
   return (
     <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/90 backdrop-blur">
-      <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 py-3">
-        {/* Логотип / бренд */}
-        <a href="/" className="flex items-center gap-2">
+      {/* Верхняя строка */}
+      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+        {/* Логотип */}
+        <a href="/" className="flex items-center gap-2 no-underline">
           <span className="h-2 w-2 rounded-full bg-emerald-400" />
           <span className="text-sm font-semibold tracking-wide text-zinc-800">
             Mobil Truck
           </span>
         </a>
 
-{/* Навигация */}
-<nav
-  className="
-    nav-scroll
-    flex flex-wrap md:flex-nowrap items-center gap-2
-    text-xs sm:text-sm
-    w-full md:w-auto
-    overflow-x-auto md:overflow-visible
-    [-webkit-overflow-scrolling:touch]
-  "
->
-  {NAV_ITEMS.map((item, index) => {
-    const isActive =
-      pathname === item.href ||
-      (item.href !== "/" && pathname.startsWith(item.href));
+        {/* Десктоп: меню + языки */}
+        <div className="hidden md:flex items-center gap-4 flex-1 justify-between">
+          <nav
+            className="
+              nav-scroll
+              flex items-center gap-2
+              justify-center
+              overflow-x-auto
+              md:overflow-visible
+            "
+          >
+            {NAV_ITEMS.map((item) => renderLink(item, "desktop"))}
+          </nav>
 
-    const baseClasses =
-      "inline-flex items-center justify-center rounded-full border px-3 py-1.5 sm:px-4 sm:py-2 transition text-sm flex-shrink-0 whitespace-nowrap";
-    const activeClasses =
-      "border-zinc-900 bg-zinc-900 text-white shadow-sm";
-    const defaultClasses =
-      "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50";
-    const emphasisClasses =
-      index === NAV_ITEMS.length - 1 ? "font-semibold" : "";
+          <div className="shrink-0">
+            <LanguageSwitcher />
+          </div>
+        </div>
 
-    return (
-      <a
-        key={item.id}
-        href={item.href}
-        className={`${baseClasses} ${
-          isActive ? activeClasses : defaultClasses
-        } ${emphasisClasses}`}
-      >
-        {item.labels[language] ?? item.labels["ru"]}
-      </a>
-    );
-  })}
-</nav>
-
-
-        {/* Переключатель языков */}
-        <div className="shrink-0">
+        {/* Мобильная шапка: языки + бургер */}
+        <div className="flex items-center gap-3 md:hidden">
           <LanguageSwitcher />
+
+          <button
+            type="button"
+            onClick={() => setIsMobileOpen((v) => !v)}
+            aria-label="Открыть меню"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white shadow-sm"
+          >
+            <span
+              className={`block h-0.5 w-5 rounded-full bg-zinc-900 transition-transform ${
+                isMobileOpen ? "translate-y-1 rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-5 rounded-full bg-zinc-900 transition-opacity ${
+                isMobileOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-5 rounded-full bg-zinc-900 transition-transform ${
+                isMobileOpen ? "-translate-y-1 -rotate-45" : ""
+              }`}
+            />
+          </button>
         </div>
       </div>
+
+      {/* Мобильное меню */}
+      {isMobileOpen && (
+        <nav className="md:hidden border-t border-zinc-200 bg-white/95 backdrop-blur">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-2">
+            {NAV_ITEMS.map((item) => renderLink(item, "mobile"))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
