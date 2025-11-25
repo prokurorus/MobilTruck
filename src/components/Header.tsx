@@ -163,7 +163,7 @@ export default function Header() {
           isActive ? activeClasses : defaultClasses
         } ${emphasisClasses}`}
       >
-        {item.labels[currentLanguage] ?? item.labels["ru"]}
+        {item.labels[language] ?? item.labels["ru"]}
       </a>
     );
   })}
