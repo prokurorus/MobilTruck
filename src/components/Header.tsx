@@ -131,14 +131,23 @@ export default function Header() {
         </a>
 
         {/* Навигация */}
-        <nav className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
+        <nav
+          className="
+            flex flex-nowrap items-center gap-2
+            text-sm
+            w-full sm:w-auto
+            overflow-x-auto
+            whitespace-nowrap
+            [-webkit-overflow-scrolling:touch]
+          "
+        >
           {NAV_ITEMS.map((item, index) => {
             const isActive =
               pathname === item.href ||
               (item.href !== "/" && pathname.startsWith(item.href));
 
             const baseClasses =
-              "inline-flex items-center rounded-full border px-3 py-1 transition text-xs sm:text-sm";
+              "inline-flex items-center justify-center rounded-full border px-4 py-2 transition text-sm flex-shrink-0";
             const activeClasses =
               "border-zinc-900 bg-zinc-900 text-white shadow-sm";
             const defaultClasses =
