@@ -581,18 +581,26 @@ const AssistantWidget: React.FC = () => {
               </div>
             )}
 
-            {messages.map((m, idx) => (
-              <div
-                key={idx}
-                className={
-                  m.role === "user"
-                    ? "ml-auto max-w-[85%] rounded-xl bg-emerald-50 px-2 py-1"
-                    : "mr-auto max-w-[85%] rounded-xl bg-zinc-50 px-2 py-1"
-                }
-              >
-                <p className="whitespace-pre-wrap leading-snug">{m.content}</p>
+            {messages.length > 0 && (
+              <div className="space-y-3">
+                <div className="bg-zinc-100 p-3 rounded-xl text-sm">
+                  <strong>Ты:</strong> {messages[messages.length - 1].content}
+                </div>
+            
+                {assistantReply && (
+                  <div className="bg-white border border-zinc-200 p-3 rounded-xl text-sm">
+                    <strong>Mobil Truck AI:</strong> {assistantReply}
+                  </div>
+                )}
+            
+                {error && (
+                  <div className="bg-red-100 text-red-700 p-3 rounded-xl text-sm">
+                    {error}
+                  </div>
+                )}
               </div>
-            ))}
+            )}
+
 
             {isLoading && (
               <p className="text-[11px] text-zinc-500">
