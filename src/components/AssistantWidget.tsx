@@ -1,32 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
-import {
-  getOrCreateClientId,
-  saveAssistantTurn,
-} from "../lib/assistantMemory";
 
 type ChatMessage = {
   role: "user" | "assistant";
   content: string;
 };
 
+// Отдельное хранилище истории для Mobil Truck
+const STORAGE_KEY = "mobiltruck_assistant_history_v1";
+
+// Язык будем хранить как строку, чтобы не ловить ошибок типов
 type LangCode = string;
 
 // ————— ТЕКСТОВЫЕ МЕТКИ —————
-
-const normalizeLang = (lang: string | undefined | null): LangCode => {
-  if (!lang) return "en";
-  const short = lang.slice(0, 2).toLowerCase();
-  if (["ru", "en", "de", "es"].includes(short)) return short;
-  return "en";
-};
-
-const labelOpen: Record<LangCode, string> = {
-  ru: "Спросить Mobil Truck",
-  en: "Ask Mobil Truck",
-  de: "Mobil Truck fragen",
-  es: "Preguntar a Mobil Truck",
-};
 
 const labelTitle: Record<LangCode, string> = {
   ru: "Помощник Mobil Truck",
@@ -37,8 +23,8 @@ const labelTitle: Record<LangCode, string> = {
 
 const labelSubtitle: Record<LangCode, string> = {
   ru: "Объясню структуру холдинга, роли и путь роста.",
-  en: "I explain the holding structure, roles, and growth path.",
-  de: "Ich erkläre Holding-Struktur, Rollen und Entwicklungsweg.",
+  en: "I’ll explain the holding structure, roles, and growth path.",
+  de: "Ich erkläre die Holdingstruktur, Rollen und den Weg zum Wachstum.",
   es: "Explico la estructura del holding, los roles y el camino de crecimiento.",
 };
 
@@ -56,531 +42,281 @@ const labelAsk: Record<LangCode, string> = {
   es: "Preguntar",
 };
 
-const labelError: Record<LangCode, string> = {
-  ru: "Произошла ошибка. Попробуй ещё раз.",
-  en: "An error occurred. Please try again.",
-  de: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
-  es: "Ocurrió un error. Inténtalo de nuevo.",
-};
-
-const labelVoiceOut: Record<LangCode, string> = {
-  ru: "Голосовой ответ",
-  en: "Voice answer",
-  de: "Sprachausgabe",
-  es: "Respuesta con voz",
-};
-
-const labelVoiceSpeaking: Record<LangCode, string> = {
-  ru: "Говорю…",
-  en: "Speaking…",
-  de: "Spreche…",
-  es: "Hablando…",
+const labelListening: Record<LangCode, string> = {
+  ru: "Слушаю… говори.",
+  en: "I’m listening… speak.",
+  de: "Ich höre zu… sprich.",
+  es: "Te escucho… habla.",
 };
 
 const labelHintsTitle: Record<LangCode, string> = {
-  ru: "Примеры вопросов:",
-  en: "Example questions:",
-  de: "Beispielfragen:",
-  es: "Preguntas de ejemplo:",
+  ru: "О чём можно спросить:",
+  en: "What you can ask about:",
+  de: "Worüber du fragen kannst:",
+  es: "Sobre qué puedes preguntar:",
 };
 
-const labelHintsList: Record<LangCode, string[]> = {
+const labelHintsIntro: Record<LangCode, string> = {
+  ru: "Попробуй спросить, например:",
+  en: "Try asking, for example:",
+  de: "Frag zum Beispiel:",
+  es: "Prueba preguntar, por ejemplo:",
+};
+
+const labelError: Record<LangCode, string> = {
+  ru: "Произошла ошибка. Попробуй ещё раз.",
+  en: "Something went wrong. Try again.",
+  de: "Etwas ist schiefgelaufen. Versuch es noch einmal.",
+  es: "Algo ha salido mal. Inténtalo de nuevo.",
+};
+
+const labelVoiceOut: Record<LangCode, string> = {
+  ru: "Озвучивать ответы",
+  en: "Read answers aloud",
+  de: "Antworten vorlesen",
+  es: "Leer respuestas en voz alta",
+};
+
+const labelVoiceButton: Record<LangCode, string> = {
+  ru: "Голосовой ответ",
+  en: "Voice reply",
+  de: "Sprachantwort",
+  es: "Respuesta por voz",
+};
+
+const labelPoweredBy: Record<LangCode, string> = {
+  ru: "Ответы основаны на ИИ OpenAI",
+  en: "Answers powered by OpenAI AI",
+  de: "Antworten basieren auf OpenAI-KI",
+  es: "Respuestas basadas en IA de OpenAI",
+};
+
+// Подсказки по темам — можно расширять
+const hintList: Record<LangCode, string[]> = {
   ru: [
-    "Как устроен холдинг Mobil Truck?",
-    "Чем отличается партнёр от обычного водителя?",
-    "Как водителю вырасти до партнёра?",
+    "Как устроен холдинг Mobil Truck",
+    "Какие уровни компаний есть в структуре",
+    "Как водителю вырасти до партнёра",
+    "Как работает процент 4% + 2% + 1%…",
   ],
   en: [
-    "How is the Mobil Truck holding structured?",
-    "What is the difference between a partner and a regular driver?",
-    "How can a driver grow to become a partner?",
+    "How the Mobil Truck holding is structured",
+    "What company levels exist in the structure",
+    "How a driver can grow into a partner",
+    "How the 4% + 2% + 1% network income works",
   ],
   de: [
-    "Wie ist der Mobil-Truck-Holding aufgebaut?",
-    "Worin unterscheidet sich ein Partner von einem Fahrer?",
-    "Wie kann ein Fahrer Partner werden?",
+    "Wie der Mobil Truck-Holding aufgebaut ist",
+    "Welche Unternehmensebenen es in der Struktur gibt",
+    "Wie ein Fahrer zum Partner werden kann",
+    "Wie das 4% + 2% + 1%-Nettoeinkommen funktioniert",
   ],
   es: [
-    "¿Cómo está estructurado el holding Mobil Truck?",
-    "¿En qué se diferencia un socio de un conductor normal?",
-    "¿Cómo puede un conductor llegar a ser socio?",
+    "Cómo está estructurado el holding Mobil Truck",
+    "Qué niveles de empresas existen en la estructura",
+    "Cómo un conductor puede convertirse en socio",
+    "Cómo funciona el ingreso de red 4% + 2% + 1%",
   ],
 };
 
 // ————— УТИЛИТЫ —————
 
-const pickLabel = <T,>(
-  labels: Record<LangCode, T>,
+function normalizeLang(lang: LangCode): LangCode {
+  if (!lang) return "ru";
+  const lower = lang.toLowerCase();
+  if (lower.startsWith("ru")) return "ru";
+  if (lower.startsWith("de")) return "de";
+  if (lower.startsWith("es")) return "es";
+  return "en";
+}
+
+function pickLabel<T extends string>(
+  dict: Record<LangCode, T>,
   fallback: T,
-  lang: LangCode
-): T => {
-  return labels[lang] ?? fallback;
-};
+  lang?: LangCode
+): T {
+  const normalized = normalizeLang(lang || "ru");
+  return dict[normalized] || fallback;
+}
 
-const STORAGE_KEY_HISTORY = "mobiltruck_assistant_history_v2";
-const STORAGE_KEY_VOICE = "mobiltruck_assistant_voice_out";
+function normalize(text: string): string {
+  return text.toLowerCase().replace(/\s+/g, " ").trim();
+}
 
-const AssistantWidget: React.FC = () => {
-  const { language } = useLanguage();
-  const lang: LangCode = normalizeLang(language);
+// ————— ЛОКАЛЬНАЯ ИСТОРИЯ В БРАУЗЕРЕ —————
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [input, setInput] = useState("");
-  const [assistantReply, setAssistantReply] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [voiceOutputEnabled, setVoiceOutputEnabled] =
-    useState<boolean>(false);
-  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
-  const [isListening, setIsListening] = useState<boolean>(false);
-  const [clientId, setClientId] = useState<string | null>(null);
+function loadHistory(): ChatMessage[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter(
+        (m) =>
+          m &&
+          (m.role === "user" || m.role === "assistant") &&
+          typeof m.content === "string"
+      )
+      .slice(-40);
+  } catch {
+    return [];
+  }
+}
 
-  // Инициализация clientId (анонимный пользователь для Firebase)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const id = getOrCreateClientId();
-      setClientId(id);
-    } catch {
-      // ignore
-    }
-  }, []);
+function saveHistory(history: ChatMessage[]) {
+  if (typeof window === "undefined") return;
+  try {
+    const limited = history.slice(-40);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(limited));
+  } catch {
+    // игнорируем
+  }
+}
 
-  // Загрузка последних сообщений и настроек голоса из localStorage
-  useEffect(() => {
-    try {
-      if (typeof window === "undefined") return;
-      const stored = window.localStorage.getItem(STORAGE_KEY_HISTORY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as { messages?: ChatMessage[] };
-        if (Array.isArray(parsed.messages)) {
-          setMessages(parsed.messages);
-          const lastAssistant = [...parsed.messages]
-            .reverse()
-            .find((m) => m.role === "assistant");
-          if (lastAssistant) setAssistantReply(lastAssistant.content);
-        }
-      }
-      const storedVoice = window.localStorage.getItem(STORAGE_KEY_VOICE);
-      if (storedVoice === "1") {
-        setVoiceOutputEnabled(true);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
+// ————— СОЛЯНКА ПО ВОПРОСАМ ПРО ХОЛДИНГ —————
 
-  // Сохраняем историю в localStorage (память между сессиями)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const limited = messages.slice(-40);
-      window.localStorage.setItem(
-        STORAGE_KEY_HISTORY,
-        JSON.stringify({ messages: limited })
+function getAssistantReply(userMessage: string, lang: LangCode): string {
+  const t = normalize(userMessage);
+
+  const isRu = lang === "ru";
+  const isDe = lang === "de";
+  const isEs = lang === "es";
+
+  // Структура холдинга
+  if (t.includes("структур") || t.includes("holding") || t.includes("структура")) {
+    if (isRu)
+      return (
+        "Mobil Truck строится как многоуровневый холдинг:\n\n" +
+        "• Вверху — головная компания, которая ведёт ключевых клиентов, управляет фондами и брендом.\n" +
+        "• Ниже — партнёрские компании под брендом Mobil Truck (UG/GmbH).\n" +
+        "• Каждая такая компания может создавать свои дочерние компании, формируя ветку.\n" +
+        "• Все компании работают по единым правилам распределения прибыли и фиксированному проценту на сеть."
       );
-    } catch {
-      // ignore
-    }
-  }, [messages]);
-
-  // Воспроизведение ответа голосом через Netlify-функцию ai-voice
-  const speakWithOpenAI = async (text: string) => {
-    if (!voiceOutputEnabled || !text.trim()) return;
-    if (typeof window === "undefined") return;
-
-    setIsSpeaking(true);
-    try {
-      const res = await fetch("/.netlify/functions/ai-voice", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text,
-          language: lang,
-        }),
-      });
-
-      if (!res.ok) {
-        const errText = await res.text();
-        setError(
-          `${pickLabel(labelError, labelError.en, lang)}\nTTS: ${errText}`
-        );
-        setIsSpeaking(false);
-        return;
-      }
-
-      const data = await res.json();
-      if (!data || !data.audio) {
-        setError(
-          `${pickLabel(
-            labelError,
-            labelError.en,
-            lang
-          )}\nTTS: empty audio response`
-        );
-        setIsSpeaking(false);
-        return;
-      }
-
-      const audioSrc = `data:audio/mpeg;base64,${data.audio}`;
-      const audio = new Audio(audioSrc);
-      audio.onended = () => setIsSpeaking(false);
-      audio.onerror = () => setIsSpeaking(false);
-      audio.play().catch(() => {
-        setIsSpeaking(false);
-      });
-    } catch (err) {
-      setError(
-        `${pickLabel(
-          labelError,
-          labelError.en,
-          lang
-        )}\nTTS runtime error: ${String(err)}`
+    if (isDe)
+      return (
+        "Mobil Truck ist als mehrstufiger Holding aufgebaut:\n\n" +
+        "• Oben steht die Hauptgesellschaft, die Schlüsselkunden betreut, Fonds und Marke verwaltet.\n" +
+        "• Darunter befinden sich Partnerunternehmen unter der Marke Mobil Truck (UG/GmbH).\n" +
+        "• Jedes dieser Unternehmen kann eigene Tochtergesellschaften gründen und einen Ast bilden.\n" +
+        "• Alle Unternehmen arbeiten nach einheitlichen Regeln der Gewinnverteilung und einem festen Prozentsatz für das Netzwerk."
       );
-      setIsSpeaking(false);
-    }
-  };
-
-  // Единая функция отправки сообщения (для текста и для голоса)
-  const sendMessage = async (rawText: string) => {
-    const text = rawText.trim();
-    if (!text || isLoading) return;
-
-    const userMessage: ChatMessage = { role: "user", content: text };
-
-    setIsLoading(true);
-    setError(null);
-    setInput("");
-
-    const historyToSend = [...messages, userMessage];
-    let replyText: string | null = null;
-
-    try {
-      const pagePath =
-        typeof window !== "undefined" ? window.location.pathname : "/";
-
-      const res = await fetch("/.netlify/functions/ai-domovoy", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: historyToSend,
-          language: lang,
-          page: pagePath,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data && typeof data.reply === "string" && data.reply.trim()) {
-        replyText = data.reply.trim();
-      } else if (data && data.error) {
-        const baseError = pickLabel(labelError, labelError.en, lang);
-        setError(`${baseError}\n${String(data.error)}`);
-      }
-    } catch (err) {
-      const baseError = pickLabel(labelError, labelError.en, lang);
-      setError(`${baseError}\n${String(err)}`);
-    }
-
-    const assistantMessage: ChatMessage = {
-      role: "assistant",
-      content:
-        replyText ??
-        (lang === "ru"
-          ? "Я пока не могу ответить на этот вопрос. Попробуй сформулировать по-другому."
-          : "I cannot answer this question yet. Please try to rephrase it."),
-    };
-
-    const updatedMessages = [...historyToSend, assistantMessage];
-    setMessages(updatedMessages);
-    setAssistantReply(assistantMessage.content);
-    setIsLoading(false);
-
-    // Сохраняем ход диалога в Firebase (анонимно по clientId)
-    if (clientId) {
-      saveAssistantTurn(clientId, text, assistantMessage.content).catch(
-        () => {}
+    if (isEs)
+      return (
+        "Mobil Truck se construye como un holding multinivel:\n\n" +
+        "• En la parte superior está la empresa matriz, que lleva a los clientes clave y gestiona los fondos y la marca.\n" +
+        "• Debajo hay empresas asociadas bajo la marca Mobil Truck (UG/GmbH).\n" +
+        "• Cada una de estas empresas puede crear sus propias filiales, formando una rama.\n" +
+        "• Todas las empresas trabajan según reglas unificadas de distribución de beneficios y un porcentaje fijo para la red."
       );
-    }
+    return (
+      "Mobil Truck is built as a multi-level holding:\n\n" +
+      "• At the top is the head company that manages key clients, funds and the brand.\n" +
+      "• Below are partner companies under the Mobil Truck brand (UG/GmbH).\n" +
+      "• Each such company can create its own daughter companies, forming a branch.\n" +
+      "• All companies follow unified profit-sharing rules and a fixed percentage for the network."
+    );
+  }
 
-    if (voiceOutputEnabled) {
-      speakWithOpenAI(assistantMessage.content);
-    }
-  };
-
-  // Сабмит по кнопке/Enter (ручной ввод)
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await sendMessage(input);
-  };
-
-  // Голосовой ввод (Web Speech API) — "свободные руки": сразу задаём вопрос и отправляем
-  const startVoiceInput = () => {
-    if (isLoading || isListening) return;
-    if (typeof window === "undefined") return;
-
-    const w: any = window as any;
-    const SpeechRecognition =
-      w.SpeechRecognition || w.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      const extra =
-        lang === "ru"
-          ? "Голосовой ввод не поддерживается в этом браузере."
-          : "Voice input is not supported in this browser.";
-      setError(
-        `${pickLabel(labelError, labelError.en, lang)}\n${extra}`
+  // Партнёр vs наёмный водитель
+  if (
+    t.includes("партнер") ||
+    t.includes("partner") ||
+    t.includes("самостоятельн") ||
+    t.includes("собственн") ||
+    t.includes("наемн") ||
+    t.includes("angestell") ||
+    t.includes("emplead")
+  ) {
+    if (isRu)
+      return (
+        "Разница между наёмным водителем и партнёром Mobil Truck такая:\n\n" +
+        "• Наёмный водитель работает за фиксированную ставку или проценты с рейса и не участвует в прибыли компании.\n" +
+        "• Партнёр — это владелец или совладелец своей транспортной компании под брендом Mobil Truck.\n" +
+        "• Он получает доход от работы своей фирмы и дополнительно — пассивный доход от развития своей сети дочерних компаний.\n" +
+        "• Партнёр участвует в принятии решений, разделяет ответственность и получает часть прибыли холдинга по понятным правилам."
       );
-      return;
-    }
-
-    try {
-      const recognition = new SpeechRecognition();
-      recognition.lang =
-        lang === "ru"
-          ? "ru-RU"
-          : lang === "de"
-          ? "de-DE"
-          : lang === "es"
-          ? "es-ES"
-          : "en-US";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      recognition.onstart = () => {
-        setIsListening(true);
-        setError(null);
-      };
-
-      recognition.onerror = (event: any) => {
-        setIsListening(false);
-        if (event && event.error !== "no-speech") {
-          setError(
-            `${pickLabel(
-              labelError,
-              labelError.en,
-              lang
-            )}\nSpeech error: ${String(event.error)}`
-          );
-        }
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognition.onresult = (event: any) => {
-        try {
-          const result = event.results?.[0]?.[0];
-          const transcript = result?.transcript as string | undefined;
-          if (transcript && transcript.trim()) {
-            // Режим "свободные руки": сразу отправляем голосовой вопрос
-            sendMessage(transcript.trim());
-          }
-        } catch {
-          // ignore
-        }
-      };
-
-      recognition.start();
-    } catch (err) {
-      setIsListening(false);
-      setError(
-        `${pickLabel(
-          labelError,
-          labelError.en,
-          lang
-        )}\nSpeech runtime error: ${String(err)}`
+    if (isDe)
+      return (
+        "Der Unterschied zwischen einem angestellten Fahrer und einem Mobil Truck-Partner ist folgender:\n\n" +
+        "• Ein angestellter Fahrer arbeitet für einen festen Lohn oder einen Prozentsatz pro Fahrt und beteiligt sich nicht am Unternehmensgewinn.\n" +
+        "• Ein Partner ist Eigentümer oder Miteigentümer seines eigenen Transportunternehmens unter der Marke Mobil Truck.\n" +
+        "• Er erhält Einkommen aus der Arbeit seiner Firma und zusätzlich passives Einkommen aus der Entwicklung seines Tochternetzwerks.\n" +
+        "• Der Partner ist an Entscheidungen beteiligt, teilt Verantwortung und erhält einen Teil des Holdinggewinns nach klaren Regeln."
       );
-    }
-  };
+    if (isEs)
+      return (
+        "La diferencia entre un conductor asalariado y un socio de Mobil Truck es la siguiente:\n\n" +
+        "• El conductor asalariado trabaja por un salario fijo o un porcentaje por viaje y no participa en las ganancias de la empresa.\n" +
+        "• El socio es propietario o copropietario de su propia empresa de transporte bajo la marca Mobil Truck.\n" +
+        "• Recibe ingresos del trabajo de su empresa y, además, ingresos pasivos del desarrollo de su red de filiales.\n" +
+        "• El socio participa en la toma de decisiones, comparte la responsabilidad y recibe una parte de las ganancias del holding según reglas claras."
+      );
+    return (
+      "The difference between a hired driver and a Mobil Truck partner is:\n\n" +
+      "• A hired driver works for a fixed rate or a percentage per trip and does not share in the company’s profit.\n" +
+      "• A partner is the owner or co-owner of their own transport company under the Mobil Truck brand.\n" +
+      "• They earn income from their own company’s work and additionally passive income from the growth of their daughter-company network.\n" +
+      "• A partner takes part in decision-making, shares responsibility, and receives part of the holding’s profit under transparent rules."
+    );
+  }
 
-  const currentHints = pickLabel(labelHintsList, labelHintsList.en, lang);
+  // Фиксированный процент 4% + 2% + 1%…
+  if (
+    t.includes("процент") ||
+    t.includes("%") ||
+    t.includes("сетев") ||
+    t.includes("network") ||
+    t.includes("pasiv") ||
+    t.includes("пассив")
+  ) {
+    if (isRu)
+      return (
+        "Процентная схема в Mobil Truck задумана так, чтобы вознаграждать развитие сети, но не превращать её в финансовую пирамиду:\n\n" +
+        "• 4% — получает компания, которая непосредственно ведёт клиента и выполняет рейсы (операционный доход).\n" +
+        "• 2% — получает компания-партнёр, у которой в структуре находится этот перевозчик (за развитие ветки и ответственность).\n" +
+        "• 1% — может резервироваться в общий фонд холдинга: на сервис, страховые резервы, обучение и развитие.\n\n" +
+        "Все проценты считаются с оборота по клиенту по прозрачным договорам. Точные цифры и формулы пока прорабатываются и могут быть скорректированы перед запуском."
+      );
+    if (isDe)
+      return (
+        "Das Prozentschema bei Mobil Truck ist so gedacht, dass es die Netzwerkentwicklung belohnt, ohne ein Schneeballsystem zu sein:\n\n" +
+        "• 4% – erhält das Unternehmen, das den Kunden direkt betreut und die Fahrten ausführt (operative Einnahmen).\n" +
+        "• 2% – erhält das Partnerunternehmen, in dessen Struktur sich dieser Frachtführer befindet (für Aufbau und Verantwortung der Linie).\n" +
+        "• 1% – kann in einen gemeinsamen Holdingfonds fließen: für Service, Rücklagen, Schulung und Entwicklung.\n\n" +
+        "Alle Prozente werden aus dem Kundenumsatz nach transparenten Verträgen berechnet. Die genauen Zahlen und Formeln werden noch ausgearbeitet und können vor dem Start angepasst werden."
+      );
+    if (isEs)
+      return (
+        "El esquema de porcentajes en Mobil Truck está pensado para recompensar el desarrollo de la red, pero sin convertirse en una pirámide financiera:\n\n" +
+        "• 4%: lo recibe la empresa que trabaja directamente con el cliente y realiza los viajes (ingreso operativo).\n" +
+        "• 2%: lo recibe la empresa socia en cuya estructura se encuentra ese transportista (por desarrollar la rama y asumir responsabilidad).\n" +
+        "• 1%: puede reservarse para un fondo común del holding: servicio, reservas de seguridad, formación y desarrollo.\n\n" +
+        "Todos los porcentajes se calculan sobre la facturación del cliente según contratos transparentes. Las cifras exactas y fórmulas se están afinando y pueden ajustarse antes del lanzamiento."
+      );
+    return (
+      "The percentage scheme in Mobil Truck is designed to reward network development without turning into a financial pyramid:\n\n" +
+      "• 4% – goes to the company that directly serves the client and drives the loads (operational income).\n" +
+      "• 2% – goes to the partner company whose structure this carrier belongs to (for developing the branch and bearing responsibility).\n" +
+      "• 1% – may be reserved into the common holding fund: service, reserves, training and development.\n\n" +
+      "All percentages are calculated from the client’s turnover under transparent contracts. Exact figures and formulas are still being refined and may be adjusted before launch."
+    );
+  }
 
-  const lastUserMessage =
-    [...messages].reverse().find((m) => m.role === "user") || null;
-
-  const toggleVoiceOutput = (checked: boolean) => {
-    setVoiceOutputEnabled(checked);
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(STORAGE_KEY_VOICE, checked ? "1" : "0");
-    }
-  };
-
-  return (
-    <>
-      {/* Кнопка открытия */}
-      <button
-        type="button"
-        onClick={() => setIsOpen((v) => !v)}
-        className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-lg hover:bg-emerald-700 transition"
-      >
-        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/10">
-          AI
-        </span>
-        <span>{pickLabel(labelOpen, labelOpen.en, lang)}</span>
-      </button>
-
-      {/* Панель помощника */}
-      {isOpen && (
-        <div className="fixed bottom-16 right-4 z-40 w-[320px] max-w-[90vw] rounded-2xl border border-zinc-200 bg-white shadow-2xl flex flex-col overflow-hidden">
-          <header className="flex items-center justify-between px-3 py-2 border-b border-zinc-100 bg-zinc-50/80">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                <span className="text-xs font-semibold text-zinc-800">
-                  {pickLabel(labelTitle, labelTitle.en, lang)}
-                </span>
-              </div>
-              <p className="mt-0.5 text-[11px] text-zinc-500">
-                {pickLabel(labelSubtitle, labelSubtitle.en, lang)}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="text-zinc-400 hover:text-zinc-600 transition text-xs"
-            >
-              ✕
-            </button>
-          </header>
-
-          {/* Область диалога: только последний вопрос и ответ, но со скроллом */}
-          <div className="flex-1 px-3 py-2 space-y-2 bg-white max-h-64 overflow-y-auto">
-            {error && (
-              <div className="text-[11px] whitespace-pre-wrap rounded-xl bg-red-50 px-2 py-1 text-red-700">
-                {error}
-              </div>
-            )}
-
-            {lastUserMessage && (
-              <div className="rounded-xl bg-zinc-100 px-3 py-2 text-xs text-zinc-900">
-                <div className="text-[10px] font-semibold text-zinc-500 mb-0.5">
-                  {lang === "ru"
-                    ? "Ты"
-                    : lang === "de"
-                    ? "Du"
-                    : lang === "es"
-                    ? "Tú"
-                    : "You"}
-                </div>
-                <div>{lastUserMessage.content}</div>
-              </div>
-            )}
-
-            {assistantReply && (
-              <div className="rounded-xl bg-white border border-zinc-200 px-3 py-2 text-xs text-zinc-900">
-                <div className="text-[10px] font-semibold text-emerald-600 mb-0.5">
-                  Mobil Truck AI
-                </div>
-                <div className="whitespace-pre-wrap">{assistantReply}</div>
-              </div>
-            )}
-
-            {!lastUserMessage && !assistantReply && (
-              <div className="rounded-xl bg-zinc-50 px-3 py-2 text-[11px] text-zinc-600">
-                <div className="font-semibold mb-1">
-                  {pickLabel(labelHintsTitle, labelHintsTitle.en, lang)}
-                </div>
-                <ul className="list-disc pl-4 space-y-0.5">
-                  {currentHints.map((h, i) => (
-                    <li
-                      key={i}
-                      className="cursor-pointer hover:text-emerald-600"
-                      onClick={() => setInput(h)}
-                    >
-                      {h}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Поле ввода и управление голосом */}
-          <form
-            onSubmit={handleSubmit}
-            className="border-t border-zinc-100 bg-white px-3 py-2 space-y-1"
-          >
-            <div className="flex items-end gap-1">
-              <textarea
-                className="flex-1 resize-none rounded-xl border border-zinc-200 px-2 py-1 text-xs outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-200 max-h-20"
-                rows={2}
-                placeholder={pickLabel(
-                  labelPlaceholder,
-                  labelPlaceholder.en,
-                  lang
-                )}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={startVoiceInput}
-                disabled={isLoading || isListening}
-                className={`inline-flex items-center justify-center rounded-full px-2 py-2 text-xs border ${
-                  isListening
-                    ? "border-emerald-500 text-emerald-600 bg-emerald-50"
-                    : "border-zinc-300 text-zinc-500 bg-white hover:border-emerald-400 hover:text-emerald-600"
-                } transition`}
-                title={
-                  lang === "ru"
-                    ? "Задать вопрос голосом"
-                    : lang === "de"
-                    ? "Frage per Sprache stellen"
-                    : lang === "es"
-                    ? "Hacer pregunta por voz"
-                    : "Ask question by voice"
-                }
-              >
-                {isListening ? "🎙…" : "🎙"}
-              </button>
-              <button
-                type="submit"
-                disabled={isLoading || !input.trim()}
-                className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-3 py-2 text-xs font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-700 transition"
-              >
-                {isLoading ? "…" : pickLabel(labelAsk, labelAsk.en, lang)}
-              </button>
-            </div>
-            <div className="flex items-center justify-between gap-2">
-              <label className="flex items-center gap-1 text-[11px] text-zinc-600">
-                <input
-                  type="checkbox"
-                  className="h-3 w-3 rounded border-zinc-300"
-                  checked={voiceOutputEnabled}
-                  onChange={(e) => toggleVoiceOutput(e.target.checked)}
-                />
-                <span>
-                  {pickLabel(labelVoiceOut, labelVoiceOut.en, lang)}
-                  {isSpeaking
-                    ? ` (${pickLabel(
-                        labelVoiceSpeaking,
-                        labelVoiceSpeaking.en,
-                        lang
-                      )})`
-                    : ""}
-                </span>
-              </label>
-              <span className="text-[10px] text-zinc-400">
-                {lang === "ru"
-                  ? "Ответы основаны на ИИ OpenAI"
-                  : lang === "de"
-                  ? "Antworten basieren auf OpenAI-KI"
-                  : lang === "es"
-                  ? "Respuestas basadas en IA de OpenAI"
-                  : "Answers powered by OpenAI AI"}
-              </span>
-            </div>
-          </form>
-        </div>
-      )}
-    </>
-  );
-};
-
-export default AssistantWidget;
+  // Вопросы про уровни и рост
+  if (
+    t.includes("уровн") ||
+    t.includes("level") ||
+    t.includes("рост") ||
+    t.includes("karrier") ||
+    t.includes("career")
+  ) {
+    if (isRu)
+      return (
+        "В Mobil Truck планируется несколько естественных уровней роста:\n\n" +
+        "1) Водитель — работает на автомобиле (нанятом или лизинговом), получает достойную оплату и прозрачный график.\n" +
+        "2) Старший водитель / наставник — помогает обучать новых, знает стандарты компании и помогает держать качество.\n" +
+        "3) Партнёр-перевозчик — открывает свою компанию под брендом Mobil Truck и получает собственный парк и клиентов.\n" +
+        "4) Основатель ветки — развивает сеть дочерних компаний и получает долю от их оборота по установленной схеме.\n\n" +
+        "Цель — чтобы человек мог пройти путь
