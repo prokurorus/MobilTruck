@@ -130,7 +130,7 @@ export default function Header() {
       (item.href !== "/" && pathname.startsWith(item.href));
 
     const baseDesktop =
-      "nav-link inline-flex items-center justify-center rounded-full border px-4 py-2 text-xs lg:text-sm font-medium transition-colors flex-shrink-0 whitespace-nowrap no-underline";
+      "nav-link inline-flex items-center justify-center rounded-full border px-4 py-2 text-xs lg:text-sm font-medium transition-colors whitespace-nowrap no-underline";
     const baseMobile =
       "nav-link inline-flex items-center justify-between rounded-xl border px-3 py-2 text-sm font-medium no-underline";
 
@@ -138,8 +138,7 @@ export default function Header() {
     const defaultClasses =
       "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50";
 
-    const emphasis =
-      item.id === "join" ? "font-semibold" : "";
+    const emphasis = item.id === "join" ? "font-semibold" : "";
 
     const base = variant === "desktop" ? baseDesktop : baseMobile;
 
@@ -172,11 +171,9 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-4 flex-1 justify-between">
           <nav
             className="
-              nav-scroll
-              flex items-center gap-2
-              justify-center
-              overflow-x-auto
-              md:overflow-visible
+              flex flex-wrap items-center justify-center
+              gap-2
+              max-w-full
             "
           >
             {NAV_ITEMS.map((item) => renderLink(item, "desktop"))}
