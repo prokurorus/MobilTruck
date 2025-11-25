@@ -171,9 +171,10 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-4 flex-1 justify-between">
           <nav
             className="
-              flex flex-wrap items-center justify-center
-              gap-2
-              max-w-full
+              flex flex-wrap lg:flex-nowrap
+              items-center justify-center
+              gap-x-2 gap-y-2
+              max-w-4xl mx-auto
             "
           >
             {NAV_ITEMS.map((item) => renderLink(item, "desktop"))}
