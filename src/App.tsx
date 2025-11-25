@@ -328,10 +328,9 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
             <div className="space-y-3">
               <button
                 onClick={() => {
-                  onEnter();
                   window.location.href = "/structure";
                 }}
-                className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white shadow-md shadow-zinc-900/30 hover:bg-zinc-800 active:bg-zinc-950 transition"
+                className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md shadow-zinc-900/30 hover:bg-zinc-800 active:bg-zinc-950 transition"
               >
                 {language === "ru"
                   ? "Перейти к структуре холдинга"
@@ -341,6 +340,8 @@ function IntroScreen({ onEnter }: { onEnter: () => void }) {
                   ? "Ir a la estructura del holding"
                   : "Go to holding structure"}
               </button>
+
+
               <p className="text-xs sm:text-sm text-zinc-500 max-w-md mx-auto lg:mx-0">
                 {h.hint}
               </p>
