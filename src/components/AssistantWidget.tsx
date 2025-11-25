@@ -122,10 +122,14 @@ const STORAGE_KEY_VOICE = "mobiltruck_assistant_voice_out";
 
 // Человеческий текст для ошибок распознавания речи
 const getFriendlySpeechError = (rawCode: unknown, lang: LangCode): string => {
-  const baseRu = "Не получилось услышать вопрос. Попробуй ещё раз, поближе к микрофону.";
-  const baseEn = "I couldn't hear your question. Please try again, a bit closer to the microphone.";
-  const baseDe = "Ich konnte deine Frage nicht verstehen. Versuch es bitte noch einmal, näher am Mikrofon.";
-  const baseEs = "No pude escuchar bien tu pregunta. Inténtalo otra vez, un poco más cerca del micrófono.";
+  const baseRu =
+    "Не получилось услышать вопрос. Попробуй ещё раз, поближе к микрофону.";
+  const baseEn =
+    "I couldn't hear your question. Please try again, a bit closer to the microphone.";
+  const baseDe =
+    "Ich konnte deine Frage nicht verstehen. Versuch es bitte noch einmal, näher am Mikrofon.";
+  const baseEs =
+    "No pude escuchar bien tu pregunta. Inténtalo otra vez, un poco más cerca del micrófono.";
 
   const base =
     lang === "ru" ? baseRu : lang === "de" ? baseDe : lang === "es" ? baseEs : baseEn;
@@ -169,6 +173,29 @@ const AssistantWidget: React.FC = () => {
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isListening, setIsListening] = useState<boolean>(false);
   const [clientId, setClientId] = useState<string | null>(null);
+
+  // --- Разблокировка звука на мобильных (iOS/Android) ---
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const unlockAudio = () => {
+      try {
+        const a = new Audio();
+        // попытка "пустого" проигрывания, чтобы браузер разрешил аудио
+        a.play().catch(() => {});
+      } catch {
+        // ignore
+      } finally {
+        document.body.removeEventListener("click", unlockAudio);
+      }
+    };
+
+    document.body.addEventListener("click", unlockAudio, { once: true });
+
+    return () => {
+      document.body.removeEventListener("click", unlockAudio);
+    };
+  }, []);
 
   // Инициализация clientId (анонимный пользователь для Firebase)
   useEffect(() => {
@@ -262,6 +289,33 @@ const AssistantWidget: React.FC = () => {
       };
       audio.play().catch((err) => {
         console.error("TTS play error:", err);
+        // Частая ситуация: блокировка автоплея
+        const name = (err as any)?.name || "";
+        if (
+          name === "NotAllowedError" ||
+          name === "NotSupportedError" ||
+          name === "AbortError"
+        ) {
+          if (!error) {
+            if (lang === "ru") {
+              setError(
+                "Браузер временно заблокировал звук. Нажми по экрану/кнопке и попробуй ещё раз."
+              );
+            } else if (lang === "de") {
+              setError(
+                "Der Browser hat die Audioausgabe blockiert. Tippe irgendwo auf die Seite und versuche es erneut."
+              );
+            } else if (lang === "es") {
+              setError(
+                "El navegador bloqueó el audio. Toca la pantalla y vuelve a intentarlo."
+              );
+            } else {
+              setError(
+                "The browser blocked audio playback. Tap the page and try again."
+              );
+            }
+          }
+        }
         setIsSpeaking(false);
       });
     } catch (err) {
