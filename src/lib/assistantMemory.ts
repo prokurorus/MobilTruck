@@ -5,16 +5,14 @@ import { initializeApp, getApps } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
 
 const firebaseConfig = {
-  // ⚠️ ВСТАВЬ СЮДА СВОИ ДАННЫЕ ПРОЕКТА FIREBASE ДЛЯ MOBIL TRUCK
-  // Эти значения можно взять в консоли Firebase:
-  // Project settings -> General -> Your apps -> SDK setup and configuration
-  apiKey: "ТВОЙ_API_KEY",
-  authDomain: "ТВОЙ_ДОМЕН.firebaseapp.com",
-  databaseURL: "https://ТВОЙ_ПРОЕКТ-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "ТВОЙ_ID_ПРОЕКТА",
-  storageBucket: "ТВОЙ_БАКЕТ.appspot.com",
-  messagingSenderId: "ТВОЙ_SENDER_ID",
-  appId: "ТВОЙ_APP_ID",
+  apiKey: "AIzaSyCmTNXdBF7ilzeZVB2VaIt1USIMdXA2src",
+  authDomain: "novaciv-web.firebaseapp.com",
+  databaseURL: "https://novaciv-web-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "novaciv-web",
+  storageBucket: "novaciv-web.firebasestorage.app",
+  messagingSenderId: "884571454196",
+  appId: "1:884571454196:web:282712115c2d480299bca1",
+  measurementId: "G-ZX33H70XCZ"
 };
 
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
