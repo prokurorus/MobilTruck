@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import {
+  getOrCreateClientId,
+  saveAssistantTurn,
+} from "../lib/assistantMemory";
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -88,7 +92,7 @@ const labelHintsList: Record<LangCode, string[]> = {
   ],
   en: [
     "How is the Mobil Truck holding structured?",
-    "What is the difference between a a partner and a regular driver?",
+    "What is the difference between a partner and a regular driver?",
     "How can a driver grow to become a partner?",
   ],
   de: [
@@ -130,8 +134,20 @@ const AssistantWidget: React.FC = () => {
     useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isListening, setIsListening] = useState<boolean>(false);
+  const [clientId, setClientId] = useState<string | null>(null);
 
-  // Загрузка последних сообщений и настроек голоса из localStorage (память ассистента)
+  // Инициализация clientId (анонимный пользователь для Firebase)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const id = getOrCreateClientId();
+      setClientId(id);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // Загрузка последних сообщений и настроек голоса из localStorage
   useEffect(() => {
     try {
       if (typeof window === "undefined") return;
@@ -159,7 +175,6 @@ const AssistantWidget: React.FC = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
-      // ограничим историю, чтобы не разрасталась бесконечно
       const limited = messages.slice(-40);
       window.localStorage.setItem(
         STORAGE_KEY_HISTORY,
@@ -229,7 +244,82 @@ const AssistantWidget: React.FC = () => {
     }
   };
 
-  // Голосовой ввод (Web Speech API)
+  // Единая функция отправки сообщения (для текста и для голоса)
+  const sendMessage = async (rawText: string) => {
+    const text = rawText.trim();
+    if (!text || isLoading) return;
+
+    const userMessage: ChatMessage = { role: "user", content: text };
+
+    setIsLoading(true);
+    setError(null);
+    setInput("");
+
+    const historyToSend = [...messages, userMessage];
+    let replyText: string | null = null;
+
+    try {
+      const pagePath =
+        typeof window !== "undefined" ? window.location.pathname : "/";
+
+      const res = await fetch("/.netlify/functions/ai-domovoy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: historyToSend,
+          language: lang,
+          page: pagePath,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data && typeof data.reply === "string" && data.reply.trim()) {
+        replyText = data.reply.trim();
+      } else if (data && data.error) {
+        const baseError = pickLabel(labelError, labelError.en, lang);
+        setError(`${baseError}\n${String(data.error)}`);
+      }
+    } catch (err) {
+      const baseError = pickLabel(labelError, labelError.en, lang);
+      setError(`${baseError}\n${String(err)}`);
+    }
+
+    const assistantMessage: ChatMessage = {
+      role: "assistant",
+      content:
+        replyText ??
+        (lang === "ru"
+          ? "Я пока не могу ответить на этот вопрос. Попробуй сформулировать по-другому."
+          : "I cannot answer this question yet. Please try to rephrase it."),
+    };
+
+    const updatedMessages = [...historyToSend, assistantMessage];
+    setMessages(updatedMessages);
+    setAssistantReply(assistantMessage.content);
+    setIsLoading(false);
+
+    // Сохраняем ход диалога в Firebase (анонимно по clientId)
+    if (clientId) {
+      saveAssistantTurn(clientId, text, assistantMessage.content).catch(
+        () => {}
+      );
+    }
+
+    if (voiceOutputEnabled) {
+      speakWithOpenAI(assistantMessage.content);
+    }
+  };
+
+  // Сабмит по кнопке/Enter (ручной ввод)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await sendMessage(input);
+  };
+
+  // Голосовой ввод (Web Speech API) — "свободные руки": сразу задаём вопрос и отправляем
   const startVoiceInput = () => {
     if (isLoading || isListening) return;
     if (typeof window === "undefined") return;
@@ -288,9 +378,8 @@ const AssistantWidget: React.FC = () => {
           const result = event.results?.[0]?.[0];
           const transcript = result?.transcript as string | undefined;
           if (transcript && transcript.trim()) {
-            setInput((prev) =>
-              prev ? `${prev} ${transcript.trim()}` : transcript.trim()
-            );
+            // Режим "свободные руки": сразу отправляем голосовой вопрос
+            sendMessage(transcript.trim());
           }
         } catch {
           // ignore
@@ -307,68 +396,6 @@ const AssistantWidget: React.FC = () => {
           lang
         )}\nSpeech runtime error: ${String(err)}`
       );
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const text = input.trim();
-    if (!text || isLoading) return;
-
-    const userMessage: ChatMessage = { role: "user", content: text };
-
-    setIsLoading(true);
-    setError(null);
-    setInput("");
-
-    const historyToSend = [...messages, userMessage];
-    let replyText: string | null = null;
-
-    try {
-      const pagePath =
-        typeof window !== "undefined" ? window.location.pathname : "/";
-
-      const res = await fetch("/.netlify/functions/ai-domovoy", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: historyToSend,
-          language: lang,
-          page: pagePath,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data && typeof data.reply === "string" && data.reply.trim()) {
-        replyText = data.reply.trim();
-      } else if (data && data.error) {
-        const baseError = pickLabel(labelError, labelError.en, lang);
-        setError(`${baseError}\n${String(data.error)}`);
-      }
-    } catch (err) {
-      const baseError = pickLabel(labelError, labelError.en, lang);
-      setError(`${baseError}\n${String(err)}`);
-    }
-
-    const assistantMessage: ChatMessage = {
-      role: "assistant",
-      content:
-        replyText ??
-        (lang === "ru"
-          ? "Я пока не могу ответить на этот вопрос. Попробуй сформулировать по-другому."
-          : "I cannot answer this question yet. Please try to rephrase it."),
-    };
-
-    const updatedMessages = [...historyToSend, assistantMessage];
-    setMessages(updatedMessages);
-    setAssistantReply(assistantMessage.content);
-    setIsLoading(false);
-
-    if (voiceOutputEnabled) {
-      speakWithOpenAI(assistantMessage.content);
     }
   };
 
