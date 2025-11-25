@@ -103,6 +103,7 @@ h2 {
 .fade-in-up-slow {
   animation: fadeInUp 1.2s ease-out 0.1s both;
 }
+
 /* Типографика для страниц документов (Манифест / Устав) */
 .nova-text h2 {
   font-size: 1.25rem; /* ~20px */
@@ -135,6 +136,7 @@ h2 {
   margin-bottom: 0.4rem;
   line-height: 1.5;
 }
+
 /* Плавное появление сообщений в чате */
 @keyframes chat-fade-in-up {
   from {
@@ -151,3 +153,12 @@ h2 {
   animation: chat-fade-in-up 0.18s ease-out;
 }
 
+/* ===== Скрываем горизонтальный скроллбар у навигации ===== */
+
+.nav-scroll {
+  scrollbar-width: none; /* Firefox */
+}
+
+.nav-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
