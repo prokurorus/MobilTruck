@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light;
+}
+
+html, body, #root { 
+  height: 100%; 
+}
+
+body { 
+  @apply bg-white text-zinc-900 m-0 selection:bg-zinc-900 selection:text-white; 
+}
+
 html, body, #root { 
   height: 100%; 
 }
