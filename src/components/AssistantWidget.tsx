@@ -88,7 +88,7 @@ const labelHintsList: Record<LangCode, string[]> = {
   ],
   en: [
     "How is the Mobil Truck holding structured?",
-    "What is the difference between a partner and a regular driver?",
+    "What is the difference between a a partner and a regular driver?",
     "How can a driver grow to become a partner?",
   ],
   de: [
@@ -129,8 +129,9 @@ const AssistantWidget: React.FC = () => {
   const [voiceOutputEnabled, setVoiceOutputEnabled] =
     useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [isListening, setIsListening] = useState<boolean>(false);
 
-  // Загрузка последних сообщений и настроек голоса из localStorage
+  // Загрузка последних сообщений и настроек голоса из localStorage (память ассистента)
   useEffect(() => {
     try {
       if (typeof window === "undefined") return;
@@ -142,11 +143,7 @@ const AssistantWidget: React.FC = () => {
           const lastAssistant = [...parsed.messages]
             .reverse()
             .find((m) => m.role === "assistant");
-          const lastUser = [...parsed.messages]
-            .reverse()
-            .find((m) => m.role === "user");
           if (lastAssistant) setAssistantReply(lastAssistant.content);
-          if (lastUser) setInput("");
         }
       }
       const storedVoice = window.localStorage.getItem(STORAGE_KEY_VOICE);
@@ -158,13 +155,15 @@ const AssistantWidget: React.FC = () => {
     }
   }, []);
 
-  // Сохраняем историю в localStorage
+  // Сохраняем историю в localStorage (память между сессиями)
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
+      // ограничим историю, чтобы не разрасталась бесконечно
+      const limited = messages.slice(-40);
       window.localStorage.setItem(
         STORAGE_KEY_HISTORY,
-        JSON.stringify({ messages })
+        JSON.stringify({ messages: limited })
       );
     } catch {
       // ignore
@@ -227,6 +226,87 @@ const AssistantWidget: React.FC = () => {
         )}\nTTS runtime error: ${String(err)}`
       );
       setIsSpeaking(false);
+    }
+  };
+
+  // Голосовой ввод (Web Speech API)
+  const startVoiceInput = () => {
+    if (isLoading || isListening) return;
+    if (typeof window === "undefined") return;
+
+    const w: any = window as any;
+    const SpeechRecognition =
+      w.SpeechRecognition || w.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      const extra =
+        lang === "ru"
+          ? "Голосовой ввод не поддерживается в этом браузере."
+          : "Voice input is not supported in this browser.";
+      setError(
+        `${pickLabel(labelError, labelError.en, lang)}\n${extra}`
+      );
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang =
+        lang === "ru"
+          ? "ru-RU"
+          : lang === "de"
+          ? "de-DE"
+          : lang === "es"
+          ? "es-ES"
+          : "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+        setError(null);
+      };
+
+      recognition.onerror = (event: any) => {
+        setIsListening(false);
+        if (event && event.error !== "no-speech") {
+          setError(
+            `${pickLabel(
+              labelError,
+              labelError.en,
+              lang
+            )}\nSpeech error: ${String(event.error)}`
+          );
+        }
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.onresult = (event: any) => {
+        try {
+          const result = event.results?.[0]?.[0];
+          const transcript = result?.transcript as string | undefined;
+          if (transcript && transcript.trim()) {
+            setInput((prev) =>
+              prev ? `${prev} ${transcript.trim()}` : transcript.trim()
+            );
+          }
+        } catch {
+          // ignore
+        }
+      };
+
+      recognition.start();
+    } catch (err) {
+      setIsListening(false);
+      setError(
+        `${pickLabel(
+          labelError,
+          labelError.en,
+          lang
+        )}\nSpeech runtime error: ${String(err)}`
+      );
     }
   };
 
@@ -342,8 +422,8 @@ const AssistantWidget: React.FC = () => {
             </button>
           </header>
 
-          {/* Область диалога: только последний вопрос и ответ */}
-          <div className="flex-1 px-3 py-2 space-y-2 bg-white">
+          {/* Область диалога: только последний вопрос и ответ, но со скроллом */}
+          <div className="flex-1 px-3 py-2 space-y-2 bg-white max-h-64 overflow-y-auto">
             {error && (
               <div className="text-[11px] whitespace-pre-wrap rounded-xl bg-red-50 px-2 py-1 text-red-700">
                 {error}
@@ -399,7 +479,7 @@ const AssistantWidget: React.FC = () => {
             onSubmit={handleSubmit}
             className="border-t border-zinc-100 bg-white px-3 py-2 space-y-1"
           >
-            <div className="flex items-center gap-1">
+            <div className="flex items-end gap-1">
               <textarea
                 className="flex-1 resize-none rounded-xl border border-zinc-200 px-2 py-1 text-xs outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-200 max-h-20"
                 rows={2}
@@ -411,6 +491,27 @@ const AssistantWidget: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
+              <button
+                type="button"
+                onClick={startVoiceInput}
+                disabled={isLoading || isListening}
+                className={`inline-flex items-center justify-center rounded-full px-2 py-2 text-xs border ${
+                  isListening
+                    ? "border-emerald-500 text-emerald-600 bg-emerald-50"
+                    : "border-zinc-300 text-zinc-500 bg-white hover:border-emerald-400 hover:text-emerald-600"
+                } transition`}
+                title={
+                  lang === "ru"
+                    ? "Задать вопрос голосом"
+                    : lang === "de"
+                    ? "Frage per Sprache stellen"
+                    : lang === "es"
+                    ? "Hacer pregunta por voz"
+                    : "Ask question by voice"
+                }
+              >
+                {isListening ? "🎙…" : "🎙"}
+              </button>
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
