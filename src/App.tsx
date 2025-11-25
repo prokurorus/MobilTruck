@@ -463,50 +463,8 @@ function MainScreen() {
               </div>
 
               <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <a
-                  href="/Manifesto-ru"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Документ
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    RU
-                  </span>
-                </a>
-                <a
-                  href="/Manifesto-en"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Document
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    EN
-                  </span>
-                </a>
-                <a
-                  href="/Manifesto-de"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Dokument
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    DE
-                  </span>
-                </a>
-                <a
-                  href="/Manifesto-es"
-                  className="group flex flex-col items-center justifycenter rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Documento
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    ES
-                  </span>
-                </a>
+               
+             
               </div>
             </div>
           </div>
@@ -528,50 +486,7 @@ function MainScreen() {
               </div>
 
               <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <a
-                  href="/Charter-ru"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Структура
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    RU
-                  </span>
-                </a>
-                <a
-                  href="/Charter-en"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Structure
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    EN
-                  </span>
-                </a>
-                <a
-                  href="/Charter-de"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Struktur
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    DE
-                  </span>
-                </a>
-                <a
-                  href="/Charter-es"
-                  className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  <span className="text-[11px] uppercase tracking-wide text-gray-400">
-                    Estructura
-                  </span>
-                  <span className="text-sm text-gray-900 group-hover:text-gray-800">
-                    ES
-                  </span>
-                </a>
+        
               </div>
             </div>
           </div>
@@ -623,15 +538,6 @@ export default function App() {
   const pathname = window.location.pathname;
 
   // Прямые переходы по адресам — сразу нужная страница
-  if (pathname === "/Manifesto-ru") return <ManifestoRu />;
-  if (pathname === "/Manifesto-en") return <ManifestoEn />;
-  if (pathname === "/Manifesto-de") return <ManifestoDe />;
-  if (pathname === "/Manifesto-es") return <ManifestoEs />;
-
-  if (pathname === "/Charter-ru") return <CharterRu />;
-  if (pathname === "/Charter-en") return <CharterEn />;
-  if (pathname === "/Charter-de") return <CharterDe />;
-  if (pathname === "/Charter-es") return <CharterEs />;
 
   if (pathname === "/drivers")
     return (
