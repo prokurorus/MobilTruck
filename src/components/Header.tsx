@@ -130,44 +130,45 @@ export default function Header() {
           </span>
         </a>
 
-        {/* Навигация */}
-        <nav
-          className="
-            flex flex-nowrap items-center gap-2
-            text-sm
-            w-full sm:w-auto
-            overflow-x-auto
-            whitespace-nowrap
-            [-webkit-overflow-scrolling:touch]
-          "
-        >
-          {NAV_ITEMS.map((item, index) => {
-            const isActive =
-              pathname === item.href ||
-              (item.href !== "/" && pathname.startsWith(item.href));
+{/* Навигация */}
+<nav
+  className="
+    nav-scroll
+    flex flex-wrap md:flex-nowrap items-center gap-2
+    text-xs sm:text-sm
+    w-full md:w-auto
+    overflow-x-auto md:overflow-visible
+    [-webkit-overflow-scrolling:touch]
+  "
+>
+  {NAV_ITEMS.map((item, index) => {
+    const isActive =
+      pathname === item.href ||
+      (item.href !== "/" && pathname.startsWith(item.href));
 
-            const baseClasses =
-              "inline-flex items-center justify-center rounded-full border px-4 py-2 transition text-sm flex-shrink-0";
-            const activeClasses =
-              "border-zinc-900 bg-zinc-900 text-white shadow-sm";
-            const defaultClasses =
-              "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50";
-            const emphasisClasses =
-              index === NAV_ITEMS.length - 1 ? "font-semibold" : "";
+    const baseClasses =
+      "inline-flex items-center justify-center rounded-full border px-3 py-1.5 sm:px-4 sm:py-2 transition text-sm flex-shrink-0 whitespace-nowrap";
+    const activeClasses =
+      "border-zinc-900 bg-zinc-900 text-white shadow-sm";
+    const defaultClasses =
+      "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50";
+    const emphasisClasses =
+      index === NAV_ITEMS.length - 1 ? "font-semibold" : "";
 
-            return (
-              <a
-                key={item.id}
-                href={item.href}
-                className={`${baseClasses} ${
-                  isActive ? activeClasses : defaultClasses
-                } ${emphasisClasses}`}
-              >
-                {item.labels[language]}
-              </a>
-            );
-          })}
-        </nav>
+    return (
+      <a
+        key={item.id}
+        href={item.href}
+        className={`${baseClasses} ${
+          isActive ? activeClasses : defaultClasses
+        } ${emphasisClasses}`}
+      >
+        {item.labels[currentLanguage] ?? item.labels["ru"]}
+      </a>
+    );
+  })}
+</nav>
+
 
         {/* Переключатель языков */}
         <div className="shrink-0">
