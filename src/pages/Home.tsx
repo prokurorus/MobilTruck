@@ -14,126 +14,161 @@ function AndroidCard() {
       <div className="mt-4 flex items-center justify-between gap-3 px-1 text-[11px] text-zinc-600">
         <div className="flex items-center gap-2">
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          <span className="uppercase tracking-[0.12em] text-zinc-500 font-semibold">
-            MOBIL TRUCK HOLDING
+          <span className="font-medium tracking-wide text-zinc-800">
+            Mobil Truck network
           </span>
         </div>
-        <span className="text-[10px] text-zinc-400">
-          Reception • prototype platform
+        <span className="text-[10px] uppercase tracking-wide text-zinc-400">
+          Prototype platform • alpha
         </span>
       </div>
     </div>
   );
 }
 
-export default function Home() {
+const Home = () => {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-zinc-50 to-white">
-      <div className="wrap py-12 space-y-14">
-        {/* HERO-БЛОК: «приёмная холдинга» */}
-        <section className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-center">
-          {/* Левая часть — спокойная карточка с грузовиком / сетью */}
-          <div className="order-2 lg:order-1">
-            <AndroidCard />
-          </div>
-
-          {/* Правая часть — текст как в приёмной крупной компании */}
-          <div className="order-1 space-y-6 lg:order-2">
-            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-4 py-1 text-xs font-medium text-zinc-600 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Mobil Truck • саморазвивающийся транспортный холдинг
+    <main className="min-h-screen bg-[#f9fafb] text-zinc-900">
+      {/* Герой-блок */}
+      <section className="border-b border-zinc-200 bg-white/70">
+        <div className="max-w-6xl mx-auto px-4 py-10 lg:py-16 space-y-10">
+          <section className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-center">
+            {/* Левая часть — спокойная карточка с грузовиком / сетью */}
+            <div className="order-2 lg:order-1">
+              <AndroidCard />
             </div>
 
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-zinc-900">
-                Mobil Truck
-              </h1>
-              <p className="text-base sm:text-lg text-zinc-700 leading-relaxed max-w-xl">
-                Добро пожаловать в Mobil Truck. Это не диспетчерская и не кабинет
-                начальника колонны. Это приёмная холдинга, который превращает
-                обычные транспортные фирмы в единую, цивилизованную сеть компаний.
-              </p>
-              <p className="text-sm text-zinc-600 max-w-xl">
-                Здесь водители, предприниматели и головная компания работают по
-                одной понятной схеме: открытая модель прибыли, прозрачные
-                договорённости и возможность расти от наёмного водителя до
-                владельца собственной ветки.
-              </p>
-            </div>
+            {/* Правая часть — текст как в приёмной крупной компании */}
+            <div className="order-1 space-y-6 lg:order-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-4 py-1 text-xs font-medium text-zinc-600 shadow-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                Mobil Truck • саморазвивающийся транспортный холдинг
+              </div>
 
-            <div className="space-y-3">
-              <div className="flex flex-wrap gap-3">
+              <div className="space-y-4">
+                <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-zinc-900">
+                  Добро пожаловать в Mobil Truck.
+                  <br />
+                  Это не очередная транспортная фирма.
+                </h1>
+                <p className="text-sm sm:text-base leading-relaxed text-zinc-700 max-w-xl">
+                  Mobil Truck — это дом для сети компаний, которые работают по
+                  единым, честным правилам. Здесь предприниматели и водители
+                  заходят «в приёмную» холдинга, а не в диспетчерскую.
+                </p>
+                <p className="text-xs sm:text-sm text-zinc-500 max-w-md">
+                  Сначала познакомьтесь со структурой холдинга и моделью
+                  распределения прибыли. А потом уже решайте, какая роль вам
+                  ближе — водителя, партнёра или основателя своей ветки.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
                 <Link
                   to="/structure"
-                  className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md shadow-zinc-900/30 hover:bg-zinc-800 active:bg-zinc-950 transition"
+                  className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md shadow-zinc-900/30 hover:bg-zinc-800 active:bg-zinc-950 transition"
                 >
                   Перейти к структуре холдинга
                 </Link>
                 <Link
-                  to="/profit-model"
-                  className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-6 py-2.5 text-xs sm:text-sm font-semibold text-zinc-800 hover:bg-zinc-50 transition"
+                  to="/profit"
+                  className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-xs sm:text-sm font-semibold text-zinc-800 hover:bg-zinc-50 transition"
                 >
                   Посмотреть модель 8%
                 </Link>
               </div>
+
               <p className="text-xs text-zinc-500 max-w-md">
-                Начните со структуры и финансовой модели. Через несколько минут
-                станет ясно, подходит ли вам Mobil Truck как место работы,
-                партнёрства или запуска собственной компании.
+                Если вы уже предприниматель или готовы им стать — начните со
+                структуры и документации. Если вы водитель и хотите просто
+                честной, стабильной работы — переходите к разделу «Водителям».
               </p>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
+      </section>
 
-        {/* ДЛЯ КОГО ЭТОТ ХОЛДИНГ */}
-        <section className="grid gap-6 lg:grid-cols-3">
-          {/* ВОДИТЕЛЯМ */}
-          <div className="card space-y-3">
-            <h2 className="text-xl font-semibold text-zinc-900">Водителям</h2>
-            <p className="text-sm text-zinc-600">
-              Для тех, кто хочет стабильные рейсы, честные выплаты и живой
-              контакт с руководством, а не безликую «бухгалтерию».
-            </p>
+      {/* Три блока ролей */}
+      <section className="max-w-6xl mx-auto px-4 py-10 lg:py-14 space-y-8">
+        <header className="space-y-2">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            MOBIL TRUCK NETWORK
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900">
+            Три роли в холдинге.
+          </h2>
+          <p className="text-sm text-zinc-600 max-w-2xl">
+            Каждый выбирает, как далеко он готов идти. Кому-то важны стабильные
+            рейсы водителем, кто-то хочет строить сеть дочерних компаний и
+            получать доход как владелец. Mobil Truck даёт понятный путь роста.
+          </p>
+        </header>
+
+        <section className="grid gap-6 md:gap-8 md:grid-cols-3">
+          {/* Водителям */}
+          <article className="card space-y-3">
+            <div className="space-y-1">
+              <h3 className="text-lg font-semibold text-zinc-900">
+                Водителям
+              </h3>
+              <p className="text-sm text-zinc-600">
+                Для тех, кто хочет стабильные рейсы, честные выплаты и
+                уважительное отношение вместо «расходного материала».
+              </p>
+            </div>
             <ul className="space-y-1 text-sm text-zinc-700 list-disc list-inside">
-              <li>Работа на европейских грузовиках и маршрутах.</li>
-              <li>Прозрачная система оплаты без скрытых удержаний.</li>
-              <li>Понятный путь роста до статуса партнёра.</li>
+              <li>Работа строго по немецкому трудовому договору.</li>
+              <li>Гарантированный отдых и база с кухней и удобствами.</li>
+              <li>Чёткие правила, графики и поддержка в рейсах.</li>
             </ul>
-            <Link
-              to="/drivers"
-              className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
-            >
-              Подробнее для водителей
-            </Link>
-          </div>
+            <div>
+              <Link
+                to="/drivers"
+                className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
+              >
+                Подробнее для водителей
+              </Link>
+            </div>
+          </article>
 
-          {/* ПАРТНЁРАМ */}
-          <div className="card space-y-3">
-            <h2 className="text-xl font-semibold text-zinc-900">Партнёрам</h2>
-            <p className="text-sm text-zinc-600">
-              Для предпринимателей, которые хотят открыть собственную транспортную
-              компанию под брендом Mobil Truck и при этом не оставаться в одиночестве.
-            </p>
+          {/* Партнёрам */}
+          <article className="card space-y-3">
+            <div className="space-y-1">
+              <h3 className="text-lg font-semibold text-zinc-900">
+                Партнёрам и предпринимателям
+              </h3>
+              <p className="text-sm text-zinc-600">
+                Для тех, кто готов открыть свою фирму под брендом Mobil Truck и
+                строить сеть дочерних компаний.
+              </p>
+            </div>
             <ul className="space-y-1 text-sm text-zinc-700 list-disc list-inside">
-              <li>Доли 51% / 49% между холдингом и партнёром.</li>
-              <li>Единые стандарты, общие фонды и IT-система.</li>
-              <li>Сетевой доход от развития собственной ветки компаний.</li>
+              <li>Пошаговая модель роста от одной машины до сети фирм.</li>
+              <li>Юридическая и организационная поддержка от холдинга.</li>
+              <li>Справедливое распределение прибыли по всей структуре.</li>
             </ul>
-            <Link
-              to="/partners"
-              className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
-            >
-              Подробнее для партнёров
-            </Link>
-          </div>
+            <div>
+              <Link
+                to="/partners"
+                className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
+              >
+                Подробнее для партнёров
+              </Link>
+            </div>
+          </article>
 
-          {/* О ХОЛДИНГЕ В ЦЕЛОМ */}
-          <div className="card space-y-3">
-            <h2 className="text-xl font-semibold text-zinc-900">О холдинге</h2>
-            <p className="text-sm text-zinc-600">
-              Если вы хотите сначала понять всю конструкцию целиком, начните с
-              документов и описания модели холдинга.
-            </p>
+          {/* О холдинге */}
+          <article className="card space-y-3">
+            <div className="space-y-1">
+              <h3 className="text-lg font-semibold text-zinc-900">
+                О холдинге в целом
+              </h3>
+              <p className="text-sm text-zinc-600">
+                Если сначала нужно увидеть всю картину: структуру, модель 8% и
+                будущие документы холдинга.
+              </p>
+            </div>
             <ul className="space-y-1 text-sm text-zinc-700 list-disc list-inside">
               <li>Модель холдинга и распределения прибыли.</li>
               <li>Модель 8% и сетевые доходы по ветке.</li>
@@ -141,21 +176,23 @@ export default function Home() {
             </ul>
             <div className="flex flex-wrap gap-2">
               <Link
-                to="/holding-model"
-                className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
+                to="/holding"
+                className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
               >
                 Модель холдинга
               </Link>
               <Link
                 to="/documents"
-                className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-xs sm:text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
+                className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 bg-white hover:bg-zinc-50 transition"
               >
-                Документы
+                Документы холдинга
               </Link>
             </div>
-          </div>
+          </article>
         </section>
-      </div>
+      </section>
     </main>
   );
-}
+};
+
+export default Home;
