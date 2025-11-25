@@ -548,7 +548,7 @@ export default function App() {
       </>
     );
 
-  if (pathname === "/holding")
+  if (pathname.startsWith("/holding"))
     return (
       <>
         <Header />
