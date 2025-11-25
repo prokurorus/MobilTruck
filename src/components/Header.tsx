@@ -171,16 +171,15 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-4 flex-1 justify-between">
           <nav
             className="
-              flex flex-wrap lg:flex-nowrap
-              items-center justify-center
+              flex flex-wrap items-center justify-center
               gap-x-2 gap-y-2
-              max-w-4xl mx-auto
+              w-full
             "
           >
             {NAV_ITEMS.map((item) => renderLink(item, "desktop"))}
           </nav>
 
-          <div className="shrink-0">
+          <div className="shrink-0 ml-4">
             <LanguageSwitcher />
           </div>
         </div>
