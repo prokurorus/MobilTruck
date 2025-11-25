@@ -35,50 +35,36 @@ const labelSubtitle: Record<LangCode, string> = {
   es: "Estructura • Red • Asociación",
 };
 
-const labelPlaceholder: Record<LangCode, string> = {
-  ru: "Задай вопрос о Mobil Truck, структуре или партнёрстве…",
-  en: "Ask about Mobil Truck, structure or partnership…",
-  de: "Frag nach Mobil Truck, Struktur oder Partnerschaft…",
-  es: "Pregunta sobre Mobil Truck, estructura o asociación…",
+const labelIntroTitle: Record<LangCode, string> = {
+  ru: "Я могу помочь с:",
+  en: "I can help you with:",
+  de: "Ich kann dir helfen mit:",
+  es: "Puedo ayudarte con:",
 };
 
-const labelSend: Record<LangCode, string> = {
+const labelIntroDescription: Record<LangCode, string> = {
+  ru: "Структура холдинга, роли, сеть компаний и модель дохода для партнёров и водителей.",
+  en: "Holding structure, roles, company network and income model for partners and drivers.",
+  de: "Holding-Struktur, Rollen, Unternehmensnetzwerk und Einkommensmodell für Partner und Fahrer.",
+  es: "Estructura del holding, roles, red de empresas y modelo de ingresos para socios y conductores.",
+};
+
+const labelInputPlaceholder: Record<LangCode, string> = {
+  ru: "Задай вопрос о Mobil Truck…",
+  en: "Ask a question about Mobil Truck…",
+  de: "Stell eine Frage zu Mobil Truck…",
+  es: "Haz una pregunta sobre Mobil Truck…",
+};
+
+const labelAsk: Record<LangCode, string> = {
   ru: "Спросить",
   en: "Ask",
   de: "Fragen",
   es: "Preguntar",
 };
 
-const labelThinking: Record<LangCode, string> = {
-  ru: "Помощник думает…",
-  en: "Assistant is thinking…",
-  de: "Assistent denkt nach…",
-  es: "El asistente está pensando…",
-};
-
-const labelError: Record<LangCode, string> = {
-  ru: "Произошла ошибка. Попробуй ещё раз.",
-  en: "Something went wrong. Try again.",
-  de: "Etwas ist schiefgelaufen. Versuch es noch einmal.",
-  es: "Algo ha salido mal. Inténtalo de nuevo.",
-};
-
-const labelVoiceIn: Record<LangCode, string> = {
-  ru: "Голосовой ввод",
-  en: "Voice input",
-  de: "Spracheingabe",
-  es: "Entrada por voz",
-};
-
-const labelVoiceOut: Record<LangCode, string> = {
-  ru: "Озвучка ответа",
-  en: "Read answers aloud",
-  de: "Antworten vorlesen",
-  es: "Leer respuestas en voz alta",
-};
-
 const labelListening: Record<LangCode, string> = {
-  ru: "Слушаю… скажи свой вопрос.",
+  ru: "Слушаю… говори вопрос.",
   en: "Listening… say your question.",
   de: "Ich höre zu… stell deine Frage.",
   es: "Escuchando… di tu pregunta.",
@@ -100,30 +86,64 @@ const labelHintsList: Record<LangCode, string[]> = {
   ],
   en: [
     "how the Mobil Truck holding is structured",
-    "what company levels exist in the network",
-    "how a driver can grow into a partner",
-    "how the 4% + 2% + 1%… model works",
+    "what company levels exist in the structure",
+    "how a driver can grow to a partner",
+    "how the 4% + 2% + 1%… network share works",
   ],
   de: [
     "wie der Mobil-Truck-Holding aufgebaut ist",
-    "welche Unternehmensebenen es gibt",
-    "wie ein Fahrer Partner werden kann",
-    "wie das 4% + 2% + 1%…-Modell funktioniert",
+    "welche Unternehmensebenen es in der Struktur gibt",
+    "wie ein Fahrer zum Partner werden kann",
+    "wie der Netzwerkanteil 4% + 2% + 1%… funktioniert",
   ],
   es: [
     "cómo está estructurado el holding Mobil Truck",
-    "qué niveles de empresas existen en la red",
-    "cómo un conductor puede convertirse en socio",
-    "cómo funciona el modelo 4% + 2% + 1%…",
+    "qué niveles de empresas existen en la estructura",
+    "cómo puede un conductor convertirse en socio",
+    "cómo funciona el porcentaje de red 4% + 2% + 1%…",
   ],
 };
 
-// ————— ЛОКАЛЬНАЯ ЛОГИКА ОТВЕТОВ —————
+const labelError: Record<LangCode, string> = {
+  ru: "Произошла ошибка. Попробуй ещё раз.",
+  en: "Something went wrong. Try again.",
+  de: "Etwas ist schiefgelaufen. Versuch es noch einmal.",
+  es: "Algo ha salido mal. Inténtalo de nuevo.",
+};
+
+const labelVoiceIn: Record<LangCode, string> = {
+  ru: "Голосовой ввод",
+  en: "Voice input",
+  de: "Spracheingabe",
+  es: "Entrada por voz",
+};
+
+const labelVoiceOut: Record<LangCode, string> = {
+  ru: "Озвучивать ответы",
+  en: "Read answers aloud",
+  de: "Antworten vorlesen",
+  es: "Leer respuestas en voz alta",
+};
+
+const labelTyping: Record<LangCode, string> = {
+  ru: "Помощник печатает ответ…",
+  en: "Assistant is typing…",
+  de: "Assistent schreibt eine Antwort…",
+  es: "El asistente está escribiendo una respuesta…",
+};
+
+// ————— УТИЛИТЫ —————
+
+function pickLabel<T>(map: Record<LangCode, T>, fallback: T, lang?: LangCode): T {
+  const key = lang || "ru";
+  return map[key] ?? fallback;
+}
 
 function normalize(text: string): string {
   return text.toLowerCase();
 }
 
+// Локальный «план Б» — если ИИ недоступен
 function generateAnswer(text: string, lang: LangCode): string {
   const t = normalize(text);
 
@@ -162,50 +182,7 @@ function generateAnswer(text: string, lang: LangCode): string {
       "• At the top is the main holding company managing key clients, funds and the brand.\n" +
       "• Below are partner companies under the Mobil Truck brand (UG/GmbH).\n" +
       "• Each partner company can create its own subsidiaries, forming a branch.\n" +
-      "• All companies follow the same profit-sharing rules and a fixed percentage for the network."
-    );
-  }
-
-  // Водители и рост
-  if (t.includes("водител") || t.includes("driver")) {
-    if (isRu)
-      return (
-        "Водитель в Mobil Truck — это не просто наёмный сотрудник.\n\n" +
-        "Лестница роста:\n" +
-        "1) Водитель с прозрачной системой оплаты.\n" +
-        "2) Старший водитель / наставник.\n" +
-        "3) Младший партнёр с долей в машине или мини-компании.\n" +
-        "4) Полноправный партнёр с долей в собственной компании под брендом Mobil Truck.\n\n" +
-        "Задача платформы — дать водителю понятную дорогу от руля до партнёрства."
-      );
-    if (isDe)
-      return (
-        "Ein Fahrer bei Mobil Truck ist nicht nur ein Angestellter.\n\n" +
-        "Die Wachstumstreppe:\n" +
-        "1) Fahrer mit transparenter Entlohnung.\n" +
-        "2) Senior-Fahrer / Mentor.\n" +
-        "3) Junior-Partner mit Anteil am Fahrzeug oder an einer kleinen Einheit.\n" +
-        "4) Vollwertiger Partner mit Anteil am eigenen Unternehmen unter der Marke Mobil Truck.\n\n" +
-        "Das Ziel ist ein klarer Weg: vom Lenkrad zur Partnerschaft."
-      );
-    if (isEs)
-      return (
-        "Un conductor en Mobil Truck no es solo un empleado.\n\n" +
-        "La escalera de crecimiento:\n" +
-        "1) Conductor con pago transparente.\n" +
-        "2) Conductor sénior / mentor.\n" +
-        "3) Socio júnior con participación en el camión o en una miniempresa.\n" +
-        "4) Socio pleno con participación en su propia empresa bajo la marca Mobil Truck.\n\n" +
-        "La idea es dar al conductor un camino claro: del volante a la asociación."
-      );
-    return (
-      "A driver in Mobil Truck is not just an employee.\n\n" +
-      "Typical growth path:\n" +
-      "1) Driver with transparent pay.\n" +
-      "2) Senior driver / mentor.\n" +
-      "3) Junior partner with a share in a truck or small unit.\n" +
-      "4) Full partner owning a share in their own company under the Mobil Truck brand.\n\n" +
-      "The platform’s goal is to give drivers a clear road from wheel to partnership."
+      "• All companies work under common profit distribution rules and a fixed network percentage."
     );
   }
 
@@ -237,45 +214,45 @@ function generateAnswer(text: string, lang: LangCode): string {
         "• Ebene 1 über dem Unternehmen erhält 4 %, \n" +
         "• Ebene 2 – 2 %, \n" +
         "• Ebene 3 – 1 %, \n" +
-        "• Ebene 4 – 0,5 % usw., jeweils halbiert.\n\n" +
-        "Die Summe dieser geometrischen Reihe ist begrenzt (4 + 2 + 1 + 0,5 + … = 8 %).\n" +
-        "So gibt kein Unternehmen mehr als diesen festen Anteil an das Netzwerk ab.\n" +
-        "Der Rest wird zwischen dem Unternehmen selbst, den Fonds und der Holding verteilt."
+        "• Ebene 4 – 0,5 % und so weiter, jeweils die Hälfte.\n\n" +
+        "In Summe ergibt diese geometrische Reihe 8 %, \n" +
+        "daher gibt kein Unternehmen mehr als diesen festen Anteil an das Netzwerk ab.\n" +
+        "Der Rest des Gewinns wird zwischen Unternehmen, Fonds und Holding verteilt."
       );
     if (isEs)
       return (
-        "En el modelo de Mobil Truck cada empresa entrega un porcentaje fijo de su beneficio neto «a la red».\n\n" +
-        "Ejemplo: el 8 % del beneficio de la empresa sube por la cadena:\n" +
-        "• el primer nivel por encima recibe el 4 %,\n" +
-        "• el segundo nivel — el 2 %,\n" +
-        "• el tercero — el 1 %,\n" +
-        "• el cuarto — el 0,5 % y así sucesivamente, cada vez la mitad.\n\n" +
-        "La suma de esta serie geométrica está limitada (4 + 2 + 1 + 0,5 + … = 8 %),\n" +
+        "En el modelo de Mobil Truck, cada empresa del holding destina un porcentaje fijo de su beneficio neto «a la red».\n\n" +
+        "Ejemplo: el 8% del beneficio de la empresa sube por la cadena de empresas:\n" +
+        "• el primer nivel superior recibe el 4%,\n" +
+        "• el segundo nivel — el 2%,\n" +
+        "• el tercer nivel — el 1%,\n" +
+        "• el cuarto nivel — el 0,5% y así sucesivamente, cada vez la mitad.\n\n" +
+        "En total, esta progresión geométrica da el 8%,\n" +
         "por lo que ninguna empresa entrega a la red más que ese porcentaje fijo.\n" +
-        "El resto del beneficio se reparte entre la propia empresa, los fondos y la matriz."
+        "El resto del beneficio se reparte entre la propia empresa, los fondos y el holding."
       );
     return (
-      "In the Mobil Truck model every company allocates a fixed percentage of its net profit “to the network”.\n\n" +
-      "Example: 8% of the company’s profit flows up through the chain:\n" +
+      "In the Mobil Truck model, each company in the holding allocates a fixed percentage of its net profit “to the network”.\n\n" +
+      "Example: 8% of the company's profit goes up the chain of enterprises:\n" +
       "• level 1 above gets 4%,\n" +
       "• level 2 – 2%,\n" +
       "• level 3 – 1%,\n" +
-      "• level 4 – 0.5%, and so on, each time half.\n\n" +
-      "The sum of this geometric series is capped at 8%,\n" +
+      "• level 4 – 0.5%, and so on, each time half as much.\n\n" +
+      "In total this geometric series gives 8%,\n" +
       "so no company gives more than this fixed share to the network.\n" +
-      "The remaining profit is split between the company itself, funds and the holding."
+      "The remaining profit is split between the company itself, the funds and the holding."
     );
   }
 
-  // Партнёры / предприниматели
-  if (t.includes("партнер") || t.includes("partner") || t.includes("предприним")) {
+  // Кто такой партнёр
+  if (t.includes("партнер") || t.includes("partner") || t.includes("socio")) {
     if (isRu)
       return (
-        "Партнёр Mobil Truck — это предприниматель, который управляет своей компанией под общим брендом.\n\n" +
-        "Обычно структура долей выглядит так: контрольный пакет у холдинга, существенная доля у партнёра.\n" +
+        "Партнёр Mobil Truck — это предприниматель, который управляет собственной компанией под общим брендом.\n\n" +
+        "Обычно доля холдинга даёт контроль, а доля партнёра обеспечивает ему мотивацию.\n" +
         "Партнёр получает:\n" +
         "• прибыль своей компании,\n" +
-        "• долю от компаний в собственной ветке (через сетевой процент),\n" +
+        "• долю от компаний в своей ветке (через сетевой процент),\n" +
         "• доступ к контрактам, IT-инфраструктуре и бренду Mobil Truck.\n\n" +
         "Задача модели — совместить личную инициативу и общие правила безопасности."
       );
@@ -327,7 +304,7 @@ function generateAnswer(text: string, lang: LangCode): string {
       "Ich kann kurz erklären:\n" +
       "• wie der Holding aufgebaut ist,\n" +
       "• worin sich ein Partner von einem angestellten Fahrer unterscheidet,\n" +
-      "• wie der feste Prozentsatz für das Netzwerk funktioniert,\n" +
+      "• wie der feste Netzwerk-Prozentsatz funktioniert,\n" +
       "• welche Bereiche der Website du dir zuerst ansehen solltest.\n\n" +
       "Frag zum Beispiel: „Wie ist der Holding aufgebaut?“ oder „Wie kann ein Fahrer Partner werden?“."
     );
@@ -335,24 +312,25 @@ function generateAnswer(text: string, lang: LangCode): string {
     return (
       "Soy el asistente de Mobil Truck.\n\n" +
       "Puedo explicar brevemente:\n" +
-      "• cómo está organizado el holding,\n" +
-      "• en qué se diferencia un socio de un conductor empleado,\n" +
-      "• cómo funciona el porcentaje fijo para la red,\n" +
-      "• qué secciones del sitio deberías mirar primero.\n\n" +
-      "Prueba con algo como: «¿Cómo está estructurado el holding?» o «¿Cómo puede un conductor convertirse en socio?»."
+      "• cómo está estructurado el holding y los niveles de empresas,\n" +
+      "• en qué se diferencia un socio de un conductor asalariado,\n" +
+      "• cómo funciona el porcentaje fijo para el desarrollo de la red,\n" +
+      "• qué secciones del sitio ver primero.\n\n" +
+      "Por ejemplo, pregunta: «¿Cómo está estructurado el holding?» o «¿Cómo puede un conductor convertirse en socio?»."
     );
   return (
     "I am the Mobil Truck assistant.\n\n" +
     "I can briefly explain:\n" +
-    "• how the holding is structured,\n" +
-    "• how partners differ from hired drivers,\n" +
-    "• how the fixed percentage for the network works,\n" +
-    "• which sections of the site to start with.\n\n" +
-    "Try asking: “How is the holding structured?” or “How can a driver become a partner?”."
+    "• how the holding and company levels are structured,\n" +
+    "• how a partner differs from a hired driver,\n" +
+    "• how the fixed network percentage works,\n" +
+    "• which sections of the site to look at first.\n\n" +
+    'For example, ask: "How is the holding structured?" or "How can a driver become a partner?".'
   );
 }
 
-// ————— КОМПОНЕНТ —————
+// Стартовое сообщение
+const initialMessages: ChatMessage[] = [];
 
 const AssistantWidget: React.FC = () => {
   const { language } = useLanguage();
@@ -372,11 +350,17 @@ const AssistantWidget: React.FC = () => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as ChatMessage[];
-        if (Array.isArray(parsed)) setMessages(parsed);
+        const data = JSON.parse(raw) as ChatMessage[];
+        if (Array.isArray(data) && data.length > 0) {
+          setMessages(data);
+        } else {
+          setMessages(initialMessages);
+        }
+      } else {
+        setMessages(initialMessages);
       }
     } catch {
-      // игнорируем
+      setMessages(initialMessages);
     }
   }, []);
 
@@ -411,38 +395,78 @@ const AssistantWidget: React.FC = () => {
         : lang === "es"
         ? "es-ES"
         : "en-US";
+
     synth.cancel();
     synth.speak(utter);
   }, [messages, voiceOutputEnabled, lang]);
 
-  const pickLabel = <T,>(map: Record<LangCode, T>, fallback: T): T =>
-    map[lang] ?? fallback;
-
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-    setError(null);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = input.trim();
     if (!text || isLoading) return;
 
     const userMessage: ChatMessage = { role: "user", content: text };
-    const replyText = generateAnswer(text, lang);
-    const assistantMessage: ChatMessage = {
-      role: "assistant",
-      content: replyText,
-    };
 
     setIsLoading(true);
     setError(null);
     setInput("");
 
-    setTimeout(() => {
-      setMessages((prev) => [...prev, userMessage, assistantMessage]);
-      setIsLoading(false);
-    }, 300);
+    // формируем историю, которую отправим на сервер
+    const historyToSend = [...messages, userMessage];
+
+    let replyText: string | null = null;
+
+    try {
+      const pagePath =
+        typeof window !== "undefined" ? window.location.pathname : "/";
+
+      const res = await fetch("/.netlify/functions/ai-domovoy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: historyToSend,
+          language: lang,
+          page: pagePath,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data && typeof data.reply === "string" && data.reply.trim()) {
+        replyText = data.reply.trim();
+      } else if (data && data.error) {
+        // ошибка от функции — покажем пользователю
+        setError(
+          pickLabel(
+            labelError,
+            "The assistant is temporarily unavailable. Please try again."
+          )
+        );
+      }
+    } catch (err) {
+      // сетевые или другие ошибки
+      setError(
+        pickLabel(
+          labelError,
+          "The assistant is temporarily unavailable. Please try again."
+        )
+      );
+    }
+
+    // если по какой-то причине не получили ответ от ИИ — используем локальный генератор как запасной вариант
+    if (!replyText) {
+      replyText = generateAnswer(text, lang);
+    }
+
+    const assistantMessage: ChatMessage = {
+      role: "assistant",
+      content: replyText,
+    };
+
+    setMessages((prev) => [...prev, userMessage, assistantMessage]);
+    setIsLoading(false);
   };
 
   // голосовой ввод
@@ -479,11 +503,16 @@ const AssistantWidget: React.FC = () => {
 
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
-      setInput((prev) => (prev ? `${prev} ${transcript}` : transcript));
+      setInput(transcript);
     };
 
     recognition.onerror = () => {
-      setError(pickLabel(labelError, "Speech recognition error."));
+      setError(
+        pickLabel(
+          labelError,
+          "Voice recognition error. Please try again or type your question."
+        )
+      );
     };
 
     recognition.onend = () => {
@@ -493,82 +522,82 @@ const AssistantWidget: React.FC = () => {
     recognition.start();
   };
 
-  const sendDisabled = isLoading || !input.trim();
-  const hints = pickLabel(labelHintsList, labelHintsList.en);
+  const currentHints = pickLabel(labelHintsList, labelHintsList.en, lang);
 
   return (
     <>
-      {/* Плавающая кнопка */}
+      {/* Кнопка открытия */}
       <button
         type="button"
-        onClick={handleToggle}
-        className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-lg hover:bg-zinc-800 active:bg-zinc-900 transition"
+        onClick={() => setIsOpen((v) => !v)}
+        className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-lg hover:bg-emerald-700 transition"
       >
-        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-[11px] text-zinc-900 font-bold">
+        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/10">
           AI
         </span>
-        <span>{pickLabel(labelOpen, labelOpen.en)}</span>
+        <span>{pickLabel(labelOpen, labelOpen.en, lang)}</span>
       </button>
 
       {/* Панель помощника */}
       {isOpen && (
-        <div className="fixed bottom-16 right-4 z-40 w-[320px] max-w-[100vw] rounded-2xl border border-zinc-200 bg-white shadow-2xl flex flex-col overflow-hidden">
+        <div className="fixed bottom-16 right-4 z-40 w-[320px] max-h-[70vh] rounded-2xl border border-zinc-200 bg-white shadow-2xl flex flex-col overflow-hidden">
           <header className="flex items-center justify-between px-3 py-2 border-b border-zinc-100 bg-zinc-50/80">
             <div>
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="text-xs font-semibold text-zinc-800">
-                  {pickLabel(labelTitle, labelTitle.en)}
+                  {pickLabel(labelTitle, labelTitle.en, lang)}
                 </span>
               </div>
               <p className="text-[11px] text-zinc-500">
-                {pickLabel(labelSubtitle, labelSubtitle.en)}
+                {pickLabel(labelSubtitle, labelSubtitle.en, lang)}
               </p>
             </div>
             <button
               type="button"
-              onClick={handleToggle}
-              className="text-xs text-zinc-500 hover:text-zinc-800"
+              onClick={() => setIsOpen(false)}
+              className="text-xs text-zinc-400 hover:text-zinc-600"
             >
               ✕
             </button>
           </header>
 
-          {/* Лента сообщений */}
-          <div className="flex-1 max-h-72 overflow-y-auto px-3 py-2 space-y-2 text-[13px]">
+          {/* Список сообщений */}
+          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2 text-[12px] text-zinc-800">
             {messages.length === 0 && (
-              <p className="text-zinc-500 text-xs">
-                {pickLabel(labelPlaceholder, labelPlaceholder.en)}
-              </p>
+              <div className="rounded-lg bg-zinc-50 border border-zinc-100 p-2">
+                <p className="font-medium text-[12px]">
+                  {pickLabel(labelIntroTitle, labelIntroTitle.en, lang)}
+                </p>
+                <p className="text-[11px] text-zinc-600">
+                  {pickLabel(
+                    labelIntroDescription,
+                    labelIntroDescription.en,
+                    lang
+                  )}
+                </p>
+              </div>
             )}
-            {messages.map((msg, idx) => (
+
+            {messages.map((m, idx) => (
               <div
                 key={idx}
-                className={`flex ${
-                  msg.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={
+                  m.role === "user"
+                    ? "ml-auto max-w-[85%] rounded-xl bg-emerald-50 px-2 py-1"
+                    : "mr-auto max-w-[85%] rounded-xl bg-zinc-50 px-2 py-1"
+                }
               >
-                <div
-                  className={`rounded-2xl px-3 py-1.5 max-w-[80%] whitespace-pre-wrap ${
-                    msg.role === "user"
-                      ? "bg-zinc-900 text-white"
-                      : "bg-zinc-100 text-zinc-900"
-                  }`}
-                >
-                  {msg.content}
-                </div>
+                <p className="whitespace-pre-wrap leading-snug">{m.content}</p>
               </div>
             ))}
+
             {isLoading && (
               <p className="text-[11px] text-zinc-500">
-                {pickLabel(labelThinking, labelThinking.en)}
+                {pickLabel(labelTyping, labelTyping.en, lang)}
               </p>
             )}
-            {isListening && (
-              <p className="text-[11px] text-emerald-600">
-                {pickLabel(labelListening, labelListening.en)}
-              </p>
-            )}
+
             {error && (
               <p className="text-[11px] text-red-500">
                 {error}
@@ -579,65 +608,58 @@ const AssistantWidget: React.FC = () => {
           {/* Подсказки */}
           <div className="px-3 pb-1 text-[10px] text-zinc-500 space-y-0.5">
             <p className="font-medium">
-              {pickLabel(labelHintsTitle, labelHintsTitle.en)}
+              {pickLabel(labelHintsTitle, labelHintsTitle.en, lang)}
             </p>
-            <ul className="list-disc list-inside space-y-0.5">
-              {hints.map((h, i) => (
+            <ul className="list-disc pl-4 space-y-0.5">
+              {currentHints.map((h, i) => (
                 <li key={i}>{h}</li>
               ))}
             </ul>
           </div>
 
-          {/* Форма ввода + голос */}
+          {/* Поле ввода */}
           <form
             onSubmit={handleSubmit}
-            className="border-t border-zinc-100 bg-white px-3 py-2 flex flex-col gap-2"
+            className="border-t border-zinc-100 bg-white px-3 py-2 space-y-1"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={handleStartListening}
-                className={`h-8 w-8 rounded-full border flex items-center justify-center text-[13px] ${
-                  isListening
-                    ? "bg-emerald-100 border-emerald-400 text-emerald-700"
-                    : "border-zinc-300 text-zinc-500 hover:bg-zinc-50"
-                }`}
-                title={pickLabel(labelVoiceIn, labelVoiceIn.en)}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 text-[13px] text-zinc-600 hover:bg-zinc-50"
+                title={pickLabel(labelVoiceIn, labelVoiceIn.en, lang)}
               >
                 🎙
               </button>
 
               <input
-                type="text"
-                className="flex-1 text-xs border border-zinc-200 rounded-full px-3 py-1.5 outline-none focus:ring-2 focus:ring-zinc-300"
-                placeholder={pickLabel(labelPlaceholder, labelPlaceholder.en)}
+                className="flex-1 rounded-full border border-zinc-200 px-2 py-1 text-[12px] focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                disabled={isLoading}
+                placeholder={pickLabel(
+                  labelInputPlaceholder,
+                  labelInputPlaceholder.en,
+                  lang
+                )}
               />
-
               <button
                 type="submit"
-                disabled={sendDisabled}
-                className={`text-xs font-semibold rounded-full px-3 py-1.5 transition ${
-                  sendDisabled
-                    ? "bg-zinc-200 text-zinc-500 cursor-not-allowed"
-                    : "bg-zinc-900 text-white hover:bg-zinc-800"
-                }`}
+                disabled={isLoading || !input.trim()}
+                className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-3 py-1 text-[12px] font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
               >
-                {pickLabel(labelSend, labelSend.en)}
+                {pickLabel(labelAsk, labelAsk.en, lang)}
               </button>
             </div>
 
-            <div className="flex items-center justify-between text-[10px] text-zinc-500">
-              <label className="inline-flex items-center gap-1 cursor-pointer select-none">
+            <div className="flex items-center justify-between gap-2">
+              <label className="flex items-center gap-1 text-[10px] text-zinc-600">
                 <input
                   type="checkbox"
                   className="h-3 w-3"
                   checked={voiceOutputEnabled}
                   onChange={(e) => setVoiceOutputEnabled(e.target.checked)}
                 />
-                <span>{pickLabel(labelVoiceOut, labelVoiceOut.en)}</span>
+                <span>{pickLabel(labelVoiceOut, labelVoiceOut.en, lang)}</span>
               </label>
             </div>
           </form>
