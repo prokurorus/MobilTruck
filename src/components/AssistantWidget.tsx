@@ -432,19 +432,21 @@ const AssistantWidget: React.FC = () => {
         }),
       });
 
-      const data = await res.json();
+  const data = await res.json();
 
-      if (data && typeof data.reply === "string" && data.reply.trim()) {
-        replyText = data.reply.trim();
-      } else if (data && data.error) {
-        // ошибка от функции — покажем пользователю
-        setError(
-          pickLabel(
-            labelError,
-            "The assistant is temporarily unavailable. Please try again."
-          )
-        );
-      }
+  if (data && typeof data.reply === "string" && data.reply.trim()) {
+    // всё хорошо, ответ от OpenAI
+    replyText = data.reply.trim();
+  } else if (data && data.error) {
+    // ошибка от функции — покажем и локализованное сообщение, и текст ошибки
+    const baseError = pickLabel(
+      labelError,
+      labelError.en,
+      lang
+    );
+    setError(`${baseError}\n${String(data.error)}`);
+  }
+
     } catch (err) {
       // сетевые или другие ошибки
       setError(
